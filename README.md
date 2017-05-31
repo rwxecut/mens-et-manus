@@ -1,2 +1,2 @@
-# mens-et-manus
+# Mens et Manus
 A strategy game.
