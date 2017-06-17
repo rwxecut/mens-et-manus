@@ -6,8 +6,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FILES src/main.cpp src/map.cpp)
-add_executable(mens_et_manus ${SOURCE_FILES})
+set(SOURCE_FILES src/main.cpp src/map.cpp src/main_menu.cpp)
+set(HEADER_FILES src/main_menu.h)
+add_executable(mens_et_manus ${SOURCE_FILES} ${HEADER_FILES})
 
 if(MINGW)
     set(CMAKE_EXE_LINKER_FLAGS " -static -Wl,-subsystem,console")

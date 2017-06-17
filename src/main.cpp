@@ -1,30 +1,30 @@
 #include <SDL.h>
 #include <stdio.h>
 
+#include "main_menu.h"
+
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-bool init (SDL_Window **window, SDL_Surface **screenSurface);
+bool initSDL (SDL_Window **window, SDL_Surface **screenSurface);
+void final (SDL_Window **window);
 
 int main (int argc, char *args[])
 {
   SDL_Window *window = NULL;
   SDL_Surface *screenSurface = NULL;
 
-  if (!init (&window, &screenSurface))
-    SDL_Quit();
+  if (!initSDL (&window, &screenSurface))
+    final (&window);
 
-  SDL_FillRect (screenSurface, NULL, SDL_MapRGB (screenSurface->format, 0xFF, 0xFF, 0xFF));
-  SDL_UpdateWindowSurface (window);
+  mainMenu_Draw(window, screenSurface);
   SDL_Delay (2000);
 
-  SDL_DestroyWindow (window);
-  SDL_Quit ();
-
+  final (&window);
   return 0;
 }
 
-bool init (SDL_Window **window, SDL_Surface **screenSurface)
+bool initSDL (SDL_Window **window, SDL_Surface **screenSurface)
 {
   if (SDL_Init (SDL_INIT_VIDEO) < 0)
   {
@@ -40,4 +40,11 @@ bool init (SDL_Window **window, SDL_Surface **screenSurface)
   }
   *screenSurface = SDL_GetWindowSurface (*window);
   return true;
+}
+
+void final (SDL_Window **window)
+{
+    if (*window)
+        SDL_DestroyWindow (*window);
+    SDL_Quit ();
 }
