@@ -10,7 +10,7 @@ int main (int argc, char *args[])
 
   SDL_Surface *screenSurface = NULL;
 
-  printf ("Hello world!");
+  printf ("En Taro Adun");
 
   if (SDL_Init (SDL_INIT_VIDEO) < 0)
   {
