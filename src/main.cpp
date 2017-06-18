@@ -4,13 +4,15 @@
 #include <stdio.h>
 
 #include "main_menu.h"
+#include "map.h"
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+extern const GLint SCREEN_WIDTH = 640;
+extern const GLint SCREEN_HEIGHT = 480;
 
 SDL_Window *Window = NULL;
 SDL_GLContext Context;
 
+void render ();
 bool initSDL ();
 bool initGL ();
 void final ();
@@ -20,7 +22,7 @@ inline void SDL_warning (const char *msg);
 inline bool GL_error (const char *msg);
 
 int main (int argc, char *args[]) {
-	if (!initSDL () | !initGL())
+	if (!initSDL () | !initGL ())
 		final ();
 
 	SDL_error ("Debug SDL");
@@ -29,20 +31,22 @@ int main (int argc, char *args[]) {
 	SDL_StartTextInput ();
 	bool running = true;
 	SDL_Event event;
-	while (running)
-	{
-		while (SDL_PollEvent (&event))
-		{
+	while (running) {
+		while (SDL_PollEvent (&event)) {
 			if (event.type == SDL_QUIT)
 				running = false;
 		}
-		mainMenu::Draw ();
+		render ();
 		SDL_GL_SwapWindow (Window);
 	}
 	SDL_StopTextInput ();
 
 	final ();
 	return 0;
+}
+
+void render () {
+	map::Draw ();
 }
 
 bool initSDL () {
@@ -57,7 +61,7 @@ bool initSDL () {
 
 bool initGL () {
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	Context = SDL_GL_CreateContext (Window);
 	if (!Context)
 		return SDL_error ("Failed to create OpenGL context!");
@@ -66,13 +70,12 @@ bool initGL () {
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
-	if (glGetError () != GL_NO_ERROR)
-		return GL_error ("Failed to initialize OpenGL!");
+	glOrtho (0.0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0, 1.0, -1.0);
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
+	glClearColor (0.f, 0.f, 0.f, 1.f);
 	if (glGetError () != GL_NO_ERROR)
 		return GL_error ("Failed to initialize OpenGL!");
-	glClearColor (0.f, 0.f, 0.f, 1.f);
 	return true;
 }
 
