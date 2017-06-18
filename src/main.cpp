@@ -9,7 +9,6 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 SDL_Window *Window = NULL;
-SDL_Surface *Surface = NULL;
 SDL_GLContext Context;
 
 bool initSDL ();
@@ -24,10 +23,23 @@ int main (int argc, char *args[]) {
 	if (!initSDL () | !initGL())
 		final ();
 
-	mainMenu::Draw ();
 	SDL_error ("Debug SDL");
 	GL_error ("Debug GL");
-	SDL_Delay (3000);
+
+	SDL_StartTextInput ();
+	bool running = true;
+	SDL_Event event;
+	while (running)
+	{
+		while (SDL_PollEvent (&event))
+		{
+			if (event.type == SDL_QUIT)
+				running = false;
+		}
+		mainMenu::Draw ();
+		SDL_GL_SwapWindow (Window);
+	}
+	SDL_StopTextInput ();
 
 	final ();
 	return 0;
@@ -40,7 +52,6 @@ bool initSDL () {
 							   SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!Window)
 		return SDL_error ("Window could not be created!");
-	Surface = SDL_GetWindowSurface (Window);
 	return true;
 }
 
@@ -61,6 +72,7 @@ bool initGL () {
 	glLoadIdentity ();
 	if (glGetError () != GL_NO_ERROR)
 		return GL_error ("Failed to initialize OpenGL!");
+	glClearColor (0.f, 0.f, 0.f, 1.f);
 	return true;
 }
 
