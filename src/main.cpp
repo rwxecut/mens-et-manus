@@ -13,8 +13,7 @@ SDL_Window *Window = NULL;
 SDL_GLContext Context;
 
 void render ();
-bool initSDL ();
-bool initGL ();
+bool init ();
 void final ();
 
 inline bool SDL_error (const char *msg);
@@ -22,7 +21,7 @@ inline void SDL_warning (const char *msg);
 inline bool GL_error (const char *msg);
 
 int main (int argc, char *args[]) {
-	if (!initSDL () | !initGL ())
+	if (!init ())
 		final ();
 
 	SDL_error ("Debug SDL");
@@ -49,19 +48,17 @@ void render () {
 	map::Draw ();
 }
 
-bool initSDL () {
+bool init () {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		return SDL_error ("SDL could not initialize!");
+	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 	Window = SDL_CreateWindow ("Mens Et Manus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
 							   SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!Window)
 		return SDL_error ("Window could not be created!");
-	return true;
-}
 
-bool initGL () {
-	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	Context = SDL_GL_CreateContext (Window);
 	if (!Context)
 		return SDL_error ("Failed to create OpenGL context!");
@@ -70,7 +67,6 @@ bool initGL () {
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
-	glOrtho (0.0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0, 1.0, -1.0);
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
