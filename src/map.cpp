@@ -4,6 +4,8 @@
 
 extern const GLint SCREEN_WIDTH, SCREEN_HEIGHT;
 GLfloat camY = -100;
+GLfloat camZ = 500;
+GLfloat fov = 90;
 
 namespace map {
 	void Init () {
@@ -15,8 +17,8 @@ namespace map {
 		glClear (GL_COLOR_BUFFER_BIT);
 		glMatrixMode (GL_PROJECTION);
 		glLoadIdentity ();
-		glScalef (1.f / SCREEN_WIDTH, 1.f / SCREEN_HEIGHT, 1.f / SCREEN_HEIGHT);
-		gluLookAt (0, camY, 100, 0, 0, -1, 0, 1, 0);
+		gluPerspective (fov, 1, 1, 10000);
+		gluLookAt (0, camY, camZ, 0, 0, -1, 0, 1, 0);
 
 		GLfloat hex_l = 100.f;
 		GLfloat hex_r = hex_l * 0.866f; // 3*sqrt(3)
@@ -47,6 +49,18 @@ namespace map {
 				break;
 			case SDLK_DOWN:
 				camY -= 4;
+				break;
+			case SDLK_q:
+				camZ += 4;
+				break;
+			case SDLK_z:
+				camZ -= 4;
+				break;
+			case SDLK_w:
+				fov += 1;
+				break;
+			case SDLK_s:
+				fov -= 1;
 				break;
 		}
 	}
