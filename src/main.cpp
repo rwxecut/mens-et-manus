@@ -27,15 +27,24 @@ int main (int argc, char *args[]) {
 	SDL_error ("Debug SDL");
 	GL_error ("Debug GL");
 
+	map::Init ();
+
 	SDL_StartTextInput ();
 	bool running = true;
 	SDL_Event event;
 	while (running) {
-		while (SDL_PollEvent (&event)) {
-			if (event.type == SDL_QUIT)
-				running = false;
-		}
+		while (SDL_PollEvent (&event))
+			switch (event.type)
+			{
+				case SDL_QUIT:
+					running = false;
+					break;
+				case SDL_KEYDOWN:
+					map::KeyHandler (event.key.keysym.sym);
+					break;
+			}
 		render ();
+		glFlush ();
 		SDL_GL_SwapWindow (Window);
 	}
 	SDL_StopTextInput ();
@@ -51,7 +60,7 @@ void render () {
 bool init () {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		return SDL_error ("SDL could not initialize!");
-	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 	Window = SDL_CreateWindow ("Mens Et Manus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,

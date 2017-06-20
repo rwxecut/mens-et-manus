@@ -1,8 +1,7 @@
-#ifndef MENS_ET_MANUS_MAP_H
-#define MENS_ET_MANUS_MAP_H
+#pragma once
 
 namespace map {
+	void Init ();
 	void Draw ();
+	void KeyHandler (SDL_Keycode key);
 }
-
-#endif //MENS_ET_MANUS_MAP_H
