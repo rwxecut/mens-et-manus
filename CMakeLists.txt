@@ -13,6 +13,7 @@ set(SOURCE_FILENAMES
         GameConfig.cpp
         main.cpp
         map.cpp
+        mouse.cpp
         main_menu.cpp)
 
 include(prepend)

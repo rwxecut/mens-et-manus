@@ -1,8 +1,9 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <GL/glu.h>
-#include <stdio.h>
+#include <cstdio>
 
+#include "mouse.h"
 #include "GameConfig.h"
 #include "main_menu.h"
 #include "map.h"
@@ -10,6 +11,7 @@
 GameConfig const *GCONF = NULL;
 
 void render ();
+void keyboardHandler (SDL_Keycode key);
 bool init ();
 void final ();
 
@@ -21,15 +23,16 @@ SDL_Window *Window = NULL;
 SDL_GLContext Context;
 
 int main (int argc, char *args[]) {
-	if (!init ()) exit(7);
+	if (!init ()) exit (7);
 
 	SDL_error ("Debug SDL");
 	GL_error ("Debug GL");
 
 	map::Init ();
 
-	SDL_StartTextInput ();
+	// Main loop
 	bool running = true;
+	SDL_StartTextInput ();
 	SDL_Event event;
 	while (running) {
 		while (SDL_PollEvent (&event))
@@ -38,12 +41,18 @@ int main (int argc, char *args[]) {
 					running = false;
 					break;
 				case SDL_KEYDOWN:
-					map::KeyHandler (event.key.keysym.sym);
+					keyboardHandler (event.key.keysym.sym);
+					break;
+				case SDL_MOUSEMOTION:
+				case SDL_MOUSEWHEEL:
+					mouseEventHandler (&event);
 					break;
 			}
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (Window);
+
+		mouseCommonHander ();
 	}
 	SDL_StopTextInput ();
 
@@ -52,13 +61,21 @@ int main (int argc, char *args[]) {
 }
 
 void render () {
+	// Here will be all rendering routines
 	map::Draw ();
 }
 
-bool init () {
-	GCONF = new GameConfig ();
-	if (!GCONF->valid ()) exit(7); //temporary
+void keyboardHandler (SDL_Keycode key) {
+	// Here will be all keyboard routines
+	map::KeyHandler (key);
+}
 
+bool init () {
+	// Load config
+	GCONF = new GameConfig ();
+	if (!GCONF->valid ()) exit (7); //temporary
+
+	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		return SDL_error ("SDL could not initialize!");
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -68,6 +85,7 @@ bool init () {
 							   GCONF->screen.height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!Window) return SDL_error ("Window could not be created!");
 
+	// Init OpenGL
 	Context = SDL_GL_CreateContext (Window);
 	if (!Context) return SDL_error ("Failed to create OpenGL context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
