@@ -1,14 +1,14 @@
 #include <GL/gl.h>
-#include <GL/glu.h>
+#include <math.h>
+#include "GameConfig.h"
 
-extern const GLint SCREEN_WIDTH;
-extern const GLint SCREEN_HEIGHT;
+extern GameConfig const *GCONF;
 
 namespace map {
 	void Draw () {
 		glMatrixMode (GL_MODELVIEW);
 		glLoadIdentity ();
-		glTranslatef (SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
+		glTranslatef (GCONF->screen.width / 2.f, GCONF->screen.height / 2.f, 0.f);
 		// @formatter:off
 		GLfloat vertices[] = {	-100.f, -050.f,  000.f,
 								 000.f, -100.f,  000.f,

@@ -3,14 +3,11 @@
 #include <GL/glu.h>
 #include <stdio.h>
 
+#include "GameConfig.h"
 #include "main_menu.h"
 #include "map.h"
 
-extern const GLint SCREEN_WIDTH = 640;
-extern const GLint SCREEN_HEIGHT = 480;
-
-SDL_Window *Window = NULL;
-SDL_GLContext Context;
+GameConfig const *GCONF = NULL;
 
 void render ();
 bool initSDL ();
@@ -21,7 +18,15 @@ inline bool SDL_error (const char *msg);
 inline void SDL_warning (const char *msg);
 inline bool GL_error (const char *msg);
 
+SDL_Window *Window = NULL;
+SDL_GLContext Context;
+
 int main (int argc, char *args[]) {
+
+	GCONF = new GameConfig ("config.lua");
+	if (!GCONF->valid ())
+		final ();
+
 	if (!initSDL () | !initGL ())
 		final ();
 
@@ -52,8 +57,8 @@ void render () {
 bool initSDL () {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		return SDL_error ("SDL could not initialize!");
-	Window = SDL_CreateWindow ("Mens Et Manus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
-							   SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	Window = SDL_CreateWindow ("Mens Et Manus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, GCONF->screen.width,
+			GCONF->screen.height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!Window)
 		return SDL_error ("Window could not be created!");
 	return true;
@@ -64,13 +69,13 @@ bool initGL () {
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	Context = SDL_GL_CreateContext (Window);
 	if (!Context)
-		return SDL_error ("Failed to create OpenGL context!");
+		return SDL_error ("Failed to create OpenGL \n context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
 		SDL_warning ("Can't enable VSync!");
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
-	glOrtho (0.0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0, 1.0, -1.0);
+	glOrtho (0.0, GCONF->screen.width, GCONF->screen.height, 0.0, 1.0, -1.0);
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
