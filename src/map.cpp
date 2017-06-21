@@ -1,12 +1,13 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL.h>
+#include "GameConfig.h"
 
-extern const GLint SCREEN_WIDTH, SCREEN_HEIGHT;
+extern GameConfig const *GCONF;
+
 GLfloat camY = -100;
 GLfloat camZ = 500;
 GLfloat fov = 90;
-
 namespace map {
 	void Init () {
 		glLineWidth (2.0);
