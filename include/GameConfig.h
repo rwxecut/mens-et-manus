@@ -1,15 +1,19 @@
 #pragma once
 
 #include "SDL_opengl.h"
+#include <vector>
+#include <string>
+
+using std::string;
 
 class GameConfig {
+	static std::vector<string> const assets_dirs;
 
 public:
 
-	GameConfig (char const *fname);
-	GameConfig (GameConfig const &gc);
-
-	bool valid () const;
+	struct files_s {
+		std::string assets_dir = "";
+	} files;
 
 	struct screen_s {
 		GLint width = 0;
@@ -26,4 +30,9 @@ public:
 			} pos;
 		} cam;
 	} video;
+
+	GameConfig (string fname);
+	GameConfig (GameConfig const &gc);
+
+	bool valid () const;
 };
