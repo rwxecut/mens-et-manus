@@ -1,14 +1,13 @@
 #pragma once
 
 #include "SDL_opengl.h"
+#include <vector>
+#include <string>
+
+using std::string;
 
 class GameConfig {
-
-	using std::string;
-	static std::vector<string> assets_dirs = {
-			string("./"),
-			string("../assets/")
-	};
+	static std::vector<string> const assets_dirs;
 
 public:
 

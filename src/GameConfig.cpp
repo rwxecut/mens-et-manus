@@ -6,6 +6,11 @@
 
 using std::string;
 
+std::vector<string> const GameConfig::assets_dirs  = {
+		string("./"),
+		string("../assets/")
+};
+
 GameConfig::GameConfig (string fname) {
 	sel::State luaconf{true};
 	bool succ = false;

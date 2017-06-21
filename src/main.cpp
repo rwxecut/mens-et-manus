@@ -21,8 +21,7 @@ SDL_Window *Window = NULL;
 SDL_GLContext Context;
 
 int main (int argc, char *args[]) {
-	if (!init ())
-		final ();
+	if (!init ()) exit(7);
 
 	SDL_error ("Debug SDL");
 	GL_error ("Debug GL");
