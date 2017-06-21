@@ -34,8 +34,7 @@ int main (int argc, char *args[]) {
 	SDL_Event event;
 	while (running) {
 		while (SDL_PollEvent (&event))
-			switch (event.type)
-			{
+			switch (event.type) {
 				case SDL_QUIT:
 					running = false;
 					break;
@@ -58,21 +57,20 @@ void render () {
 }
 
 bool init () {
-	GCONF = new GameConfig ("config.lua");
+	GCONF = new GameConfig ("../config.lua");
 	if (!GCONF->valid ()) return false;
+
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		return SDL_error ("SDL could not initialize!");
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 	Window = SDL_CreateWindow ("Mens Et Manus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, GCONF->screen.width,
-			GCONF->screen.height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-	if (!Window)
-		return SDL_error ("Window could not be created!");
+							   GCONF->screen.height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	if (!Window) return SDL_error ("Window could not be created!");
 
 	Context = SDL_GL_CreateContext (Window);
-	if (!Context)
-		return SDL_error ("Failed to create OpenGL \n context!");
+	if (!Context) return SDL_error ("Failed to create OpenGL context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
 		SDL_warning ("Can't enable VSync!");
 
@@ -81,14 +79,12 @@ bool init () {
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
-	if (glGetError () != GL_NO_ERROR)
-		return GL_error ("Failed to initialize OpenGL!");
+	if (glGetError () != GL_NO_ERROR) return GL_error ("Failed to initialize OpenGL!");
 	return true;
 }
 
 void final () {
-	if (Window)
-		SDL_DestroyWindow (Window);
+	if (Window) SDL_DestroyWindow (Window);
 	SDL_Quit ();
 }
 
