@@ -23,11 +23,12 @@ public:
 
 	struct video_s {
 		struct cam_s {
-			GLdouble fov = 90.0f;
+			GLdouble fov = 90.0;
+			GLdouble renderDistance = 1000.0;
 			struct pos_s {
-				GLdouble x = 0.0f;
-				GLdouble y = 0.0f;
-				GLdouble z = 0.0f;
+				GLdouble x = 0.0;
+				GLdouble y = 0.0;
+				GLdouble z = 0.0;
 			} pos;
 		} cam;
 	} video;

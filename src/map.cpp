@@ -5,21 +5,30 @@
 
 extern GameConfig const *GCONF;
 
-GLdouble camY = -100;
-GLdouble camZ = 500;
-
 namespace map {
+
+	struct {GLdouble FOV;
+			GLdouble renderDistance;
+			struct {GLdouble X, Y, Z;} pos;
+	} cam;
+
 	void Init () {
 		glLineWidth (2.0);
 		glColor3f (0.1, 0.8, 0.8);
+
+		cam.FOV = GCONF -> video.cam.fov;
+		cam.renderDistance = GCONF -> video.cam.renderDistance;
+		cam.pos.X = GCONF -> video.cam.pos.x;
+		cam.pos.Y = GCONF -> video.cam.pos.y;
+		cam.pos.Z = GCONF -> video.cam.pos.z;
 	}
 
 	void Draw () {
 		glClear (GL_COLOR_BUFFER_BIT);
 		glMatrixMode (GL_PROJECTION);
 		glLoadIdentity ();
-		gluPerspective (GCONF -> video.cam.fov, 1, 1, 10000);
-		gluLookAt (0, camY, camZ, 0, 0, -1, 0, 1, 0);
+		gluPerspective (cam.FOV, 1, 1, cam.renderDistance);
+		gluLookAt (cam.pos.X, cam.pos.Y, cam.pos.Z, 0, 0, 0, 0, 1, 0);
 
 		GLfloat hex_l = 100.f;
 		GLfloat hex_r = hex_l * 0.866f; // 3*sqrt(3)
@@ -46,16 +55,16 @@ namespace map {
 	void KeyHandler (SDL_Keycode key) {
 		switch (key) {
 			case SDLK_UP:
-				camY += 4;
+				cam.pos.Y += 4;
 				break;
 			case SDLK_DOWN:
-				camY -= 4;
+				cam.pos.Y -= 4;
 				break;
 			case SDLK_q:
-				camZ += 4;
+				cam.pos.Z += 4;
 				break;
 			case SDLK_z:
-				camZ -= 4;
+				cam.pos.Z -= 4;
 				break;
 		}
 	}

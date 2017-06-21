@@ -40,6 +40,7 @@ GameConfig::GameConfig () {
 
 	s = luaconf["video"]["cam"];
 	video.cam.fov = GLdouble(s["fov"]);
+	video.cam.renderDistance = GLdouble(s["renderDistance"]);
 
 	s = s["pos"];
 	video.cam.pos.x = GLdouble(s["x"]);
