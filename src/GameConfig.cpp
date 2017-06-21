@@ -15,12 +15,12 @@ GameConfig::GameConfig (char const *fname) {
 	screen.height = GLint(s["height"]);
 
 	s = luaconf["video"]["cam"];
-	video.cam.fov = GLfloat(double((s["fov"])));
+	video.cam.fov = GLdouble(s["fov"]);
 
 	s = s["pos"];
-	video.cam.pos.x = GLfloat(double(s["x"]));
-	video.cam.pos.y = GLfloat(double(s["y"]));
-	video.cam.pos.z = GLfloat(double(s["z"])); // temporary
+	video.cam.pos.x = GLdouble(s["x"]);
+	video.cam.pos.y = GLdouble(s["y"]);
+	video.cam.pos.z = GLdouble(s["z"]);
 }
 
 GameConfig::GameConfig (GameConfig const &gc) {
@@ -32,6 +32,6 @@ bool GameConfig::valid () const {
 	//@formatter:off
 	return (screen.width  > 0)
 	    && (screen.height > 0)
-			&& (video.cam.fov > 0.0f && video.cam.fov < 180.0f);
+		   && (video.cam.fov > 0.0f && video.cam.fov < 180.0f);
 	//@formatter:on
 }

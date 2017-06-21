@@ -18,11 +18,11 @@ public:
 
 	struct video_s {
 		struct cam_s {
-			GLfloat fov = 90.0f;
+			GLdouble fov = 90.0f;
 			struct pos_s {
-				GLfloat x = 0.0f;
-				GLfloat y = 0.0f;
-				GLfloat z = 0.0f;
+				GLdouble x = 0.0f;
+				GLdouble y = 0.0f;
+				GLdouble z = 0.0f;
 			} pos;
 		} cam;
 	} video;

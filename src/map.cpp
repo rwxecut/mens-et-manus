@@ -5,8 +5,8 @@
 
 extern GameConfig const *GCONF;
 
-GLfloat camY = -100;
-GLfloat camZ = 500;
+GLdouble camY = -100;
+GLdouble camZ = 500;
 
 namespace map {
 	void Init () {
