@@ -1,20 +1,37 @@
+#include <sstream>
+#include <sys/stat.h>
 #include "selene.h"
 #include "GameConfig.h"
-#include "lua_utils.h"
+#include "util.h"
 
 using std::string;
 
-GameConfig::GameConfig (char const *fname) {
+GameConfig::GameConfig (string fname) {
 	sel::State luaconf{true};
-	if (!luaconf.Load (fname))
-		throw lua::LuaError (string ("Error loading configuration ") + fname + ".");
-
-	screen_.width = GLint (luaconf["screen"]["width"]);
-	screen_.height = GLint (luaconf["screen"]["height"]);
+	bool succ = false;
+	for (string p : assets_dirs) {
+		string fname_full = p + fname;
+		if (file::exists (fname_full)) {
+			files.assets_dir = fname_full;
+			if (!luaconf.Load (fname_full))
+				throw lua::LuaError (
+						string ("Error loading configuration ") + fname_full + ".");
+			else
+				succ = true;
+		}
+	}
+	if (!succ) {
+		std::stringstream msg;
+		msg << "Couldn't stat a config.lua file. Locations searched:\n";
+		for (string p : assets_dirs) msg << p << "\n";
+		throw file::FileNotFound (msg.str());
+	}
 }
 
 GameConfig::GameConfig (GameConfig const &gc) {
-	screen_ = gc.screen;
+	screen = gc.screen;
+	video = gc.video;
+	files = gc.files;
 }
 
 bool GameConfig::valid () const {

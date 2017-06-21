@@ -4,19 +4,29 @@
 
 class GameConfig {
 
-	struct screen_s
-	{
-		GLint width;
-		GLint height;
-	} screen_;
+	using std::string;
+	static std::vector<string> assets_dirs = {
+			string("./"),
+			string("../assets/")
+	};
 
 public:
 
-	GameConfig (char const *fname);
+	struct screen_s {
+		GLint width;
+		GLint height;
+	} screen;
+
+	struct files_s {
+		std::string assets_dir = "";
+	} files;
+
+	struct video_s {
+		GLfloat fov;
+	} video;
+
+	GameConfig (string fname);
 	GameConfig (GameConfig const &gc);
 
 	bool valid () const;
-
-	const screen_s &screen = screen_;
-
 };
