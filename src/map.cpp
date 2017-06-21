@@ -18,7 +18,7 @@ namespace map {
 		glClear (GL_COLOR_BUFFER_BIT);
 		glMatrixMode (GL_PROJECTION);
 		glLoadIdentity ();
-		gluPerspective (GCONF -> camera.fov, 1, 1, 10000);
+		gluPerspective (GCONF -> video.cam.fov, 1, 1, 10000);
 		gluLookAt (0, camY, camZ, 0, 0, -1, 0, 1, 0);
 
 		GLfloat hex_l = 100.f;
@@ -56,12 +56,6 @@ namespace map {
 				break;
 			case SDLK_z:
 				camZ -= 4;
-				break;
-			case SDLK_w:
-				fov += 1;
-				break;
-			case SDLK_s:
-				fov -= 1;
 				break;
 		}
 	}
