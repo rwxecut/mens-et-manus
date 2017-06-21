@@ -11,16 +11,18 @@ std::vector<string> const GameConfig::assets_dirs  = {
 		string("../assets/")
 };
 
-GameConfig::GameConfig (string fname) {
+string const GameConfig::config_fname = "config.lua";
+
+GameConfig::GameConfig () {
 	sel::State luaconf{true};
 	bool succ = false;
 	for (string p : assets_dirs) {
-		string fname_full = p + fname;
-		if (file::exists (fname_full)) {
-			files.assets_dir = fname_full;
-			if (!luaconf.Load (fname_full))
+		string fname = p + config_fname;
+		if (file::exists (fname)) {
+			files.assets_dir = fname;
+			if (!luaconf.Load (fname))
 				throw lua::LuaError (
-						string ("Error loading configuration ") + fname_full + ".");
+						string ("Error loading configuration ") + fname + ".");
 			else
 				succ = true;
 		}

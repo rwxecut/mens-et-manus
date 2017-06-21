@@ -8,6 +8,7 @@ using std::string;
 
 class GameConfig {
 	static std::vector<string> const assets_dirs;
+	static string const config_fname;
 
 public:
 
@@ -31,7 +32,7 @@ public:
 		} cam;
 	} video;
 
-	GameConfig (string fname);
+	GameConfig ();
 	GameConfig (GameConfig const &gc);
 
 	bool valid () const;

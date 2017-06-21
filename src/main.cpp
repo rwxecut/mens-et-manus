@@ -56,7 +56,7 @@ void render () {
 }
 
 bool init () {
-	GCONF = new GameConfig ("../config.lua");
+	GCONF = new GameConfig ();
 	if (!GCONF->valid ()) exit(7); //temporary
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
