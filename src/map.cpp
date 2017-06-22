@@ -66,24 +66,29 @@ namespace map {
 
 	void MousePositionHandler () {
 		int mouseZoneMoveMap = 40;
-		int moveDelta = 5;
+		GLdouble moveDeltaMax = 10.0;
+		GLdouble moveDeltaSpeed = 0.5;
+		static GLdouble moveDeltaX, moveDeltaY;
 		SDL_GetMouseState (&mouse.x, &mouse.y);
-		if (mouse.x < mouseZoneMoveMap) {
-			cam.pos.X -= moveDelta;
-			cam.sight.X -= moveDelta;
+		if ((mouse.x < mouseZoneMoveMap) && (moveDeltaX >= -moveDeltaMax))
+			moveDeltaX -= moveDeltaSpeed;
+		else if ((mouse.x > GCONF->screen.width - mouseZoneMoveMap) && (moveDeltaX <= moveDeltaMax))
+			moveDeltaX += moveDeltaSpeed;
+		else if ((mouse.y < mouseZoneMoveMap) && (moveDeltaY <= moveDeltaMax))
+			moveDeltaY += moveDeltaSpeed;
+		else if ((mouse.y > GCONF->screen.height - mouseZoneMoveMap) && (moveDeltaY >= -moveDeltaMax))
+			moveDeltaY -= moveDeltaSpeed;
+		else
+		{
+			if (moveDeltaX < 0) moveDeltaX += moveDeltaSpeed;
+			if (moveDeltaX > 0) moveDeltaX -= moveDeltaSpeed;
+			if (moveDeltaY < 0) moveDeltaY += moveDeltaSpeed;
+			if (moveDeltaY > 0) moveDeltaY -= moveDeltaSpeed;
 		}
-		if (mouse.x > GCONF->screen.width - mouseZoneMoveMap) {
-			cam.pos.X += moveDelta;
-			cam.sight.X += moveDelta;
-		}
-		if (mouse.y < mouseZoneMoveMap) {
-			cam.pos.Y += moveDelta;
-			cam.sight.Y += moveDelta;
-		}
-		if (mouse.y > GCONF->screen.height - mouseZoneMoveMap) {
-			cam.pos.Y -= moveDelta;
-			cam.sight.Y -= moveDelta;
-		}
+		cam.pos.X += moveDeltaX;
+		cam.sight.X += moveDeltaX;
+		cam.pos.Y += moveDeltaY;
+		cam.sight.Y += moveDeltaY;
 	}
 
 	void MouseScrollHandler (int32_t delta) {
