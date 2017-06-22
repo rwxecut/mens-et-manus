@@ -1,14 +1,18 @@
 #pragma once
 
-#include "SDL_opengl.h"
 #include <vector>
 #include <string>
+#include "selene.h"
+#include "SDL_opengl.h"
 
 using std::string;
 
 class GameConfig {
+
 	static std::vector<string> const assets_dirs;
 	static string const config_fname;
+	bool findAssetsDir ();
+	void loadLua (sel::State const &luaconf);
 
 public:
 

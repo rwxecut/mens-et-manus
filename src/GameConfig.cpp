@@ -11,29 +11,22 @@ std::vector<string> const GameConfig::assets_dirs  = {
 		string("../assets/")
 };
 
-string const GameConfig::config_fname = "config.lua";
+string const GameConfig::config_fname = "mmconfig.lua";
 
-GameConfig::GameConfig () {
-	sel::State luaconf{true};
-	bool succ = false;
+
+bool GameConfig::findAssetsDir () {
+	string assdir = "";
 	for (string p : assets_dirs) {
 		string fname = p + config_fname;
 		if (file::exists (fname)) {
-			files.assets_dir = fname;
-			if (!luaconf.Load (fname))
-				throw lua::LuaError (
-						string ("Error loading configuration ") + fname + ".");
-			else
-				succ = true;
+			files.assets_dir = p;
+			return true;
 		}
 	}
-	if (!succ) {
-		std::stringstream msg;
-		msg << "Couldn't stat a config.lua file. Locations searched:\n";
-		for (string p : assets_dirs) msg << p << "\n";
-		throw file::FileNotFound (msg.str());
-	}
+	return false;
+}
 
+void GameConfig::loadLua (sel::State const &luaconf) {
 	sel::Selector s = luaconf["screen"];
 	screen.width = GLint(s["width"]);
 	screen.height = GLint(s["height"]);
@@ -46,6 +39,17 @@ GameConfig::GameConfig () {
 	video.cam.pos.x = GLdouble(s["x"]);
 	video.cam.pos.y = GLdouble(s["y"]);
 	video.cam.pos.z = GLdouble(s["z"]);
+}
+
+GameConfig::GameConfig () {
+	if (!findAssetsDir ())
+		throw file::FileNotFound (config_fname, assets_dirs);
+	sel::State luaconf{true};
+	string fname = files.assets_dir + config_fname;
+	if (!luaconf.Load (fname))
+		throw lua::LuaError (
+				string ("Error loading configuration from ") + fname + ".");
+	loadLua (luaconf);
 }
 
 GameConfig::GameConfig (GameConfig const &gc) {
