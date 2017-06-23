@@ -10,6 +10,7 @@
 
 GameConfig const *GCONF = NULL;
 
+void update ();
 void render ();
 void keyboardHandler (SDL_Keycode key);
 bool init ();
@@ -48,6 +49,7 @@ int main (int argc, char *args[]) {
 					mouseEventHandler (&event);
 					break;
 			}
+		update ();
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (Window);
@@ -58,6 +60,10 @@ int main (int argc, char *args[]) {
 
 	final ();
 	return 0;
+}
+
+void update () {
+	map::Update ();
 }
 
 void render () {
