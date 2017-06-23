@@ -6,7 +6,7 @@ namespace map {
 	void Init ();
 	void Draw ();
 	void Update ();
-	void KeyHandler (SDL_Keycode key);
+	void KeyHandler ();
 	void MousePositionHandler ();
 	void MouseScrollHandler (int32_t delta);
 }

@@ -2,6 +2,7 @@
 #include <GL/glu.h>
 #include <SDL.h>
 
+#include "map.h"
 #include "mouse.h"
 #include "GameConfig.h"
 
@@ -9,7 +10,7 @@ extern GameConfig const *GCONF;
 
 namespace mapPrivate { // TODO: Replace with camera class
 	GLdouble moveSpeedX, moveSpeedY;
-	void camAccelerate (bool left, bool right, bool up, bool down, GLfloat accelMultiplier);
+	void camAccelerate (bool left, bool right, bool up, bool down);
 	void camDecelerate ();
 	void camMove ();
 }
@@ -72,6 +73,7 @@ namespace map {
 	}
 
 	void Update () {
+		KeyHandler ();
 		if (mapPrivate::moveSpeedX != 0 || mapPrivate::moveSpeedY != 0)
 			mapPrivate::camDecelerate ();
 		mapPrivate::camMove ();
@@ -79,14 +81,12 @@ namespace map {
 
 	void MousePositionHandler () {
 		int mouseZoneMoveMap = 40;
-		GLfloat mouse_camAccelMultiplier = 2.0;    // TODO: move to config
 		SDL_GetMouseState (&mouse.x, &mouse.y);
 		// @formatter:off
 		mapPrivate::camAccelerate ((mouse.x < mouseZoneMoveMap),
 								   (mouse.x > GCONF->screen.width - mouseZoneMoveMap),
 								   (mouse.y < mouseZoneMoveMap),
-								   (mouse.y > GCONF->screen.height - mouseZoneMoveMap),
-									mouse_camAccelMultiplier);
+								   (mouse.y > GCONF->screen.height - mouseZoneMoveMap));
 		// @formatter:on
 	}
 
@@ -98,10 +98,10 @@ namespace map {
 			cam.pos.Z += delta * scrollSpeed;
 	}
 
-	void KeyHandler (SDL_Keycode key) {
-		GLfloat key_camAccelMultiplier = 10.0;
-		mapPrivate::camAccelerate ((key == SDLK_LEFT), (key == SDLK_RIGHT),
-								   (key == SDLK_UP), (key == SDLK_DOWN), key_camAccelMultiplier);
+	void KeyHandler () {
+		const uint8_t *keystates = SDL_GetKeyboardState (NULL);
+		mapPrivate::camAccelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
+								   keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
 	}
 }
 
@@ -109,17 +109,17 @@ namespace mapPrivate {
 
 	GLdouble moveAcceleration = 0.5;    // TODO: move to config
 
-	void camAccelerate (bool left, bool right, bool up, bool down, GLfloat accelMultiplier) {
+	void camAccelerate (bool left, bool right, bool up, bool down) {
 		GLdouble moveSpeedMax = 10.0;    // TODO: move to config
 
 		if (left && (moveSpeedX >= -moveSpeedMax))
-			moveSpeedX -= accelMultiplier * moveAcceleration;
+			moveSpeedX -= 2 * moveAcceleration;
 		if (right && (moveSpeedX <= moveSpeedMax))
-			moveSpeedX += accelMultiplier * moveAcceleration;
+			moveSpeedX += 2 * moveAcceleration;
 		if (up && (moveSpeedY <= moveSpeedMax))
-			moveSpeedY += accelMultiplier * moveAcceleration;
+			moveSpeedY += 2 * moveAcceleration;
 		if (down && (moveSpeedY >= -moveSpeedMax))
-			moveSpeedY -= accelMultiplier * moveAcceleration;
+			moveSpeedY -= 2 * moveAcceleration;
 	}
 
 	void camDecelerate () {

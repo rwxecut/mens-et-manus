@@ -12,7 +12,6 @@ GameConfig const *GCONF = NULL;
 
 void update ();
 void render ();
-void keyboardHandler (SDL_Keycode key);
 bool init ();
 void final ();
 
@@ -41,9 +40,6 @@ int main (int argc, char *args[]) {
 				case SDL_QUIT:
 					running = false;
 					break;
-				case SDL_KEYDOWN:
-					keyboardHandler (event.key.keysym.sym);
-					break;
 				case SDL_MOUSEMOTION:
 				case SDL_MOUSEWHEEL:
 					mouseEventHandler (&event);
@@ -69,11 +65,6 @@ void update () {
 void render () {
 	// Here will be all rendering routines
 	map::Draw ();
-}
-
-void keyboardHandler (SDL_Keycode key) {
-	// Here will be all keyboard routines
-	map::KeyHandler (key);
 }
 
 bool init () {
