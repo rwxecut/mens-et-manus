@@ -8,16 +8,11 @@
 
 extern GameConfig const *GCONF;
 
-namespace mapPrivate { // TODO: Replace with camera class
-	GLdouble moveSpeedX, moveSpeedY;
-	void camAccelerate (bool left, bool right, bool up, bool down);
-	void camDecelerate ();
-	void camMove ();
-}
-
 namespace map {
 
-	struct {
+	class cam_c {
+	public:
+		// General variables & methods
 		GLdouble FOV;
 		GLdouble renderDistance;
 		struct {
@@ -26,27 +21,26 @@ namespace map {
 		struct {
 			GLdouble X = 0, Y = 0, Z = 0;
 		} sight;
-	} cam; // TODO: remake into a class
+		void init ();
+		void setup ();
+
+		// Moving variables & methods
+		GLdouble moveSpeedX, moveSpeedY;
+		GLdouble moveAcceleration = 0.5;    // TODO: move to config
+		void accelerate (bool left, bool right, bool up, bool down);
+		void decelerate ();
+		void move ();
+	} cam;
 
 	void Init () {
 		glLineWidth (2.0);    // temp
 		glColor3f (0.1, 0.8, 0.8);    // temp
 
-		// Init camera values from config
-		cam.FOV = GCONF->video.cam.fov;
-		cam.renderDistance = GCONF->video.cam.renderDistance;
-		cam.pos.X = GCONF->video.cam.pos.x;
-		cam.pos.Y = GCONF->video.cam.pos.y;
-		cam.pos.Z = GCONF->video.cam.pos.z;
+		cam.init ();
 	}
 
 	void Draw () {
-		// Setup camera
-		glClear (GL_COLOR_BUFFER_BIT);
-		glMatrixMode (GL_PROJECTION);
-		glLoadIdentity ();
-		gluPerspective (cam.FOV, 1, 1, cam.renderDistance);
-		gluLookAt (cam.pos.X, cam.pos.Y, cam.pos.Z, cam.sight.X, cam.sight.Y, cam.sight.Z, 0, 1, 0);
+		cam.setup ();
 
 		// Draw hexagons (temp)
 		int hexnum = 5;
@@ -74,19 +68,19 @@ namespace map {
 
 	void Update () {
 		KeyHandler ();
-		if (mapPrivate::moveSpeedX != 0 || mapPrivate::moveSpeedY != 0)
-			mapPrivate::camDecelerate ();
-		mapPrivate::camMove ();
+		if (cam.moveSpeedX != 0 || cam.moveSpeedY != 0)
+			cam.decelerate ();
+		cam.move ();
 	}
 
 	void MousePositionHandler () {
-		int mouseZoneMoveMap = 40;
+		int mouseZoneMoveMap = 40; // TODO: move to config
 		SDL_GetMouseState (&mouse.x, &mouse.y);
 		// @formatter:off
-		mapPrivate::camAccelerate ((mouse.x < mouseZoneMoveMap),
-								   (mouse.x > GCONF->screen.width - mouseZoneMoveMap),
-								   (mouse.y < mouseZoneMoveMap),
-								   (mouse.y > GCONF->screen.height - mouseZoneMoveMap));
+		cam.accelerate ((mouse.x < mouseZoneMoveMap),
+						(mouse.x > GCONF->screen.width - mouseZoneMoveMap),
+						(mouse.y < mouseZoneMoveMap),
+						(mouse.y > GCONF->screen.height - mouseZoneMoveMap));
 		// @formatter:on
 	}
 
@@ -100,16 +94,30 @@ namespace map {
 
 	void KeyHandler () {
 		const uint8_t *keystates = SDL_GetKeyboardState (NULL);
-		mapPrivate::camAccelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
-								   keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
+		cam.accelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
+						keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
 	}
-}
 
-namespace mapPrivate {
+	void cam_c::init () {
+		// Init camera values from config
+		FOV = GCONF->video.cam.fov;
+		renderDistance = GCONF->video.cam.renderDistance;
+		pos.X = GCONF->video.cam.pos.x;
+		pos.Y = GCONF->video.cam.pos.y;
+		pos.Z = GCONF->video.cam.pos.z;
+	}
 
-	GLdouble moveAcceleration = 0.5;    // TODO: move to config
+	void cam_c::setup () {
+		// Setup camera for drawing
+		glClear (GL_COLOR_BUFFER_BIT);
+		glMatrixMode (GL_PROJECTION);
+		glLoadIdentity ();
+		gluPerspective (FOV, 1, 1, renderDistance);
+		gluLookAt (pos.X, pos.Y, pos.Z, sight.X, sight.Y, sight.Z, 0, 1, 0);
+	}
 
-	void camAccelerate (bool left, bool right, bool up, bool down) {
+	void cam_c::accelerate (bool left, bool right, bool up, bool down) {
+		// Accelerate camera if moving
 		GLdouble moveSpeedMax = 10.0;    // TODO: move to config
 
 		if (left && (moveSpeedX >= -moveSpeedMax))
@@ -122,17 +130,18 @@ namespace mapPrivate {
 			moveSpeedY -= 2 * moveAcceleration;
 	}
 
-	void camDecelerate () {
+	void cam_c::decelerate () {
+		// Decelerate camera if stopping moving
 		if (moveSpeedX < 0) moveSpeedX += moveAcceleration;
 		if (moveSpeedX > 0) moveSpeedX -= moveAcceleration;
 		if (moveSpeedY < 0) moveSpeedY += moveAcceleration;
 		if (moveSpeedY > 0) moveSpeedY -= moveAcceleration;
 	}
 
-	void camMove () {
-		map::cam.pos.X += moveSpeedX;
-		map::cam.sight.X += moveSpeedX;
-		map::cam.pos.Y += moveSpeedY;
-		map::cam.sight.Y += moveSpeedY;
+	void cam_c::move () {
+		pos.X += moveSpeedX;
+		sight.X += moveSpeedX;
+		pos.Y += moveSpeedY;
+		sight.Y += moveSpeedY;
 	}
 }
