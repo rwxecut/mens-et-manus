@@ -1,5 +1,6 @@
 #include <sstream>
 #include <sys/stat.h>
+#include <SDL_log.h>
 #include "selene.h"
 #include "GameConfig.h"
 #include "util.h"
@@ -50,6 +51,13 @@ GameConfig::GameConfig () {
 		throw lua::LuaError (
 				string ("Error loading configuration from ") + fname + ".");
 	loadLua (luaconf);
+
+	if (!valid ())
+	{
+		string msg = "Failed to load game configuration.";
+		SDL_LogError (SDL_LOG_CATEGORY_APPLICATION, msg.c_str ());
+		throw std::runtime_error (msg);
+	}
 }
 
 GameConfig::GameConfig (GameConfig const &gc) {
@@ -62,6 +70,6 @@ bool GameConfig::valid () const {
 	//@formatter:off
 	return (screen.width  > 0)
 	    && (screen.height > 0)
-	    && (video.cam.fov > 0.0f && video.cam.fov < 180.0f);
+	    && (video.cam.fov > 0.0 && video.cam.fov < 180.0);
 	//@formatter:on
 }

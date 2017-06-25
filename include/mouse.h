@@ -1,8 +1,5 @@
 #pragma once
 
-struct {
-	int x, y;
-} mouse;
-
-void mouseEventHandler (SDL_Event *event);
-void mouseCommonHander ();
+struct Mouse {
+	int x = 0, y = 0;
+};
