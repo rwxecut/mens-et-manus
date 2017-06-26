@@ -1,36 +1,6 @@
-#include <stdio.h>
+#include <cstdio>
 #include "Viewport.h"
-#include "GameConfig.h"
-
-class Viewport::SDL_Error : std::runtime_error {
-	std::string SDL_ErrorMsg (std::string msg) {
-		std::stringstream msgStream;
-		msgStream << "ERROR: " << msg << " SDL_GetError(): " << SDL_GetError ();
-		return msgStream.str ();
-	}
-
-public:
-	explicit SDL_Error (int category, std::string msg)
-			: std::runtime_error (SDL_ErrorMsg (msg)) {
-		SDL_LogError (category, what ());
-	};
-};
-
-
-class Viewport::GL_Error : std::runtime_error {
-	std::string GL_ErrorMsg (std::string msg) {
-		std::stringstream msgStream;
-		msgStream << "ERROR: " << msg
-		          << " glGetError(): " << gluErrorString (glGetError ());
-		return msgStream.str ();
-	}
-
-public:
-	explicit GL_Error (std::string msg)
-			: std::runtime_error (GL_ErrorMsg (msg)) {
-		SDL_LogError (SDL_LOG_CATEGORY_VIDEO, what ());
-	};
-};
+#include "exceptions.h"
 
 Viewport::Viewport (GameConfig const *config)
 		: gConf (config)
@@ -38,7 +8,7 @@ Viewport::Viewport (GameConfig const *config)
 	SDL_Log ("Debug SDL");
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
-		throw SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
+		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
 				"SDL could not initialize!");
 
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -50,12 +20,12 @@ Viewport::Viewport (GameConfig const *config)
 			gConf->screen.width, gConf->screen.height,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
-	if (!window) throw SDL_Error (SDL_LOG_CATEGORY_VIDEO,
+	if (!window) throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO,
 				"Window could not be created!");
 
 	// Init OpenGL
 	context = SDL_GL_CreateContext (window);
-	if (!context) throw GL_Error ("Failed to create OpenGL context!");
+	if (!context) throw video::GL_Error ("Failed to create OpenGL context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
 		SDL_LogWarn (SDL_LOG_CATEGORY_VIDEO, "Can't enable VSync!");
 
@@ -65,7 +35,7 @@ Viewport::Viewport (GameConfig const *config)
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
 	if (glGetError () != GL_NO_ERROR)
-		throw GL_Error ("Failed to initialize OpenGL!");
+		throw video::GL_Error ("Failed to initialize OpenGL!");
 }
 
 
@@ -155,4 +125,5 @@ int Viewport::mainLoop () {
 		mouseCommonHander ();
 	}
 	SDL_StopTextInput ();
+	return 1;
 }

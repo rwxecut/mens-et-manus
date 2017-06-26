@@ -1,5 +1,4 @@
 #include "Cam.h"
-#include "GameConfig.h"
 
 Cam::Cam (GameConfig const *gConf) {
 	// Init camera values from config

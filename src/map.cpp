@@ -1,11 +1,5 @@
 #include <GL/gl.h>
-#include <GL/glu.h>
-#include <SDL.h>
-
 #include "Map.h"
-#include "Mouse.h"
-#include "Viewport.h"
-#include "GameConfig.h"
 
 Map::Map () {
 	glLineWidth (2.0);    // temp

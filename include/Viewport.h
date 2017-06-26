@@ -34,7 +34,4 @@ public:
 	~Viewport ();
 
 	int mainLoop ();
-
-	class SDL_Error;
-	class GL_Error;
 };
