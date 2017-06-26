@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <Cam.h>
 #include "Viewport.h"
-#include "GameConfig.h"
 
 class Viewport::SDL_Error : std::runtime_error {
 	std::string SDL_ErrorMsg (std::string msg) {
@@ -64,6 +64,7 @@ Viewport::Viewport (GameConfig const *config)
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
+	glEnable (GL_DEPTH_TEST);
 	if (glGetError () != GL_NO_ERROR)
 		throw GL_Error ("Failed to initialize OpenGL!");
 }
@@ -81,11 +82,33 @@ void Viewport::update () {
 	if (cam.moveSpeedX != 0 || cam.moveSpeedY != 0)
 		cam.decelerate ();
 	cam.move ();
+
+	// Print debug info to title (mouse position, unprojection of mouse pointer, camera position)
+	GLdouble unprojX, unprojY, unprojZ;
+	unproject (mouse.x, mouse.y, &unprojX, &unprojY, &unprojZ);
+	char posstr[64];
+	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f posZ: %0.1f camX: %0.1f camY: %0.1f camZ: %0.1f",
+	         mouse.x, mouse.y, unprojX, unprojY, unprojZ, cam.pos.X, cam.pos.Y, cam.pos.Z);
+	SDL_SetWindowTitle (window, posstr);
 }
 
 void Viewport::render () {
 	cam.setup ();
 	map.draw ();
+}
+
+void Viewport::unproject (GLdouble srcX, GLdouble srcY,
+                          GLdouble* objX, GLdouble* objY, GLdouble* objZ) {
+	GLdouble modelview[16], projection[16];
+	GLint viewport[4];
+	GLfloat srcZ;
+
+	glGetDoublev (GL_MODELVIEW_MATRIX, modelview);
+	glGetDoublev (GL_PROJECTION_MATRIX, projection);
+	glGetIntegerv (GL_VIEWPORT, viewport);
+	srcY = (GLfloat)(viewport[3] - srcY);
+	glReadPixels ((GLint)srcX, (GLint)srcY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
+	gluUnProject (srcX, srcY, srcZ, modelview, projection, viewport, objX, objY, objZ);
 }
 
 void Viewport::mousePositionHandler () {
@@ -117,11 +140,6 @@ void Viewport::keyHandler () {
 void Viewport::mouseEventHandler (SDL_Event *event) {
 	switch (event->type)
 	{
-		case SDL_MOUSEMOTION:
-			char posstr[32];
-			sprintf (posstr, "X: %d Y: %d", event->motion.x, event->motion.y);
-			SDL_SetWindowTitle (window, posstr);
-			break;
 		case SDL_MOUSEWHEEL:
 			mouseScrollHandler (event->wheel.y);
 			break;

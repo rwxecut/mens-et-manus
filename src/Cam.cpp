@@ -1,5 +1,4 @@
 #include "Cam.h"
-#include "GameConfig.h"
 
 Cam::Cam (GameConfig const *gConf) {
 	// Init camera values from config
@@ -12,7 +11,7 @@ Cam::Cam (GameConfig const *gConf) {
 
 void Cam::setup () {
 	// Setup camera for drawing
-	glClear (GL_COLOR_BUFFER_BIT);
+	glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 	gluPerspective (FOV, 1, 1, renderDistance);

@@ -23,6 +23,8 @@ class Viewport {
 
 	void update ();
 	void render ();
+	void unproject (GLdouble srcX, GLdouble srcY,
+	                GLdouble* objX, GLdouble* objY, GLdouble* objZ);
 	void keyHandler ();
 	void mousePositionHandler ();
 	void mouseScrollHandler (int32_t delta);
