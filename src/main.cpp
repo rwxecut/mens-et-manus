@@ -1,4 +1,3 @@
-#include <SDL.h>
 #include "Viewport.h"
 
 int main (int argc, char *args[]) {
