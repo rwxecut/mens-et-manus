@@ -35,6 +35,8 @@ namespace file {
 }
 
 #include <SDL.h>
+#include <GL/glu.h>
+
 namespace video {
 	class SDL_Error : std::runtime_error {
 		std::string SDL_ErrorMsg (std::string msg) {

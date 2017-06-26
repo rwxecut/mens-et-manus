@@ -1,8 +1,8 @@
 #include <sstream>
-#include <sys/stat.h>
 #include <SDL_log.h>
 #include "selene.h"
 #include "GameConfig.h"
+#include "exceptions.h"
 #include "util.h"
 
 using std::string;

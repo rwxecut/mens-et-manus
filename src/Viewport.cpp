@@ -34,6 +34,10 @@ Viewport::Viewport (GameConfig const *config)
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
+
+	glLineWidth (2.0);    // temp
+	glColor3f (0.1, 0.8, 0.8);    // temp
+
 	if (glGetError () != GL_NO_ERROR)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 }
