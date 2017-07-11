@@ -1,27 +1,27 @@
 #include <stdio.h>
-#include "Viewport.h"
+#include "Game.h"
 #include "exceptions.h"
 
-Viewport::Viewport (GameConfig const *config)
-		: gConf (config)
-	  , cam (config) {
+Game::Game (GameConfig const *config)
+		: gConf (config), cam (config) {
 	SDL_Log ("Debug SDL");
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
-				"SDL could not initialize!");
+		                        "SDL could not initialize!");
 
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 
 	window = SDL_CreateWindow ("Mens Et Manus",
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			gConf->screen.width, gConf->screen.height,
-			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+	                           gConf->screen.width, gConf->screen.height,
+	                           SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
-	if (!window) throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO,
-				"Window could not be created!");
+	if (!window)
+		throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO,
+		                        "Window could not be created!");
 
 	// Init OpenGL
 	context = SDL_GL_CreateContext (window);
@@ -40,14 +40,13 @@ Viewport::Viewport (GameConfig const *config)
 }
 
 
-Viewport::~Viewport ()
-{
+Game::~Game () {
 	if (window) SDL_DestroyWindow (window);
 	SDL_Quit ();
 }
 
 
-void Viewport::update () {
+void Game::update () {
 	keyHandler ();
 	if (cam.moveSpeedX != 0 || cam.moveSpeedY != 0)
 		cam.decelerate ();
@@ -62,13 +61,13 @@ void Viewport::update () {
 	SDL_SetWindowTitle (window, posstr);
 }
 
-void Viewport::render () {
+void Game::render () {
 	cam.setup ();
 	map.draw ();
 }
 
-void Viewport::unproject (GLdouble srcX, GLdouble srcY,
-                          GLdouble* objX, GLdouble* objY, GLdouble* objZ) {
+void Game::unproject (GLdouble srcX, GLdouble srcY,
+                      GLdouble *objX, GLdouble *objY, GLdouble *objZ) {
 	GLdouble modelview[16], projection[16];
 	GLint viewport[4];
 	GLfloat srcZ;
@@ -76,12 +75,12 @@ void Viewport::unproject (GLdouble srcX, GLdouble srcY,
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelview);
 	glGetDoublev (GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv (GL_VIEWPORT, viewport);
-	srcY = (GLfloat)(viewport[3] - srcY);
-	glReadPixels ((GLint)srcX, (GLint)srcY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
+	srcY = (GLfloat) (viewport[3] - srcY);
+	glReadPixels ((GLint) srcX, (GLint) srcY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
 	gluUnProject (srcX, srcY, srcZ, modelview, projection, viewport, objX, objY, objZ);
 }
 
-void Viewport::mousePositionHandler () {
+void Game::mousePositionHandler () {
 	int mouseZoneMoveMap = 40; // TODO: move to config
 	SDL_GetMouseState (&mouse.x, &mouse.y);
 	// @formatter:off
@@ -92,7 +91,7 @@ void Viewport::mousePositionHandler () {
 	// @formatter:on
 }
 
-void Viewport::mouseScrollHandler (int32_t delta) {
+void Game::mouseScrollHandler (int32_t delta) {
 	GLdouble scrollSpeed = 20.0;      //
 	GLdouble minZ = 200.0;            // TODO: move to config
 	GLdouble maxZ = 700.0;            //
@@ -100,30 +99,14 @@ void Viewport::mouseScrollHandler (int32_t delta) {
 		cam.pos.Z += delta * scrollSpeed;
 }
 
-void Viewport::keyHandler () {
+void Game::keyHandler () {
 	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
 	cam.accelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
-			keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
+	                keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
 }
 
-
-void Viewport::mouseEventHandler (SDL_Event *event) {
-	switch (event->type)
-	{
-		case SDL_MOUSEWHEEL:
-			mouseScrollHandler (event->wheel.y);
-			break;
-	}
-}
-
-void Viewport::mouseCommonHander ()
-{
-	mousePositionHandler ();
-}
-
-int Viewport::mainLoop () {
+int Game::mainLoop () {
 	bool running = true;
-	SDL_StartTextInput ();
 	SDL_Event event;
 	while (running) {
 		while (SDL_PollEvent (&event))
@@ -131,17 +114,17 @@ int Viewport::mainLoop () {
 				case SDL_QUIT:
 					running = false;
 					break;
-				case SDL_MOUSEMOTION:
 				case SDL_MOUSEWHEEL:
-					mouseEventHandler (&event);
+					mouseScrollHandler (event.wheel.y);
+					break;
+				default:
 					break;
 			}
 		update ();
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (window);
-		mouseCommonHander ();
+		mousePositionHandler ();
 	}
-	SDL_StopTextInput ();
 	return 1;
 }

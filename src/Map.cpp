@@ -17,12 +17,12 @@ void Map::draw () {
 		for (int j = -hexnum; j <= hexnum; j++) {
 			GLfloat dx = j * 2 * hex_r + (i & 1) * hex_r;
 			// @formatter:off
-			GLfloat vertices[] = {	-hex_r + dx, -hex_l/2 + dy, 0.f,
-									 00.0f + dx, -hex_l   + dy, 0.f,
-									 hex_r + dx, -hex_l/2 + dy, 0.f,
-									 hex_r + dx,  hex_l/2 + dy, 0.f,
-									 00.0f + dx,  hex_l   + dy, 0.f,
-									-hex_r + dx,  hex_l/2 + dy, 0.f};
+			GLfloat vertices[] = {  -hex_r + dx, -hex_l/2 + dy, 0.f,
+			                         00.0f + dx, -hex_l   + dy, 0.f,
+			                         hex_r + dx, -hex_l/2 + dy, 0.f,
+			                         hex_r + dx,  hex_l/2 + dy, 0.f,
+			                         00.0f + dx,  hex_l   + dy, 0.f,
+			                        -hex_r + dx,  hex_l/2 + dy, 0.f};
 			// @formatter:on
 			glVertexPointer (3, GL_FLOAT, 0, vertices);
 			glColor3f (0.1, 0.1, 0.1);

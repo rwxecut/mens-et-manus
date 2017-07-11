@@ -11,11 +11,11 @@ set(INCLUDE_DIR include)
 
 set(SOURCE_FILENAMES
         GameConfig.cpp
-        Viewport.cpp
+        Game.cpp
         Cam.cpp
         Map.cpp
         main.cpp
-        main_menu.cpp)
+        MainMenu.cpp)
 
 include(prepend)
 prepend(SOURCE_FILES ${SOURCE_DIR} ${SOURCE_FILENAMES})

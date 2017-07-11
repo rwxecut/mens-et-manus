@@ -1,11 +1,11 @@
-#include "Viewport.h"
+#include "Game.h"
 
 int main (int argc, char *args[]) {
 
 	GameConfig const *gConf = new GameConfig ();
 
-	Viewport VP (gConf);
-	VP.mainLoop ();
+	Game game (gConf);
+	game.mainLoop ();
 
 	return 0;
 }
