@@ -61,10 +61,12 @@ void Game::update () {
 	SDL_SetWindowTitle (window, posstr);
 }
 
+
 void Game::render () {
 	cam.setup ();
 	map.draw ();
 }
+
 
 void Game::unproject (GLdouble srcX, GLdouble srcY,
                       GLdouble *objX, GLdouble *objY, GLdouble *objZ) {
@@ -80,6 +82,7 @@ void Game::unproject (GLdouble srcX, GLdouble srcY,
 	gluUnProject (srcX, srcY, srcZ, modelview, projection, viewport, objX, objY, objZ);
 }
 
+
 void Game::mousePositionHandler () {
 	int mouseZoneMoveMap = 40; // TODO: move to config
 	SDL_GetMouseState (&mouse.x, &mouse.y);
@@ -91,6 +94,7 @@ void Game::mousePositionHandler () {
 	// @formatter:on
 }
 
+
 void Game::mouseScrollHandler (int32_t delta) {
 	GLdouble scrollSpeed = 20.0;      //
 	GLdouble minZ = 200.0;            // TODO: move to config
@@ -99,11 +103,13 @@ void Game::mouseScrollHandler (int32_t delta) {
 		cam.pos.Z += delta * scrollSpeed;
 }
 
+
 void Game::keyHandler () {
 	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
 	cam.accelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
 	                keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
 }
+
 
 int Game::mainLoop () {
 	bool running = true;
