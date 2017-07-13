@@ -15,7 +15,8 @@ set(SOURCE_FILENAMES
         Cam.cpp
         Map.cpp
         main.cpp
-        MainMenu.cpp)
+        MainMenu.cpp
+        Tile.cpp)
 
 include(prepend)
 prepend(SOURCE_FILES ${SOURCE_DIR} ${SOURCE_FILENAMES})
