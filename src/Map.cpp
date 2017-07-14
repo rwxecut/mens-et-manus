@@ -1,21 +1,15 @@
+#include "Save.h"
 #include "Map.h"
+#include "util.h"
 
 Map::Map () {
-	using std::calloc;
-	size.x = 10; //temp
-	size.y = 5;
-	tiles = (Tile **) calloc (size.y, sizeof (Tile *));
-	for (uint16_t y = 0; y < size.y; y++) {
-		tiles[y] = new Tile[size.x];
-		for (uint16_t x = 0; x < size.x; x++)
-			tiles[y][x].setPos (x, y);
-	}
+	tiles = mem::new2DArray<Tile> (size.x, size.y);
+	for (uint16_t y = 0; y < size.y; y++)
+		for (uint16_t x = 0; x < size.x; x++) {}
 }
 
 Map::~Map () {
-	for (uint16_t y = 0; y < size.y; y++)
-		delete [] tiles[y];
-	free (tiles);
+	mem::delete2DArray (tiles);
 }
 
 void Map::draw () {

@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "Cam.h"
 #include "Mouse.h"
+#include "Save.h"
 
 
 class Game {
@@ -30,7 +31,7 @@ class Game {
 	void mouseScrollHandler (int32_t delta);
 
 public:
-	Game (GameConfig const *config);
+	Game (GameConfig const *config, Save const *save);
 	~Game ();
 
 	int mainLoop ();

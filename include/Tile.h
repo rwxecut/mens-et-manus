@@ -12,7 +12,6 @@ class Tile {
 	} pos;
 
 public:
-	void setPos (uint16_t x, uint16_t y);
 	void draw ();
 };
 

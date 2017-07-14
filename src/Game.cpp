@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "exceptions.h"
 
-Game::Game (GameConfig const *config)
+Game::Game (GameConfig const *config, Save const *save)
 		: gConf (config), cam (config) {
 	SDL_Log ("Debug SDL");
 
@@ -61,12 +61,10 @@ void Game::update () {
 	SDL_SetWindowTitle (window, posstr);
 }
 
-
 void Game::render () {
 	cam.setup ();
 	map.draw ();
 }
-
 
 void Game::unproject (GLdouble srcX, GLdouble srcY,
                       GLdouble *objX, GLdouble *objY, GLdouble *objZ) {

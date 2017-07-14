@@ -3,11 +3,6 @@
 GLfloat const Tile::hex_l = 100.0f;
 GLfloat const Tile::hex_r = 86.6f;
 
-void Tile::setPos (uint16_t x, uint16_t y) {
-	pos.x = x;
-	pos.y = y;
-}
-
 void Tile::draw () {
 	GLfloat dy = pos.y * hex_l * 3 / 2;
 	GLfloat dx = pos.x * 2 * hex_r + (pos.y & 1) * hex_r;

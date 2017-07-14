@@ -10,12 +10,11 @@ class Map {
 	Tile **tiles;
 
 	struct {
-		uint16_t x, y;
-	} size;
+		uint16_t x = 5, y = 10;
+	} size; // temporary
 
 public:
 	Map ();
 	~Map ();
-
 	void draw ();
 };
