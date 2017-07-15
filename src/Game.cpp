@@ -55,9 +55,11 @@ void Game::update () {
 	// Print debug info to title (mouse position, unprojection of mouse pointer, camera position)
 	GLdouble unprojX, unprojY, unprojZ;
 	unproject (mouse.x, mouse.y, &unprojX, &unprojY, &unprojZ);
+	int16_t tileX, tileY;
+	map.getHoveredTile (unprojX, unprojY, &tileX, &tileY);
 	char posstr[64];
-	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f posZ: %0.1f camX: %0.1f camY: %0.1f camZ: %0.1f",
-	         mouse.x, mouse.y, unprojX, unprojY, unprojZ, cam.pos.X, cam.pos.Y, cam.pos.Z);
+	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f tileX: %d tileY: %d",
+	         mouse.x, mouse.y, unprojX, unprojY, tileX, tileY);
 	SDL_SetWindowTitle (window, posstr);
 }
 
