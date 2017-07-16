@@ -8,7 +8,7 @@ Map::Map () {
 	for (uint16_t y = 0; y < size.y; y++) {
 		tiles[y] = new Tile[size.x];
 		for (uint16_t x = 0; x < size.x; x++)
-			tiles[y][x].setPos (x, y);
+			tiles[y][x].init (x, y);
 	}
 }
 

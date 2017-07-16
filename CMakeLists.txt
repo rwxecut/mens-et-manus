@@ -21,7 +21,7 @@ set(SOURCE_FILENAMES
 include(prepend)
 prepend(SOURCE_FILES ${SOURCE_DIR} ${SOURCE_FILENAMES})
 
-add_executable(mens_et_manus ${SOURCE_FILES})
+add_executable(mens_et_manus ${SOURCE_FILES} include/global.h)
 
 if(WIN32)
     set(CMAKE_EXE_LINKER_FLAGS " -static -Wl,-subsystem,console")
