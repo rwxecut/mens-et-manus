@@ -1,4 +1,4 @@
-#include <global.h>
+#include <point.h>
 #include "Tile.h"
 
 GLfloat const Tile::hex_l = 100.0f;
@@ -9,7 +9,7 @@ void Tile::init (uint16_t x, uint16_t y) {
 	pos.y = y;
 }
 
-ipoint Tile::selected;
+point<int16_t> Tile::selected;
 
 void Tile::draw () {
 	GLfloat dy = pos.y * hex_l * 3 / 2;

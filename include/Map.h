@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cmath>
-#include "global.h"
+#include "point.h"
 #include "Tile.h"
 
 class Map {
@@ -14,7 +14,7 @@ public:
 	~Map ();
 	Tile **tiles;
 
-	upoint size;
+	point<uint16_t> size;
 
 	void draw ();
 	void getHoveredTile (GLdouble x, GLdouble y, int16_t *tileX, int16_t *tileY);
