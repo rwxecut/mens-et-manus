@@ -25,7 +25,7 @@ class Game {
 	void update ();
 	void render ();
 	void unproject (GLdouble srcX, GLdouble srcY,
-	                GLdouble *objX, GLdouble *objY, GLdouble *objZ);
+	                GLdouble *objX, GLdouble *objY);
 	void keyHandler ();
 	void mousePositionHandler ();
 	void mouseScrollHandler (int32_t delta);

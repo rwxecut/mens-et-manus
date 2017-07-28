@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Map.h>
 #include "Game.h"
 #include "exceptions.h"
 
@@ -52,12 +53,13 @@ void Game::update () {
 		cam.decelerate ();
 	cam.move ();
 
-	// Print debug info to title (mouse position, unprojection of mouse pointer, camera position)
-	GLdouble unprojX, unprojY, unprojZ;
-	unproject (mouse.x, mouse.y, &unprojX, &unprojY, &unprojZ);
+	// Print debug info to title
+	GLdouble unprojX, unprojY;
+	unproject (mouse.x, mouse.y, &unprojX, &unprojY);
+	map.getHoveredTile (unprojX, unprojY, &Tile::selected.x, &Tile::selected.y);
 	char posstr[64];
-	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f posZ: %0.1f camX: %0.1f camY: %0.1f camZ: %0.1f",
-	         mouse.x, mouse.y, unprojX, unprojY, unprojZ, cam.pos.X, cam.pos.Y, cam.pos.Z);
+	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
+	         mouse.x, mouse.y, unprojX, unprojY);
 	SDL_SetWindowTitle (window, posstr);
 }
 
@@ -67,17 +69,18 @@ void Game::render () {
 }
 
 void Game::unproject (GLdouble srcX, GLdouble srcY,
-                      GLdouble *objX, GLdouble *objY, GLdouble *objZ) {
+                      GLdouble *objX, GLdouble *objY) {
 	GLdouble modelview[16], projection[16];
 	GLint viewport[4];
 	GLfloat srcZ;
+	GLdouble objZ;
 
 	glGetDoublev (GL_MODELVIEW_MATRIX, modelview);
 	glGetDoublev (GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv (GL_VIEWPORT, viewport);
 	srcY = (GLfloat) (viewport[3] - srcY);
 	glReadPixels ((GLint) srcX, (GLint) srcY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
-	gluUnProject (srcX, srcY, srcZ, modelview, projection, viewport, objX, objY, objZ);
+	gluUnProject (srcX, srcY, srcZ, modelview, projection, viewport, objX, objY, &objZ);
 }
 
 
