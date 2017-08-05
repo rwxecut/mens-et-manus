@@ -17,5 +17,5 @@ public:
 	point<uint16_t> size;
 
 	void draw ();
-	void getHoveredTile (GLdouble x, GLdouble y, int16_t *tileX, int16_t *tileY);
+	void getHoveredTile (GLdouble x, GLdouble y);
 };

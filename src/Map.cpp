@@ -27,7 +27,7 @@ void Map::draw () {
 	glDisableClientState (GL_VERTEX_ARRAY);
 }
 
-void Map::getHoveredTile (GLdouble x, GLdouble y, int16_t *tileX, int16_t *tileY) {
+void Map::getHoveredTile (GLdouble x, GLdouble y) {
 	struct {
 		int16_t x; // Coordinates of centers
 		int16_t y; // of the two nearest tiles
@@ -52,10 +52,10 @@ void Map::getHoveredTile (GLdouble x, GLdouble y, int16_t *tileX, int16_t *tileY
 		tCntr[i].dist = std::sqrt (dist_x * dist_x + dist_y * dist_y);
 	}
 	if (tCntr[0].dist < tCntr[1].dist) { // Return the nearest tile center
-		*tileX = tCntr[0].x >> 1;
-		*tileY = tCntr[0].y;
+		Tile::selected.x = tCntr[0].x >> 1;
+		Tile::selected.y = tCntr[0].y;
 	} else {
-		*tileX = tCntr[1].x >> 1;
-		*tileY = tCntr[1].y;
+		Tile::selected.x = tCntr[1].x >> 1;
+		Tile::selected.y = tCntr[1].y;
 	}
 }

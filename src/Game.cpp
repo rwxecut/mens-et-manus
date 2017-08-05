@@ -56,7 +56,7 @@ void Game::update () {
 	// Print debug info to title
 	GLdouble unprojX, unprojY;
 	unproject (mouse.x, mouse.y, &unprojX, &unprojY);
-	map.getHoveredTile (unprojX, unprojY, &Tile::selected.x, &Tile::selected.y);
+	map.getHoveredTile (unprojX, unprojY);
 	char posstr[64];
 	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
 	         mouse.x, mouse.y, unprojX, unprojY);
