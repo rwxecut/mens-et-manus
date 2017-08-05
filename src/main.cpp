@@ -2,9 +2,7 @@
 
 int main (int argc, char *args[]) {
 
-	GameConfig const *gConf = new GameConfig ();
-
-	Game game (gConf);
+	Game game;
 	game.mainLoop ();
 
 	return 0;

@@ -1,12 +1,12 @@
 #include "Cam.h"
 
-Cam::Cam (GameConfig const *gConf) {
-	// Init camera values from config
-	FOV = gConf->video.cam.fov;
-	renderDistance = gConf->video.cam.renderDistance;
-	pos.X = gConf->video.cam.pos.x;
-	pos.Y = gConf->video.cam.pos.y;
-	pos.Z = gConf->video.cam.pos.z;
+Cam::Cam () {
+	// TODO: move to config
+	FOV = 90.0;
+	renderDistance = 1000.0;
+	pos.X = 0.0;
+	pos.Y = -100.0;
+	pos.Z = 500.0;
 }
 
 void Cam::setup () {

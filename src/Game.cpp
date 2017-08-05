@@ -3,8 +3,11 @@
 #include "Game.h"
 #include "exceptions.h"
 
-Game::Game (GameConfig const *config)
-		: gConf (config), cam (config) {
+#define SCR_WIDTH 640  // TODO: move to config
+#define SCR_HEIGHT 480
+
+Game::Game ()
+		: cam () {
 	SDL_Log ("Debug SDL");
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
@@ -17,7 +20,7 @@ Game::Game (GameConfig const *config)
 
 	window = SDL_CreateWindow ("Mens Et Manus",
 	                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	                           gConf->screen.width, gConf->screen.height,
+	                           SCR_WIDTH, SCR_HEIGHT,
 	                           SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
 	if (!window)
@@ -25,8 +28,9 @@ Game::Game (GameConfig const *config)
 		                        "Window could not be created!");
 
 	// Init OpenGL
-	context = SDL_GL_CreateContext (window);
-	if (!context) throw video::GL_Error ("Failed to create OpenGL context!");
+	glContext = SDL_GL_CreateContext (window);
+	if (!glContext)
+		throw video::GL_Error ("Failed to create OpenGL context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
 		SDL_LogWarn (SDL_LOG_CATEGORY_VIDEO, "Can't enable VSync!");
 
@@ -58,8 +62,8 @@ void Game::update () {
 	unproject (mouse.x, mouse.y, &unprojX, &unprojY);
 	map.getHoveredTile (unprojX, unprojY);
 	char posstr[64];
-	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
-	         mouse.x, mouse.y, unprojX, unprojY);
+	std::sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
+	              mouse.x, mouse.y, unprojX, unprojY);
 	SDL_SetWindowTitle (window, posstr);
 }
 
@@ -91,9 +95,9 @@ void Game::mousePositionHandler () {
 	SDL_GetMouseState (&mouse.x, &mouse.y);
 	// @formatter:off
 	cam.accelerate ((mouse.x < mouseZoneMoveMap),
-					(mouse.x > gConf->screen.width - mouseZoneMoveMap),
+					(mouse.x > SCR_WIDTH - mouseZoneMoveMap),
 					(mouse.y < mouseZoneMoveMap),
-					(mouse.y > gConf->screen.height - mouseZoneMoveMap));
+					(mouse.y > SCR_HEIGHT - mouseZoneMoveMap));
 	// @formatter:on
 }
 

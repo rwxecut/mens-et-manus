@@ -6,16 +6,14 @@
 #include <SDL_opengl.h>
 #include <GL/glu.h>
 
-#include "GameConfig.h"
 #include "Map.h"
 #include "Cam.h"
 #include "Mouse.h"
 
 
 class Game {
-	SDL_GLContext context;
+	SDL_GLContext glContext;
 	SDL_Window *window;
-	GameConfig const *gConf;
 
 	Map map;
 	Cam cam;
@@ -30,7 +28,7 @@ class Game {
 	void mouseScrollHandler (int32_t delta);
 
 public:
-	Game (GameConfig const *config);
+	Game ();
 	~Game ();
 
 	int mainLoop ();

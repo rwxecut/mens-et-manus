@@ -10,7 +10,6 @@ set(SOURCE_DIR src)
 set(INCLUDE_DIR include)
 
 set(SOURCE_FILENAMES
-        GameConfig.cpp
         Game.cpp
         Cam.cpp
         Map.cpp
