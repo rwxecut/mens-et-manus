@@ -7,7 +7,7 @@
 #define SCR_HEIGHT 480
 
 Game::Game ()
-		: cam () {
+		: config (), cam () {
 	SDL_Log ("Debug SDL");
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)

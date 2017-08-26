@@ -12,6 +12,7 @@ set(INCLUDE_DIR include)
 set(SOURCE_FILENAMES
         Game.cpp
         Cam.cpp
+        Config.cpp
         Map.cpp
         main.cpp
         MainMenu.cpp
@@ -28,7 +29,6 @@ endif()
 
 set(ENV{LUA_DIR} lua)
 set(SDL2_PATH SDL2)
-set(SELENE_INCLUDE_DIR Selene/include)
 
 find_package(Lua REQUIRED)
 find_package(SDL2 REQUIRED)
@@ -37,7 +37,6 @@ find_package(OpenGL REQUIRED)
 include_directories(
         ${INCLUDE_DIR}
         ${LUA_INCLUDE_DIR}
-        ${SELENE_INCLUDE_DIR}
         ${SDL2_INCLUDE_DIR}
         ${OPENGL_INCLUDE_DIR})
 

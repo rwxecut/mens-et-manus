@@ -9,12 +9,14 @@
 #include "Map.h"
 #include "Cam.h"
 #include "Mouse.h"
+#include "Config.h"
 
 
 class Game {
 	SDL_GLContext glContext;
 	SDL_Window *window;
 
+	Config config;
 	Map map;
 	Cam cam;
 	Mouse mouse;
