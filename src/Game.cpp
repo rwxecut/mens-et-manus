@@ -53,13 +53,13 @@ void Game::update () {
 	cam.move ();
 
 	GLdouble unprojX, unprojY;
-	unproject (mouse.x, mouse.y, &unprojX, &unprojY);
+	unproject (mouse.pos.x, mouse.pos.y, &unprojX, &unprojY);
 	map.getHoveredTile (unprojX, unprojY);
 
 	// Print debug info to title
 	char posstr[64];
 	std::sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
-	              mouse.x, mouse.y, unprojX, unprojY);
+	              mouse.pos.x, mouse.pos.y, unprojX, unprojY);
 	SDL_SetWindowTitle (window, posstr);
 }
 
@@ -86,27 +86,6 @@ void Game::unproject (GLdouble srcX, GLdouble srcY,
 }
 
 
-void Game::mousePositionHandler () {
-	int mouseZoneMoveMap = 40; // TODO: move to Mouse
-	SDL_GetMouseState (&mouse.x, &mouse.y);
-	// @formatter:off
-	cam.accelerate ((mouse.x < mouseZoneMoveMap),
-					(mouse.x > attrib.screenSize.width - mouseZoneMoveMap),
-					(mouse.y < mouseZoneMoveMap),
-					(mouse.y > attrib.screenSize.height - mouseZoneMoveMap));
-	// @formatter:on
-}
-
-
-void Game::mouseScrollHandler (int32_t delta) {
-	GLdouble scrollSpeed = 20.0;      //
-	GLdouble minZ = 200.0;            // TODO: move to Mouse
-	GLdouble maxZ = 700.0;            //
-	if ((delta > 0 && cam.pos.z < maxZ) || (delta < 0 && cam.pos.z > minZ))
-		cam.pos.z += delta * scrollSpeed;
-}
-
-
 void Game::keyHandler () {
 	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
 	cam.accelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
@@ -124,7 +103,7 @@ int Game::mainLoop () {
 					running = false;
 					break;
 				case SDL_MOUSEWHEEL:
-					mouseScrollHandler (event.wheel.y);
+					mouse.scrollHandler (&cam, event.wheel.y);
 					break;
 				default:
 					break;
@@ -133,7 +112,7 @@ int Game::mainLoop () {
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (window);
-		mousePositionHandler ();
+		mouse.positionHandler (&cam, attrib.screenSize.width, attrib.screenSize.height);
 	}
 	return 1;
 }

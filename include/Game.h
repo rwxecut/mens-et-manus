@@ -31,8 +31,6 @@ class Game {
 	void unproject (GLdouble srcX, GLdouble srcY,
 	                GLdouble *objX, GLdouble *objY);
 	void keyHandler ();
-	void mousePositionHandler ();
-	void mouseScrollHandler (int32_t delta);
 
 public:
 	Game (Config *config);

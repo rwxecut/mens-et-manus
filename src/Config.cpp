@@ -1,3 +1,4 @@
+#include <Config.h>
 #include "Config.h"
 
 #define CONFIG_PATH "../assets/config.lua"
@@ -14,7 +15,9 @@ Config::Config () {
 	lua_pop (L, 1);
 
 	lua_getglobal (L, "cam");
-	cam.FOV = (GLdouble) lua::getTableField<double> (L, "FOV");
+	cam.moveSpeedMax = (GLdouble) lua::getTableField<double> (L, "moveSpeedMax");
+	cam.moveAcceleration = (GLdouble) lua::getTableField<double> (L, "moveAcceleration");
+	cam.zoomSpeed = (GLdouble) lua::getTableField<double> (L, "zoomSpeed");
 	lua_pop (L, 1);
 
 	lua_close (L);

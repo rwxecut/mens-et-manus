@@ -6,11 +6,7 @@ screen = {
 }
 
 cam = {
-	FOV = 90.0,
-	renderDistance = 1000.0,
-	pos = {
-		x = 0.0,
-		y = -100.0,
-		z = 500.0
-	}
+	moveSpeedMax = 10.0,
+	moveAcceleration = 0.5,
+	zoomSpeed = 20.0
 }

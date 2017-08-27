@@ -2,11 +2,15 @@
 #include "Cam.h"
 
 Cam::Cam (Config *config) {
-	FOV = config->cam.FOV;
+	moveSpeedMax = config -> cam.moveSpeedMax;
+	moveAcceleration = config -> cam.moveAcceleration;
+	zoomSpeed = config -> cam.zoomSpeed;
 }
 
-const GLdouble Cam::renderDistance = 1000.0f;
-const GLdouble Cam::moveSpeedMax = 10.0f;
+const GLdouble Cam::FOV = 90.0;
+const GLdouble Cam::renderDistance = 1000.0;
+const GLdouble Cam::minZ = 200.0;
+const GLdouble Cam::maxZ = 700.0;
 
 void Cam::setup () {
 	// Setup camera for drawing
@@ -42,4 +46,9 @@ void Cam::move () {
 	sight.x += moveSpeed.x;
 	pos.y += moveSpeed.y;
 	sight.y += moveSpeed.y;
+}
+
+void Cam::zoom (int delta) {
+	if ((delta > 0 && pos.z < maxZ) || (delta < 0 && pos.z > minZ))
+		pos.z += delta * zoomSpeed;
 }

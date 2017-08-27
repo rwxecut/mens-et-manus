@@ -10,16 +10,17 @@ public:
 	Cam (Config *config);
 
 	// General variables & methods
-	GLdouble FOV;
-	static const GLdouble renderDistance;
+	static const GLdouble FOV, renderDistance;
 	point3d<GLdouble> pos = {0, -100, 500}, sight = {0, 0, 0};
 	void setup ();
 
 	// Moving variables & methods
 	vector2d<GLdouble> moveSpeed;
-	static const GLdouble moveSpeedMax;
-	GLdouble moveAcceleration = 0.5;    // TODO: move to config
+	GLdouble moveSpeedMax, moveAcceleration;
+	GLdouble zoomSpeed;
+	static const GLdouble minZ, maxZ;
 	void accelerate (bool left, bool right, bool up, bool down);
 	void decelerate ();
 	void move ();
+	void zoom (int delta);
 };

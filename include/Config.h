@@ -19,6 +19,7 @@ public:
 		int width, height;
 	} screen;
 	struct {
-		GLdouble FOV;
+		GLdouble moveSpeedMax, moveAcceleration;
+		GLdouble zoomSpeed;
 	} cam;
 };
