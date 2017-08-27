@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cmath>
-#include "point.h"
+#include "geometry.h"
 #include "Tile.h"
 
 class Map {

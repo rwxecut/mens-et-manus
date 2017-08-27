@@ -3,11 +3,10 @@
 
 Cam::Cam (Config *config) {
 	FOV = config->cam.FOV;
-	renderDistance = 1000.0;
-	pos.X = 0.0;
-	pos.Y = -100.0;
-	pos.Z = 500.0;
 }
+
+const GLdouble Cam::renderDistance = 1000.0f;
+const GLdouble Cam::moveSpeedMax = 10.0f;
 
 void Cam::setup () {
 	// Setup camera for drawing
@@ -15,34 +14,32 @@ void Cam::setup () {
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 	gluPerspective (FOV, 1, 1, renderDistance);
-	gluLookAt (pos.X, pos.Y, pos.Z, sight.X, sight.Y, sight.Z, 0, 1, 0);
+	gluLookAt (pos.x, pos.y, pos.z, sight.x, sight.y, sight.z, 0, 1, 0);
 }
 
 void Cam::accelerate (bool left, bool right, bool up, bool down) {
 	// Accelerate camera if moving
-	GLdouble moveSpeedMax = 10.0;    // TODO: move to config
-
-	if (left && (moveSpeedX >= -moveSpeedMax))
-		moveSpeedX -= 2 * moveAcceleration;
-	if (right && (moveSpeedX <= moveSpeedMax))
-		moveSpeedX += 2 * moveAcceleration;
-	if (up && (moveSpeedY <= moveSpeedMax))
-		moveSpeedY += 2 * moveAcceleration;
-	if (down && (moveSpeedY >= -moveSpeedMax))
-		moveSpeedY -= 2 * moveAcceleration;
+	if (left && (moveSpeed.x >= -moveSpeedMax))
+		moveSpeed.x -= 2 * moveAcceleration;
+	if (right && (moveSpeed.x <= moveSpeedMax))
+		moveSpeed.x += 2 * moveAcceleration;
+	if (up && (moveSpeed.y <= moveSpeedMax))
+		moveSpeed.y += 2 * moveAcceleration;
+	if (down && (moveSpeed.y >= -moveSpeedMax))
+		moveSpeed.y -= 2 * moveAcceleration;
 }
 
 void Cam::decelerate () {
 	// Decelerate camera if stopping moving
-	if (moveSpeedX < 0) moveSpeedX += moveAcceleration;
-	if (moveSpeedX > 0) moveSpeedX -= moveAcceleration;
-	if (moveSpeedY < 0) moveSpeedY += moveAcceleration;
-	if (moveSpeedY > 0) moveSpeedY -= moveAcceleration;
+	if (moveSpeed.x < 0) moveSpeed.x += moveAcceleration;
+	if (moveSpeed.x > 0) moveSpeed.x -= moveAcceleration;
+	if (moveSpeed.y < 0) moveSpeed.y += moveAcceleration;
+	if (moveSpeed.y > 0) moveSpeed.y -= moveAcceleration;
 }
 
 void Cam::move () {
-	pos.X += moveSpeedX;
-	sight.X += moveSpeedX;
-	pos.Y += moveSpeedY;
-	sight.Y += moveSpeedY;
+	pos.x += moveSpeed.x;
+	sight.x += moveSpeed.x;
+	pos.y += moveSpeed.y;
+	sight.y += moveSpeed.y;
 }

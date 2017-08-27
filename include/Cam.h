@@ -2,6 +2,7 @@
 
 #include <GL/glu.h>
 #include <Config.h>
+#include "geometry.h"
 
 class Cam {
 
@@ -10,17 +11,13 @@ public:
 
 	// General variables & methods
 	GLdouble FOV;
-	GLdouble renderDistance;
-	struct {
-		GLdouble X, Y, Z;
-	} pos;
-	struct {
-		GLdouble X = 0, Y = 0, Z = 0;
-	} sight;
+	static const GLdouble renderDistance;
+	point3d<GLdouble> pos = {0, -100, 500}, sight = {0, 0, 0};
 	void setup ();
 
 	// Moving variables & methods
-	GLdouble moveSpeedX, moveSpeedY;
+	vector2d<GLdouble> moveSpeed;
+	static const GLdouble moveSpeedMax;
 	GLdouble moveAcceleration = 0.5;    // TODO: move to config
 	void accelerate (bool left, bool right, bool up, bool down);
 	void decelerate ();

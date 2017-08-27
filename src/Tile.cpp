@@ -1,8 +1,7 @@
-#include <point.h>
 #include "Tile.h"
 
-GLfloat const Tile::hex_l = 100.0f;
-GLfloat const Tile::hex_r = 86.6f;
+const GLfloat Tile::hex_l = 100.0f;
+const GLfloat Tile::hex_r = 86.6f;
 
 void Tile::init (uint16_t x, uint16_t y) {
 	pos.x = x;

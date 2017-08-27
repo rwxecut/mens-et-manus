@@ -48,7 +48,7 @@ Game::~Game () {
 
 void Game::update () {
 	keyHandler ();
-	if (cam.moveSpeedX != 0 || cam.moveSpeedY != 0)
+	if (cam.moveSpeed.x != 0 || cam.moveSpeed.y != 0)
 		cam.decelerate ();
 	cam.move ();
 
@@ -87,7 +87,7 @@ void Game::unproject (GLdouble srcX, GLdouble srcY,
 
 
 void Game::mousePositionHandler () {
-	int mouseZoneMoveMap = 40; // TODO: move to config
+	int mouseZoneMoveMap = 40; // TODO: move to Mouse
 	SDL_GetMouseState (&mouse.x, &mouse.y);
 	// @formatter:off
 	cam.accelerate ((mouse.x < mouseZoneMoveMap),
@@ -100,10 +100,10 @@ void Game::mousePositionHandler () {
 
 void Game::mouseScrollHandler (int32_t delta) {
 	GLdouble scrollSpeed = 20.0;      //
-	GLdouble minZ = 200.0;            // TODO: move to config
+	GLdouble minZ = 200.0;            // TODO: move to Mouse
 	GLdouble maxZ = 700.0;            //
-	if ((delta > 0 && cam.pos.Z < maxZ) || (delta < 0 && cam.pos.Z > minZ))
-		cam.pos.Z += delta * scrollSpeed;
+	if ((delta > 0 && cam.pos.z < maxZ) || (delta < 0 && cam.pos.z > minZ))
+		cam.pos.z += delta * scrollSpeed;
 }
 
 

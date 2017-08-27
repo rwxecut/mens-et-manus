@@ -11,7 +11,7 @@
 #include "Cam.h"
 #include "Mouse.h"
 #include "Config.h"
-#include "point.h"
+#include "geometry.h"
 
 
 class Game {
