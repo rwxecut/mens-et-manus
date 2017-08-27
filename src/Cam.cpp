@@ -1,8 +1,8 @@
+#include <Config.h>
 #include "Cam.h"
 
-Cam::Cam () {
-	// TODO: move to config
-	FOV = 90.0;
+Cam::Cam (Config *config) {
+	FOV = config->cam.FOV;
 	renderDistance = 1000.0;
 	pos.X = 0.0;
 	pos.Y = -100.0;

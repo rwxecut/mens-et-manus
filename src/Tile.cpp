@@ -9,7 +9,7 @@ void Tile::init (uint16_t x, uint16_t y) {
 	pos.y = y;
 }
 
-point<int16_t> Tile::selected;
+point2d<int16_t> Tile::selected;
 
 void Tile::draw () {
 	GLfloat dy = pos.y * hex_l * 3 / 2;

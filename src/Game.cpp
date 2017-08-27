@@ -1,14 +1,9 @@
-#include <stdio.h>
-#include <Map.h>
-#include "Game.h"
-#include "exceptions.h"
+#include <Game.h>
 
-#define SCR_WIDTH 640  // TODO: move to config
-#define SCR_HEIGHT 480
-
-Game::Game ()
-		: config (), cam () {
-	SDL_Log ("Debug SDL");
+Game::Game (Config *config)
+		: cam (config) {
+	attrib.screenSize.width = config->screen.width;
+	attrib.screenSize.height = config->screen.height;
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
@@ -20,7 +15,7 @@ Game::Game ()
 
 	window = SDL_CreateWindow ("Mens Et Manus",
 	                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	                           SCR_WIDTH, SCR_HEIGHT,
+	                           attrib.screenSize.width, attrib.screenSize.height,
 	                           SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
 	if (!window)
@@ -57,10 +52,11 @@ void Game::update () {
 		cam.decelerate ();
 	cam.move ();
 
-	// Print debug info to title
 	GLdouble unprojX, unprojY;
 	unproject (mouse.x, mouse.y, &unprojX, &unprojY);
 	map.getHoveredTile (unprojX, unprojY);
+
+	// Print debug info to title
 	char posstr[64];
 	std::sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
 	              mouse.x, mouse.y, unprojX, unprojY);
@@ -95,9 +91,9 @@ void Game::mousePositionHandler () {
 	SDL_GetMouseState (&mouse.x, &mouse.y);
 	// @formatter:off
 	cam.accelerate ((mouse.x < mouseZoneMoveMap),
-					(mouse.x > SCR_WIDTH - mouseZoneMoveMap),
+					(mouse.x > attrib.screenSize.width - mouseZoneMoveMap),
 					(mouse.y < mouseZoneMoveMap),
-					(mouse.y > SCR_HEIGHT - mouseZoneMoveMap));
+					(mouse.y > attrib.screenSize.height - mouseZoneMoveMap));
 	// @formatter:on
 }
 

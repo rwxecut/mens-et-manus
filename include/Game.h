@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h>
 #include <stdexcept>
 #include <sstream>
 #include <SDL.h>
@@ -10,16 +11,20 @@
 #include "Cam.h"
 #include "Mouse.h"
 #include "Config.h"
+#include "point.h"
 
 
 class Game {
 	SDL_GLContext glContext;
 	SDL_Window *window;
 
-	Config config;
 	Map map;
 	Cam cam;
 	Mouse mouse;
+
+	struct {
+		size2d<int> screenSize;
+	} attrib;
 
 	void update ();
 	void render ();
@@ -30,7 +35,7 @@ class Game {
 	void mouseScrollHandler (int32_t delta);
 
 public:
-	Game ();
+	Game (Config *config);
 	~Game ();
 
 	int mainLoop ();

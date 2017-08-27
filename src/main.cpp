@@ -1,8 +1,9 @@
 #include "Game.h"
 
 int main (int argc, char *args[]) {
+	Config config;
 
-	Game game;
+	Game game(&config);
 	game.mainLoop ();
 
 	return 0;

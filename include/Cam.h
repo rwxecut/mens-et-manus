@@ -1,11 +1,12 @@
 #pragma once
 
 #include <GL/glu.h>
+#include <Config.h>
 
 class Cam {
 
 public:
-	Cam ();
+	Cam (Config *config);
 
 	// General variables & methods
 	GLdouble FOV;

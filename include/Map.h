@@ -14,7 +14,7 @@ public:
 	~Map ();
 	Tile **tiles;
 
-	point<uint16_t> size;
+	point2d<uint16_t> size;
 
 	void draw ();
 	void getHoveredTile (GLdouble x, GLdouble y);

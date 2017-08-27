@@ -2,6 +2,7 @@
 
 #include <GL/gl.h>
 #include "exceptions.h"
+#include "lua_overlay.h"
 
 extern "C" {
 #include <lua.h>
@@ -15,11 +16,9 @@ public:
 	Config ();
 
 	struct {
-		struct {
-			int width, height;
-		} screen;
-		struct {
-			GLdouble FOV;
-		} cam;
-	} config;
+		int width, height;
+	} screen;
+	struct {
+		GLdouble FOV;
+	} cam;
 };

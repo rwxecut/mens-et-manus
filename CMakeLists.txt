@@ -15,7 +15,6 @@ set(SOURCE_FILENAMES
         Config.cpp
         Map.cpp
         main.cpp
-        MainMenu.cpp
         Tile.cpp)
 
 include(prepend)

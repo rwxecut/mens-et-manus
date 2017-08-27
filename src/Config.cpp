@@ -9,20 +9,13 @@ Config::Config () {
 		throw lua::LuaError ("Error while loading config.lua");
 
 	lua_getglobal (L, "screen");
-	lua_pushstring (L, "width");
-	lua_gettable (L, -2);
-	config.screen.width = (int) lua_tointeger (L, -1);
+	screen.width = lua::getTableField<int> (L, "width");
+	screen.height = lua::getTableField<int> (L, "height");
 	lua_pop (L, 1);
-	lua_pushstring (L, "height");
-	lua_gettable (L, -2);
-	config.screen.height = (int) lua_tointeger (L, -1);
-	lua_pop (L, 2);
 
 	lua_getglobal (L, "cam");
-	lua_pushstring (L, "FOV");
-	lua_gettable (L, -2);
-	config.cam.FOV = (GLdouble) lua_tonumber (L, -1);
-	lua_pop (L, 2);
+	cam.FOV = (GLdouble) lua::getTableField<double> (L, "FOV");
+	lua_pop (L, 1);
 
 	lua_close (L);
 }
