@@ -4,15 +4,14 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cmath>
+#include <vector>
 #include "geometry.h"
 #include "Tile.h"
 
 class Map {
-
 public:
 	Map ();
-	~Map ();
-	Tile **tiles;
+	std::vector<std::vector<Tile> > tiles;
 
 	point2d<uint16_t> size;
 

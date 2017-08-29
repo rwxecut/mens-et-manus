@@ -3,13 +3,12 @@
 #include "util.h"
 
 Map::Map () {
-	tiles = mem::new2DArray<Tile> (size.x, size.y);
-	for (uint16_t y = 0; y < size.y; y++)
-		for (uint16_t x = 0; x < size.x; x++) {}
+	for (uint16_t y = 0; y < size.y; y++) {
+		tiles.push_back (std::vector<Tile> ());
+		for (uint16_t x = 0; x < size.x; x++) {
+			tiles[y].push_back (Tile (x, y));
+		}
 	}
-
-Map::~Map () {
-	mem::delete2DArray (tiles);
 }
 
 void Map::draw () {

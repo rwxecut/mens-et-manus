@@ -3,7 +3,7 @@
 const GLfloat Tile::hex_l = 100.0f;
 const GLfloat Tile::hex_r = 86.6f;
 
-void Tile::init (uint16_t x, uint16_t y) {
+Tile::Tile (uint16_t x, uint16_t y) {
 	pos.x = x;
 	pos.y = y;
 }

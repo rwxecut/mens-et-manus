@@ -12,6 +12,6 @@ public:
 	point2d<uint16_t> pos;
 	static point2d<int16_t> selected;
 
-	void init (uint16_t x, uint16_t y);
+	Tile (uint16_t x, uint16_t y);
 	void draw ();
 };
