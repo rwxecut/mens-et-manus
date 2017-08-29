@@ -1,13 +1,16 @@
+#include <Config.h>
 #include "Cam.h"
 
-Cam::Cam (GameConfig const *gConf) {
-	// Init camera values from config
-	FOV = gConf->video.cam.fov;
-	renderDistance = gConf->video.cam.renderDistance;
-	pos.X = gConf->video.cam.pos.x;
-	pos.Y = gConf->video.cam.pos.y;
-	pos.Z = gConf->video.cam.pos.z;
+Cam::Cam (Config *config) {
+	moveSpeedMax = config -> cam.moveSpeedMax;
+	moveAcceleration = config -> cam.moveAcceleration;
+	zoomSpeed = config -> cam.zoomSpeed;
 }
+
+const GLdouble Cam::FOV = 90.0;
+const GLdouble Cam::renderDistance = 1000.0;
+const GLdouble Cam::minZ = 200.0;
+const GLdouble Cam::maxZ = 700.0;
 
 void Cam::setup () {
 	// Setup camera for drawing
@@ -15,34 +18,37 @@ void Cam::setup () {
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 	gluPerspective (FOV, 1, 1, renderDistance);
-	gluLookAt (pos.X, pos.Y, pos.Z, sight.X, sight.Y, sight.Z, 0, 1, 0);
+	gluLookAt (pos.x, pos.y, pos.z, sight.x, sight.y, sight.z, 0, 1, 0);
 }
 
 void Cam::accelerate (bool left, bool right, bool up, bool down) {
 	// Accelerate camera if moving
-	GLdouble moveSpeedMax = 10.0;    // TODO: move to config
-
-	if (left && (moveSpeedX >= -moveSpeedMax))
-		moveSpeedX -= 2 * moveAcceleration;
-	if (right && (moveSpeedX <= moveSpeedMax))
-		moveSpeedX += 2 * moveAcceleration;
-	if (up && (moveSpeedY <= moveSpeedMax))
-		moveSpeedY += 2 * moveAcceleration;
-	if (down && (moveSpeedY >= -moveSpeedMax))
-		moveSpeedY -= 2 * moveAcceleration;
+	if (left && (moveSpeed.x >= -moveSpeedMax))
+		moveSpeed.x -= 2 * moveAcceleration;
+	if (right && (moveSpeed.x <= moveSpeedMax))
+		moveSpeed.x += 2 * moveAcceleration;
+	if (up && (moveSpeed.y <= moveSpeedMax))
+		moveSpeed.y += 2 * moveAcceleration;
+	if (down && (moveSpeed.y >= -moveSpeedMax))
+		moveSpeed.y -= 2 * moveAcceleration;
 }
 
 void Cam::decelerate () {
 	// Decelerate camera if stopping moving
-	if (moveSpeedX < 0) moveSpeedX += moveAcceleration;
-	if (moveSpeedX > 0) moveSpeedX -= moveAcceleration;
-	if (moveSpeedY < 0) moveSpeedY += moveAcceleration;
-	if (moveSpeedY > 0) moveSpeedY -= moveAcceleration;
+	if (moveSpeed.x < 0) moveSpeed.x += moveAcceleration;
+	if (moveSpeed.x > 0) moveSpeed.x -= moveAcceleration;
+	if (moveSpeed.y < 0) moveSpeed.y += moveAcceleration;
+	if (moveSpeed.y > 0) moveSpeed.y -= moveAcceleration;
 }
 
 void Cam::move () {
-	pos.X += moveSpeedX;
-	sight.X += moveSpeedX;
-	pos.Y += moveSpeedY;
-	sight.Y += moveSpeedY;
+	pos.x += moveSpeed.x;
+	sight.x += moveSpeed.x;
+	pos.y += moveSpeed.y;
+	sight.y += moveSpeed.y;
+}
+
+void Cam::zoom (int delta) {
+	if ((delta > 0 && pos.z < maxZ) || (delta < 0 && pos.z > minZ))
+		pos.z += delta * zoomSpeed;
 }

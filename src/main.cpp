@@ -1,14 +1,9 @@
-#include "Save.h"
 #include "Game.h"
-#include "GameConfig.h"
-#include <SDL.h>
 
 int main (int argc, char *args[]) {
+	Config config;
 
-	GameConfig const gConf;
-	Save save;
-
-	Game game (&gConf, &save);
+	Game game(&config);
 	game.mainLoop ();
 
 	return 0;

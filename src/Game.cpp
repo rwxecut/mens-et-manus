@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <Map.h>
-#include "Game.h"
-#include "exceptions.h"
+#include <Game.h>
 
-Game::Game (GameConfig const *config, Save const *save)
-		: gConf (config), cam (config) {
-	SDL_Log ("Debug SDL");
+Game::Game (Config *config)
+		: cam (config) {
+	attrib.screenSize.width = config->screen.width;
+	attrib.screenSize.height = config->screen.height;
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
@@ -17,7 +15,7 @@ Game::Game (GameConfig const *config, Save const *save)
 
 	window = SDL_CreateWindow ("Mens Et Manus",
 	                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	                           gConf->screen.width, gConf->screen.height,
+	                           attrib.screenSize.width, attrib.screenSize.height,
 	                           SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
 	if (!window)
@@ -25,8 +23,9 @@ Game::Game (GameConfig const *config, Save const *save)
 		                        "Window could not be created!");
 
 	// Init OpenGL
-	context = SDL_GL_CreateContext (window);
-	if (!context) throw video::GL_Error ("Failed to create OpenGL context!");
+	glContext = SDL_GL_CreateContext (window);
+	if (!glContext)
+		throw video::GL_Error ("Failed to create OpenGL context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
 		SDL_LogWarn (SDL_LOG_CATEGORY_VIDEO, "Can't enable VSync!");
 
@@ -49,24 +48,27 @@ Game::~Game () {
 
 void Game::update () {
 	keyHandler ();
-	if (cam.moveSpeedX != 0 || cam.moveSpeedY != 0)
+	if (cam.moveSpeed.x != 0 || cam.moveSpeed.y != 0)
 		cam.decelerate ();
 	cam.move ();
 
-	// Print debug info to title
 	GLdouble unprojX, unprojY;
-	unproject (mouse.x, mouse.y, &unprojX, &unprojY);
-	map.getHoveredTile (unprojX, unprojY, &Tile::selected.x, &Tile::selected.y);
+	unproject (mouse.pos.x, mouse.pos.y, &unprojX, &unprojY);
+	map.getHoveredTile (unprojX, unprojY);
+
+	// Print debug info to title
 	char posstr[64];
-	sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
-	         mouse.x, mouse.y, unprojX, unprojY);
+	std::sprintf (posstr, "X: %d Y: %d posX: %0.1f posY: %0.1f",
+	              mouse.pos.x, mouse.pos.y, unprojX, unprojY);
 	SDL_SetWindowTitle (window, posstr);
 }
+
 
 void Game::render () {
 	cam.setup ();
 	map.draw ();
 }
+
 
 void Game::unproject (GLdouble srcX, GLdouble srcY,
                       GLdouble *objX, GLdouble *objY) {
@@ -81,27 +83,6 @@ void Game::unproject (GLdouble srcX, GLdouble srcY,
 	srcY = (GLfloat) (viewport[3] - srcY);
 	glReadPixels ((GLint) srcX, (GLint) srcY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
 	gluUnProject (srcX, srcY, srcZ, modelview, projection, viewport, objX, objY, &objZ);
-}
-
-
-void Game::mousePositionHandler () {
-	int mouseZoneMoveMap = 40; // TODO: move to config
-	SDL_GetMouseState (&mouse.x, &mouse.y);
-	// @formatter:off
-	cam.accelerate ((mouse.x < mouseZoneMoveMap),
-					(mouse.x > gConf->screen.width - mouseZoneMoveMap),
-					(mouse.y < mouseZoneMoveMap),
-					(mouse.y > gConf->screen.height - mouseZoneMoveMap));
-	// @formatter:on
-}
-
-
-void Game::mouseScrollHandler (int32_t delta) {
-	GLdouble scrollSpeed = 20.0;      //
-	GLdouble minZ = 200.0;            // TODO: move to config
-	GLdouble maxZ = 700.0;            //
-	if ((delta > 0 && cam.pos.Z < maxZ) || (delta < 0 && cam.pos.Z > minZ))
-		cam.pos.Z += delta * scrollSpeed;
 }
 
 
@@ -122,7 +103,7 @@ int Game::mainLoop () {
 					running = false;
 					break;
 				case SDL_MOUSEWHEEL:
-					mouseScrollHandler (event.wheel.y);
+					mouse.scrollHandler (&cam, event.wheel.y);
 					break;
 				default:
 					break;
@@ -131,7 +112,7 @@ int Game::mainLoop () {
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (window);
-		mousePositionHandler ();
+		mouse.positionHandler (&cam, attrib.screenSize.width, attrib.screenSize.height);
 	}
 	return 1;
 }

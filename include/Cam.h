@@ -1,28 +1,26 @@
 #pragma once
 
 #include <GL/glu.h>
-#include "GameConfig.h"
+#include <Config.h>
+#include "geometry.h"
 
 class Cam {
 
 public:
-	Cam (GameConfig const *gConf);
+	Cam (Config *config);
 
 	// General variables & methods
-	GLdouble FOV;
-	GLdouble renderDistance;
-	struct {
-		GLdouble X, Y, Z;
-	} pos;
-	struct {
-		GLdouble X = 0, Y = 0, Z = 0;
-	} sight;
+	static const GLdouble FOV, renderDistance;
+	point3d<GLdouble> pos = {0, -100, 500}, sight = {0, 0, 0};
 	void setup ();
 
 	// Moving variables & methods
-	GLdouble moveSpeedX, moveSpeedY;
-	GLdouble moveAcceleration = 0.5;    // TODO: move to config
+	vector2d<GLdouble> moveSpeed;
+	GLdouble moveSpeedMax, moveAcceleration;
+	GLdouble zoomSpeed;
+	static const GLdouble minZ, maxZ;
 	void accelerate (bool left, bool right, bool up, bool down);
 	void decelerate ();
 	void move ();
+	void zoom (int delta);
 };
