@@ -9,11 +9,13 @@
 #include "Tile.h"
 
 class Map {
-public:
-	Map ();
+
 	std::vector<std::vector<Tile> > tiles;
 
-	point2d<uint16_t> size;
+public:
+	Map ();
+
+	size2d<uint16_t> size;
 
 	void draw ();
 	void getHoveredTile (GLdouble x, GLdouble y);

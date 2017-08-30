@@ -3,9 +3,9 @@
 #include "util.h"
 
 Map::Map () {
-	for (uint16_t y = 0; y < size.y; y++) {
+	for (uint16_t y = 0; y < size.height; y++) {
 		tiles.push_back (std::vector<Tile> ());
-		for (uint16_t x = 0; x < size.x; x++) {
+		for (uint16_t x = 0; x < size.width; x++) {
 			tiles[y].push_back (Tile (x, y));
 		}
 	}
@@ -14,8 +14,8 @@ Map::Map () {
 void Map::draw () {
 	glLineWidth (2.0);
 	glEnableClientState (GL_VERTEX_ARRAY);
-	for (uint16_t y = 0; y < size.y; y++)
-		for (uint16_t x = 0; x < size.x; x++)
+	for (uint16_t y = 0; y < size.height; y++)
+		for (uint16_t x = 0; x < size.width; x++)
 			tiles[y][x].draw ();
 	glDisableClientState (GL_VERTEX_ARRAY);
 }

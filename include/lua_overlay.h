@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 extern "C" {
 #include <lua.h>
 #include <lauxlib.h>
