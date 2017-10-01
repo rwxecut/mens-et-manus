@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdio.h>
 #include <stdexcept>
 #include <sstream>
 #include <SDL.h>
@@ -10,31 +9,21 @@
 #include "Map.h"
 #include "Cam.h"
 #include "Mouse.h"
-#include "Config.h"
-#include "geometry.h"
 
 
 class Game {
-	SDL_GLContext glContext;
-	SDL_Window *window;
 
 	Map map;
 	Cam cam;
-	Mouse mouse;
 
-	struct {
-		size2d<int> screenSize;
-	} attrib;
-
-	void update ();
-	void render ();
 	void unproject (GLdouble srcX, GLdouble srcY,
 	                GLdouble *objX, GLdouble *objY);
-	void keyHandler ();
 
 public:
 	Game (Config *config);
-	~Game ();
-
-	int mainLoop ();
+	void keyHandler (const uint8_t *keystates);
+	void mouseScrollHandler (int32_t delta);
+	void mousePositionHandler (int scrWidth, int scrHeight, int mouseX, int mouseY);
+	void update (int mouseX, int mouseY);
+	void render ();
 };

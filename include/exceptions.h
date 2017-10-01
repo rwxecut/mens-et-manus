@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-//TODO: rename with prefix
-
 namespace lua {
 	class LuaError : public std::runtime_error {
 	public:

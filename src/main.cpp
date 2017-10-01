@@ -1,10 +1,10 @@
-#include "Game.h"
+#include "Window.h"
 
 int main (int argc, char *args[]) {
 	Config config;
 
-	Game game(&config);
-	game.mainLoop ();
+	Window window(&config);
+	window.mainLoop ();
 
 	return 0;
 }

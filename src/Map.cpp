@@ -38,8 +38,7 @@ void Map::getHoveredTile (GLdouble x, GLdouble y) {
 		tCntr[0].y = (int16_t) std::ceil (y_hex);
 		tCntr[1].y = (int16_t) std::floor (y_hex);
 	}
-	for (int i = 0; i < 2; i++) // Calculate distance to the nearest tile center
-	{
+	for (int i = 0; i < 2; i++) { // Calculate distance to the nearest tile center
 		GLdouble dist_x = x - tCntr[i].x * Tile::hex_r;
 		GLdouble dist_y = y - tCntr[i].y * Tile::hex_l * 3 / 2;
 		tCntr[i].dist = std::sqrt (dist_x * dist_x + dist_y * dist_y);
