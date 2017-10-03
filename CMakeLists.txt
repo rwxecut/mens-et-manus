@@ -15,7 +15,6 @@ set(SOURCE_FILENAMES
         Game.cpp
         Cam.cpp
         Map.cpp
-        Mouse.cpp
         Config.cpp
         Tile.cpp
         Save.cpp

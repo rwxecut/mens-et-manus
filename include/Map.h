@@ -5,12 +5,13 @@
 #include <cstdlib>
 #include <cmath>
 #include <vector>
+
 #include "geometry.h"
 #include "Tile.h"
 
 class Map {
 
-	std::vector<std::vector<Tile> > tiles;
+	std::vector<std::vector<Tile>> tiles;
 
 public:
 	Map ();
@@ -18,5 +19,5 @@ public:
 	size2d<uint16_t> size;
 
 	void draw ();
-	void getHoveredTile (GLdouble x, GLdouble y);
+	void getHoveredTile (point2d<GLdouble> point);
 };

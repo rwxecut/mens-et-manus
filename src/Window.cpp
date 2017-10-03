@@ -1,7 +1,8 @@
 #include "Window.h"
 
+
 Window::Window (Config *config)
-	: game (config) {
+		: game (config) {
 	attrib.screenSize.width = config->screen.width;
 	attrib.screenSize.height = config->screen.height;
 
@@ -48,8 +49,9 @@ Window::~Window () {
 
 void Window::update () {
 	keyHandler ();
-	game.update (mouse.pos.x, mouse.pos.y);
+	game.update (mouse.pos);
 }
+
 
 void Window::render () {
 	game.render ();
@@ -61,14 +63,15 @@ void Window::keyHandler () {
 	game.keyHandler (keystates);
 }
 
-void Window::mousePositionHandler () {
-	SDL_GetMouseState (&mouse.pos.x, &mouse.pos.y);
-	game.mousePositionHandler (attrib.screenSize.width, attrib.screenSize.height, mouse.pos.x, mouse.pos.y);
+
+void Window::Mouse::positionHandler (Window *window) {
+	SDL_GetMouseState (&pos.x, &pos.y);
+	window->game.mousePositionHandler (window->attrib.screenSize, pos);
 }
 
 
-void Window::mouseScrollHandler (int32_t delta) {
-	game.mouseScrollHandler (delta);
+void Window::Mouse::scrollHandler (Window *window, int32_t delta) {
+	window->game.mouseScrollHandler (delta);
 }
 
 
@@ -82,7 +85,7 @@ int Window::mainLoop () {
 					running = false;
 					break;
 				case SDL_MOUSEWHEEL:
-					mouseScrollHandler (event.wheel.y);
+					mouse.scrollHandler (this, event.wheel.y);
 					break;
 				default:
 					break;
@@ -91,7 +94,7 @@ int Window::mainLoop () {
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
-		mousePositionHandler ();
+		mouse.positionHandler (this);
 	}
 	return 1;
 }

@@ -14,7 +14,11 @@ class Window {
 	SDL_Window *sdlWindow;
 
 	Game game;
-	Mouse mouse;
+	struct Mouse {
+		point2d<int> pos;
+		void positionHandler (Window* window);
+		void scrollHandler (Window* window, int32_t delta);
+	} mouse;
 
 	struct {
 		size2d<int> screenSize;
@@ -23,8 +27,6 @@ class Window {
 	void update ();
 	void render ();
 	void keyHandler ();
-	void mousePositionHandler ();
-	void mouseScrollHandler (int32_t delta);
 
 public:
 	Window (Config *config);

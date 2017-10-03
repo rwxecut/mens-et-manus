@@ -5,9 +5,7 @@
 #include "geometry.h"
 
 class Cam {
-
-public:
-	Cam (Config *config);
+	friend class Game;
 
 	// General variables & methods
 	static const GLdouble FOV, renderDistance;
@@ -23,4 +21,7 @@ public:
 	void decelerate ();
 	void move ();
 	void zoom (int delta);
+
+public:
+	Cam (Config *config);
 };

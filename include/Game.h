@@ -8,22 +8,21 @@
 
 #include "Map.h"
 #include "Cam.h"
-#include "Mouse.h"
-
 
 class Game {
+	friend class Window;
 
 	Map map;
 	Cam cam;
 
-	void unproject (GLdouble srcX, GLdouble srcY,
-	                GLdouble *objX, GLdouble *objY);
+	void unproject (point2d<GLdouble> source, point2d<GLdouble> *object);
+
+	void keyHandler (const uint8_t *keystates);
+	void mousePositionHandler (size2d<int> screenSize, point2d<int> mousePos);
+	void mouseScrollHandler (int32_t delta);
+	void update (point2d<int> mousePos);
+	void render ();
 
 public:
 	Game (Config *config);
-	void keyHandler (const uint8_t *keystates);
-	void mouseScrollHandler (int32_t delta);
-	void mousePositionHandler (int scrWidth, int scrHeight, int mouseX, int mouseY);
-	void update (int mouseX, int mouseY);
-	void render ();
 };
