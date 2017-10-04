@@ -21,15 +21,15 @@ void Cam::setup () {
 	gluLookAt (pos.x, pos.y, pos.z, sight.x, sight.y, sight.z, 0, 1, 0);
 }
 
-void Cam::accelerate (bool left, bool right, bool up, bool down) {
+void Cam::accelerate (direction_t *dir) {
 	// Accelerate camera if moving
-	if (left && (moveSpeed.x >= -moveSpeedMax))
+	if (dir->left && (moveSpeed.x >= -moveSpeedMax))
 		moveSpeed.x -= 2 * moveAcceleration;
-	if (right && (moveSpeed.x <= moveSpeedMax))
+	if (dir->right && (moveSpeed.x <= moveSpeedMax))
 		moveSpeed.x += 2 * moveAcceleration;
-	if (up && (moveSpeed.y <= moveSpeedMax))
+	if (dir->up && (moveSpeed.y <= moveSpeedMax))
 		moveSpeed.y += 2 * moveAcceleration;
-	if (down && (moveSpeed.y >= -moveSpeedMax))
+	if (dir->down && (moveSpeed.y >= -moveSpeedMax))
 		moveSpeed.y -= 2 * moveAcceleration;
 }
 
@@ -43,8 +43,8 @@ void Cam::decelerate () {
 
 void Cam::move () {
 	pos.x += moveSpeed.x;
-	sight.x += moveSpeed.x;
 	pos.y += moveSpeed.y;
+	sight.x += moveSpeed.x;
 	sight.y += moveSpeed.y;
 }
 

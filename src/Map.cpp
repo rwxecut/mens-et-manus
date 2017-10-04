@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "util.h"
 
+
 Map::Map () {
 	for (uint16_t y = 0; y < size.height; y++) {
 		tiles.push_back (std::vector<Tile> ());
@@ -10,6 +11,7 @@ Map::Map () {
 		}
 	}
 }
+
 
 void Map::draw () {
 	glLineWidth (2.0);
@@ -20,16 +22,21 @@ void Map::draw () {
 	glDisableClientState (GL_VERTEX_ARRAY);
 }
 
+
 void Map::getHoveredTile (point2d<GLdouble> point) {
 	struct {
 		int16_t x; // Coordinates of centers
 		int16_t y; // of the two nearest tiles
-		GLdouble dist; // distance from point to tile center
+		GLdouble dist; // Distance from point to tile center
 	} tCntr[2];
-	GLdouble x_hex = point.x / Tile::hex_r;           // Coordinates of the point in
-	GLdouble y_hex = point.y / (Tile::hex_l * 3 / 2); // the tiles coordinate system
+
+	// Coordinates of the point in the tiles coordinate system
+	GLdouble x_hex = point.x / Tile::hex_r;
+	GLdouble y_hex = point.y / (Tile::hex_l * 3 / 2);
+
+	// Choose the nearest tiles
 	int16_t y_floor = (int16_t) std::floor (y_hex);
-	tCntr[0].x = (int16_t) std::floor (x_hex); // Choose nearest tiles
+	tCntr[0].x = (int16_t) std::floor (x_hex);
 	tCntr[1].x = (int16_t) std::ceil (x_hex);
 	if ((tCntr[0].x & 1) == (y_floor & 1)) { // Hard to explain
 		tCntr[0].y = (int16_t) std::floor (y_hex);
@@ -38,16 +45,16 @@ void Map::getHoveredTile (point2d<GLdouble> point) {
 		tCntr[0].y = (int16_t) std::ceil (y_hex);
 		tCntr[1].y = (int16_t) std::floor (y_hex);
 	}
-	for (int i = 0; i < 2; i++) { // Calculate distance to the nearest tile center
+
+	// Calculate distance to the nearest tile center
+	for (int i = 0; i <= 1; i++) {
 		GLdouble dist_x = point.x - tCntr[i].x * Tile::hex_r;
 		GLdouble dist_y = point.y - tCntr[i].y * Tile::hex_l * 3 / 2;
 		tCntr[i].dist = std::sqrt (dist_x * dist_x + dist_y * dist_y);
 	}
-	if (tCntr[0].dist < tCntr[1].dist) { // Return the nearest tile center
-		Tile::selected.x = tCntr[0].x >> 1;
-		Tile::selected.y = tCntr[0].y;
-	} else {
-		Tile::selected.x = tCntr[1].x >> 1;
-		Tile::selected.y = tCntr[1].y;
-	}
+
+	// Return the nearest tile center
+	int nearest = tCntr[0].dist >= tCntr[1].dist;
+	Tile::selected.x = tCntr[nearest].x >> 1;
+	Tile::selected.y = tCntr[nearest].y;
 }

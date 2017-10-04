@@ -4,6 +4,10 @@
 #include <Config.h>
 #include "geometry.h"
 
+typedef struct {
+	bool left, right, up, down;
+} direction_t;
+
 class Cam {
 	friend class Game;
 
@@ -17,7 +21,7 @@ class Cam {
 	GLdouble moveSpeedMax, moveAcceleration;
 	GLdouble zoomSpeed;
 	static const GLdouble minZ, maxZ;
-	void accelerate (bool left, bool right, bool up, bool down);
+	void accelerate (direction_t *dir);
 	void decelerate ();
 	void move ();
 	void zoom (int delta);

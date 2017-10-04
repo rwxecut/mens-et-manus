@@ -39,20 +39,20 @@ void Game::unproject (point2d<GLdouble> source, point2d<GLdouble> *object) {
 
 
 void Game::keyHandler (const uint8_t *keystates) {
-	cam.accelerate (keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
-	                keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]);
+	direction_t dir = {keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
+	                   keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]};
+	cam.accelerate (&dir);
 }
 
 
 void Game::mousePositionHandler (size2d<int> screenSize, point2d<int> mousePos) {
 	static const int moveMapArea = 40;
 
-	// @formatter:off
-	cam.accelerate ((mousePos.x < moveMapArea),
-	                (mousePos.x > screenSize.width - moveMapArea),
-	                (mousePos.y < moveMapArea),
-	                (mousePos.y > screenSize.height - moveMapArea));
-	// @formatter:on
+	direction_t dir = {(mousePos.x < moveMapArea),
+	                   (mousePos.x > screenSize.width - moveMapArea),
+	                   (mousePos.y < moveMapArea),
+	                   (mousePos.y > screenSize.height - moveMapArea)};
+	cam.accelerate (&dir);
 }
 
 
