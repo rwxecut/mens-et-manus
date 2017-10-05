@@ -3,6 +3,7 @@
 
 #define CONFIG_PATH "../assets/config.lua"
 
+
 Config::Config () {
 	lua_State *L = luaL_newstate ();
 	luaL_openlibs (L);

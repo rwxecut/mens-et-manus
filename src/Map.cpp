@@ -7,7 +7,7 @@ Map::Map () {
 	for (uint16_t y = 0; y < size.height; y++) {
 		tiles.push_back (std::vector<Tile> ());
 		for (uint16_t x = 0; x < size.width; x++) {
-			tiles[y].push_back (Tile (x, y));
+			tiles[y].push_back (Tile ({x, y}));
 		}
 	}
 }

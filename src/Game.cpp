@@ -46,12 +46,10 @@ void Game::keyHandler (const uint8_t *keystates) {
 
 
 void Game::mousePositionHandler (size2d<int> screenSize, point2d<int> mousePos) {
-	static const int moveMapArea = 40;
-
-	direction_t dir = {(mousePos.x < moveMapArea),
-	                   (mousePos.x > screenSize.width - moveMapArea),
-	                   (mousePos.y < moveMapArea),
-	                   (mousePos.y > screenSize.height - moveMapArea)};
+	direction_t dir = {(mousePos.x < map.mouseMoveArea),
+	                   (mousePos.x > screenSize.width - map.mouseMoveArea),
+	                   (mousePos.y < map.mouseMoveArea),
+	                   (mousePos.y > screenSize.height - map.mouseMoveArea)};
 	cam.accelerate (&dir);
 }
 

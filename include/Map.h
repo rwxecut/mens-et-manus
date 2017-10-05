@@ -10,14 +10,17 @@
 #include "Tile.h"
 
 class Map {
+	friend class Game;
 
 	std::vector<std::vector<Tile>> tiles;
 
-public:
-	Map ();
-
 	size2d<uint16_t> size;
+
+	static constexpr int mouseMoveArea = 40;
 
 	void draw ();
 	void getHoveredTile (point2d<GLdouble> point);
+
+public:
+	Map ();
 };

@@ -12,7 +12,8 @@ class Cam {
 	friend class Game;
 
 	// General variables & methods
-	static const GLdouble FOV, renderDistance;
+	static constexpr GLdouble FOV = 90.0;
+	static constexpr GLdouble renderDistance = 1000.0;
 	point3d<GLdouble> pos = {0, -100, 500}, sight = {0, 0, 0};
 	void setup ();
 
@@ -20,7 +21,8 @@ class Cam {
 	vector2d<GLdouble> moveSpeed;
 	GLdouble moveSpeedMax, moveAcceleration;
 	GLdouble zoomSpeed;
-	static const GLdouble minZ, maxZ;
+	static constexpr GLdouble minZ = 200.0;
+	static constexpr GLdouble maxZ = 700.0;
 	void accelerate (direction_t *dir);
 	void decelerate ();
 	void move ();
