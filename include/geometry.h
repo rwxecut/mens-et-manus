@@ -12,14 +12,14 @@ struct point2d {
 
 
 	template<typename U>
-	inline void operator= (const point2d<U> source) {
+	inline void operator= (const point2d<U> &source) {
 		x = source.x;
 		y = source.y;
 	}
 
 
 	template<typename U>
-	inline void operator+= (const point2d<U> source) {
+	inline void operator+= (const point2d<U> &source) {
 		x += source.x;
 		y += source.y;
 	}
@@ -40,7 +40,7 @@ struct point3d {
 
 
 	template<typename U>
-	inline void operator+= (const point2d<U> source) {
+	inline void operator+= (const point2d<U> &source) {
 		x += source.x;
 		y += source.y;
 	}
