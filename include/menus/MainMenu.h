@@ -1,22 +1,12 @@
 #pragma once
 
-#include <stdexcept>
-#include <sstream>
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <GL/glu.h>
+#include <cstdint>
+#include <GL/gl.h>
+#include "geometry.h"
 
-#include "Map.h"
-#include "Cam.h"
-
-class Game {
+class MainMenu {
 	friend class Window;
 	bool active = false;
-
-	Map map;
-	Cam cam;
-
-	void unproject (point2d<GLdouble> source, point2d<GLdouble> *object);
 
 	void keyHandler (const uint8_t *keystates);
 	void mousePositionHandler (size2d<int> screenSize, point2d<int> mousePos);
@@ -25,5 +15,5 @@ class Game {
 	void render ();
 
 public:
-	Game (Config *config);
+	MainMenu ();
 };

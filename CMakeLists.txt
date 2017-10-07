@@ -19,7 +19,9 @@ set(SOURCE_FILENAMES
         Tile.cpp
         Save.cpp
         util.cpp
-        exceptions.cpp)
+        exceptions.cpp
+
+        menus/MainMenu.cpp)
 
 include(prepend)
 prepend(SOURCE_FILES ${SOURCE_DIR} ${SOURCE_FILENAMES})

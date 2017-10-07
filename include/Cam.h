@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL/glu.h>
-#include <Config.h>
+#include "Config.h"
 #include "geometry.h"
 
 typedef struct {

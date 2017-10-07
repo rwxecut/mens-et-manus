@@ -2,7 +2,7 @@
 
 
 Window::Window (Config *config)
-		: game (config) {
+		: menu (), game (config) {
 	attrib.screenSize.width = config->screen.width;
 	attrib.screenSize.height = config->screen.height;
 
@@ -38,6 +38,8 @@ Window::Window (Config *config)
 	glEnable (GL_DEPTH_TEST);
 	if (glGetError () != GL_NO_ERROR)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
+
+	game.active = true;
 }
 
 
@@ -49,18 +51,31 @@ Window::~Window () {
 
 void Window::update () {
 	keyHandler ();
-	game.update (mouse.pos);
+	if (game.active)
+		game.update (mouse.pos);
+	if (menu.active)
+		menu.update (mouse.pos);
 }
 
 
 void Window::render () {
-	game.render ();
+	if (game.active)
+		game.render ();
+	if (menu.active)
+		menu.render ();
 }
 
 
 void Window::keyHandler () {
 	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
-	game.keyHandler (keystates);
+	if (keystates[SDL_SCANCODE_Q]) {
+		game.active ^= true;
+		menu.active ^= true;
+	}
+	if (game.active)
+		game.keyHandler (keystates);
+	if (menu.active)
+		menu.keyHandler (keystates);
 }
 
 

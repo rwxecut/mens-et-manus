@@ -4,15 +4,18 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include "Game.h"
 #include "Config.h"
 #include "geometry.h"
+
+#include "menus/MainMenu.h"
+#include "Game.h"
 
 class Window {
 
 	SDL_GLContext glContext;
 	SDL_Window *sdlWindow;
 
+	MainMenu menu;
 	Game game;
 	struct Mouse {
 		point2d<int> pos;
