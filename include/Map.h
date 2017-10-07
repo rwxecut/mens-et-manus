@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cmath>
-#include <vector>
+#include <new>
 
 #include "geometry.h"
 #include "Tile.h"
@@ -12,7 +12,8 @@
 class Map {
 	friend class Game;
 
-	std::vector<std::vector<Tile>> tiles;
+	void* tilesMem;
+	Tile** tiles;
 
 	size2d<uint16_t> size;
 
@@ -23,4 +24,5 @@ class Map {
 
 public:
 	Map ();
+	~Map ();
 };
