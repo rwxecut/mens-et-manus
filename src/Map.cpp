@@ -2,10 +2,10 @@
 
 
 Map::Map () {
-	size = {20, 10};
-	tilesMem = calloc (size.width * size.height, sizeof (Tile));
+	size = {20, 10}; // temp
+	tilesMem = (Tile*) calloc (size.width * size.height, sizeof (Tile));
 	for (uint16_t y = 0; y < size.height; y++) {
-		tiles[y] = (Tile *) (tilesMem + y * size.width * sizeof (Tile));
+		tiles[y] = tilesMem + y * size.width;
 		for (uint16_t x = 0; x < size.width; x++)
 			new (&tiles[y][x]) Tile ({x, y});
 	}
