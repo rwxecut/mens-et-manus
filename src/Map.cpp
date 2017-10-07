@@ -4,6 +4,7 @@
 
 
 Map::Map () {
+	size = {20, 10};
 	for (uint16_t y = 0; y < size.height; y++) {
 		tiles.push_back (std::vector<Tile> ());
 		for (uint16_t x = 0; x < size.width; x++) {

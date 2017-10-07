@@ -1,8 +1,8 @@
 -- The default game configuration file.
 
 screen = {
-	width = 640,
-	height = 480
+	width = 800,
+	height = 600
 }
 
 cam = {
