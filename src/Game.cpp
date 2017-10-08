@@ -6,13 +6,15 @@ Game::Game (Config *config)
 }
 
 
-void Game::update (point2d<int> mousePos) {
+void Game::update (WindowState *winState) {
+	keyHandler ();
+	mousePositionHandler (winState);
 	if (cam.moveSpeed.x != 0 || cam.moveSpeed.y != 0)
 		cam.decelerate ();
 	cam.move ();
 
 	point2d<GLdouble> unprojection;
-	unproject ({(GLdouble) mousePos.x, (GLdouble) mousePos.y}, &unprojection);
+	unproject ({(GLdouble) winState->mousePos.x, (GLdouble) winState->mousePos.y}, &unprojection);
 	map.getHoveredTile (unprojection);
 }
 
@@ -38,22 +40,28 @@ void Game::unproject (point2d<GLdouble> source, point2d<GLdouble> *object) {
 }
 
 
-void Game::keyHandler (const uint8_t *keystates) {
+void Game::keyHandler () {
+	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
 	direction_t dir = {keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
 	                   keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]};
 	cam.accelerate (&dir);
 }
 
 
-void Game::mousePositionHandler (size2d<int> screenSize, point2d<int> mousePos) {
-	direction_t dir = {(mousePos.x < map.mouseMoveArea),
-	                   (mousePos.x > screenSize.width - map.mouseMoveArea),
-	                   (mousePos.y < map.mouseMoveArea),
-	                   (mousePos.y > screenSize.height - map.mouseMoveArea)};
+void Game::mousePositionHandler (WindowState *winState) {
+	direction_t dir = {(winState->mousePos.x < map.mouseMoveArea),
+	                   (winState->mousePos.x > winState->attrib.screenSize.width - map.mouseMoveArea),
+	                   (winState->mousePos.y < map.mouseMoveArea),
+	                   (winState->mousePos.y > winState->attrib.screenSize.height - map.mouseMoveArea)};
 	cam.accelerate (&dir);
 }
 
 
-void Game::mouseScrollHandler (int32_t delta) {
-	cam.zoom (delta);
+void Game::eventHandler (SDL_Event *event) {
+	switch (event->type) {
+		case SDL_MOUSEWHEEL:
+			cam.zoom (event->wheel.y);
+			break;
+		default:;
+	}
 }

@@ -3,8 +3,8 @@
 
 Window::Window (Config *config)
 		: menu (), game (config) {
-	attrib.screenSize.width = config->screen.width;
-	attrib.screenSize.height = config->screen.height;
+	winState.attrib.screenSize.width = config->screen.width;
+	winState.attrib.screenSize.height = config->screen.height;
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
@@ -16,7 +16,7 @@ Window::Window (Config *config)
 
 	sdlWindow = SDL_CreateWindow ("Mens Et Manus",
 	                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	                              attrib.screenSize.width, attrib.screenSize.height,
+	                              winState.attrib.screenSize.width, winState.attrib.screenSize.height,
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
 	if (!sdlWindow)
@@ -50,11 +50,10 @@ Window::~Window () {
 
 
 void Window::update () {
-	keyHandler ();
 	if (game.active)
-		game.update (mouse.pos);
+		game.update (&winState);
 	if (menu.active)
-		menu.update (mouse.pos);
+		menu.update (&winState);
 }
 
 
@@ -66,50 +65,31 @@ void Window::render () {
 }
 
 
-void Window::keyHandler () {
-	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
-	if (keystates[SDL_SCANCODE_Q]) {
-		game.active ^= true;
-		menu.active ^= true;
-	}
+void Window::eventHandler (SDL_Event *event) {
 	if (game.active)
-		game.keyHandler (keystates);
+		game.eventHandler (event);
 	if (menu.active)
-		menu.keyHandler (keystates);
-}
-
-
-void Window::Mouse::positionHandler (Window *window) {
-	SDL_GetMouseState (&pos.x, &pos.y);
-	window->game.mousePositionHandler (window->attrib.screenSize, pos);
-}
-
-
-void Window::Mouse::scrollHandler (Window *window, int32_t delta) {
-	window->game.mouseScrollHandler (delta);
+		menu.eventHandler (event);
 }
 
 
 int Window::mainLoop () {
-	bool running = true;
 	SDL_Event event;
+	bool running = true;
 	while (running) {
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
 				case SDL_QUIT:
 					running = false;
 					break;
-				case SDL_MOUSEWHEEL:
-					mouse.scrollHandler (this, event.wheel.y);
-					break;
 				default:
-					break;
+					eventHandler (&event);
 			}
 		update ();
 		render ();
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
-		mouse.positionHandler (this);
+		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
 	}
 	return 1;
 }

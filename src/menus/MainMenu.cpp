@@ -1,26 +1,19 @@
 #include "menus/MainMenu.h"
 
+
 MainMenu::MainMenu () {
 	;
 }
 
 
-void MainMenu::keyHandler (const uint8_t *keystates) {
-	;
+void MainMenu::eventHandler (SDL_Event *event) {
+	switch (event->type) {
+		default:;
+	}
 }
 
 
-void MainMenu::mousePositionHandler (size2d<int> screenSize, point2d<int> mousePos) {
-	;
-}
-
-
-void MainMenu::mouseScrollHandler (int32_t delta) {
-	;
-}
-
-
-void MainMenu::update (point2d<int> mousePos) {
+void MainMenu::update (WindowState *winState) {
 	;
 }
 
