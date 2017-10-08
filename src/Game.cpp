@@ -2,7 +2,7 @@
 
 
 Game::Game (Config *config)
-		: cam (config) {
+		: map (), cam (config) {
 }
 
 

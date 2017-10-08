@@ -12,8 +12,8 @@
 class Map {
 	friend class Game;
 
-	Tile* tilesMem;
-	Tile** tiles;
+	Tile *tilesMem;
+	Tile **tiles;
 
 	size2d<uint16_t> size;
 

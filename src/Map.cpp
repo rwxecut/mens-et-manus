@@ -3,6 +3,7 @@
 
 Map::Map () {
 	size = {20, 10}; // temp
+	tiles = (Tile **) calloc (size.height, sizeof(Tile*));
 	tilesMem = (Tile*) calloc (size.width * size.height, sizeof (Tile));
 	for (uint16_t y = 0; y < size.height; y++) {
 		tiles[y] = tilesMem + y * size.width;
@@ -13,6 +14,7 @@ Map::Map () {
 
 
 Map::~Map () {
+	free (tiles);
 	free (tilesMem);
 }
 
