@@ -6,12 +6,13 @@
 #include <SDL_opengl.h>
 #include <GL/glu.h>
 
+#include "Routine.h"
 #include "windowState.h"
 #include "Map.h"
 #include "Cam.h"
 
 
-class Game {
+class Game : public Routine {
 
 	Map map;
 	Cam cam;
@@ -24,9 +25,7 @@ class Game {
 public:
 	Game (Config *config);
 
-	bool active = false;
-
-	void eventHandler (SDL_Event *event);
 	void update (WindowState *winState);
 	void render ();
+	void eventHandler (SDL_Event *event);
 };

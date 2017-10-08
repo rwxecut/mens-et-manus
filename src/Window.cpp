@@ -39,37 +39,13 @@ Window::Window (Config *config)
 	if (glGetError () != GL_NO_ERROR)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 
-	game.active = true;
+	routine = &game;
 }
 
 
 Window::~Window () {
 	if (sdlWindow) SDL_DestroyWindow (sdlWindow);
 	SDL_Quit ();
-}
-
-
-void Window::update () {
-	if (game.active)
-		game.update (&winState);
-	if (menu.active)
-		menu.update (&winState);
-}
-
-
-void Window::render () {
-	if (game.active)
-		game.render ();
-	if (menu.active)
-		menu.render ();
-}
-
-
-void Window::eventHandler (SDL_Event *event) {
-	if (game.active)
-		game.eventHandler (event);
-	if (menu.active)
-		menu.eventHandler (event);
 }
 
 
@@ -83,13 +59,13 @@ int Window::mainLoop () {
 					running = false;
 					break;
 				default:
-					eventHandler (&event);
+					routine->eventHandler (&event);
 			}
-		update ();
-		render ();
+		routine->update (&winState);
+		routine->render ();
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
 		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
 	}
-	return 1;
+	return 0;
 }

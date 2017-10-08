@@ -4,15 +4,15 @@
 #include <SDL.h>
 #include <GL/gl.h>
 #include "geometry.h"
+
+#include "Routine.h"
 #include "windowState.h"
 
-class MainMenu {
+class MainMenu : public Routine {
 public:
 	MainMenu ();
 
-	bool active = false;
-
-	void eventHandler (SDL_Event *event);
 	void update (WindowState *winState);
 	void render ();
+	void eventHandler (SDL_Event *event);
 };

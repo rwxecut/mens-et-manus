@@ -6,6 +6,7 @@
 
 #include "Config.h"
 #include "geometry.h"
+#include "Routine.h"
 #include "windowState.h"
 
 #include "menus/MainMenu.h"
@@ -21,10 +22,7 @@ class Window {
 	MainMenu menu;
 	Game game;
 
-
-	void update ();
-	void render ();
-	void eventHandler (SDL_Event *event);
+	Routine* routine;
 
 public:
 	Window (Config *config);
