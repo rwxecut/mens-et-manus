@@ -1,16 +1,19 @@
-#include "Save.h"
 #include "Map.h"
-#include "util.h"
 
 
 Map::Map () {
-	size = {20, 10};
+	size = {20, 10}; // temp
+	tilesMem = (Tile*) calloc (size.width * size.height, sizeof (Tile));
 	for (uint16_t y = 0; y < size.height; y++) {
-		tiles.push_back (std::vector<Tile> ());
-		for (uint16_t x = 0; x < size.width; x++) {
-			tiles[y].push_back (Tile ({x, y}));
-		}
+		tiles[y] = tilesMem + y * size.width;
+		for (uint16_t x = 0; x < size.width; x++)
+			new (&tiles[y][x]) Tile ({x, y});
 	}
+}
+
+
+Map::~Map () {
+	free (tilesMem);
 }
 
 
