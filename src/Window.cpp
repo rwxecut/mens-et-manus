@@ -39,11 +39,18 @@ Window::Window (Config *config)
 	if (glGetError () != GL_NO_ERROR)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 
+	nkContext = nk_sdl_init (sdlWindow);
+	winState.nkContext = &nkContext;
+	struct nk_font_atlas *atlas;
+	nk_sdl_font_stash_begin(&atlas);
+	nk_sdl_font_stash_end();
+
 	routine = &game;
 }
 
 
 Window::~Window () {
+	nk_sdl_shutdown();
 	if (sdlWindow) SDL_DestroyWindow (sdlWindow);
 	SDL_Quit ();
 }
@@ -53,16 +60,20 @@ int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
 	while (running) {
+		nk_input_begin (nkContext);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
 				case SDL_QUIT:
 					running = false;
 					break;
 				default:
+					nk_sdl_handle_event(&event);
 					routine->eventHandler (&event);
 			}
+		nk_input_end (nkContext);
 		routine->update (&winState);
 		routine->render ();
+		nk_sdl_render(NK_ANTI_ALIASING_ON);
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
 		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);

@@ -20,6 +20,7 @@ set(SOURCE_FILENAMES
         Save.cpp
         util.cpp
         exceptions.cpp
+        nuklear_implementation.cpp
 
         menus/MainMenu.cpp)
 

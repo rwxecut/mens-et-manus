@@ -18,7 +18,7 @@ class Cam {
 	void setup ();
 
 	// Moving variables & methods
-	vector2d<GLdouble> moveSpeed;
+	vector2d<GLdouble> moveSpeed = {0, 0};
 	GLdouble moveSpeedMax, moveAcceleration;
 	GLdouble zoomSpeed;
 	static constexpr GLdouble minZ = 200.0;

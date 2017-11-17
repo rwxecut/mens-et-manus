@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <GL/glu.h>
+#include "nuklear/nuklear_common.h"
 
 #include "Routine.h"
 #include "windowState.h"

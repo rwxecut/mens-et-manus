@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include "nuklear/nuklear_common.h"
 
 #include "Config.h"
 #include "geometry.h"
@@ -18,6 +19,7 @@ class Window {
 	WindowState winState;
 	SDL_GLContext glContext;
 	SDL_Window *sdlWindow;
+	struct nk_context *nkContext;
 
 	MainMenu menu;
 	Game game;

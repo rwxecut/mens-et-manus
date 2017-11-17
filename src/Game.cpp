@@ -16,6 +16,17 @@ void Game::update (WindowState *winState) {
 	point2d<GLdouble> unprojection;
 	unproject ({(GLdouble) winState->mousePos.x, (GLdouble) winState->mousePos.y}, &unprojection);
 	map.getHoveredTile (unprojection);
+
+	struct nk_context *nkContext = *(winState->nkContext);
+	if (nk_begin(nkContext, "Sample Tsundere GUI", nk_rect(50, 50, 300, 100),
+	             NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
+	             NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
+	{
+		nk_layout_row_static(nkContext, 30, 250, 1);
+		if (nk_button_label(nkContext, "Don't touch me too hard..."))
+			printf("S-s-sempai... B-baka!!\n");
+	}
+	nk_end(nkContext);
 }
 
 
