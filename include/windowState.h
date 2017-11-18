@@ -8,5 +8,5 @@ struct WindowState {
 		size2d<int> screenSize;
 	} attrib;
 	point2d<int> mousePos;
-	struct nk_context **nkContext;
+	struct nk_context *nkContext;
 };

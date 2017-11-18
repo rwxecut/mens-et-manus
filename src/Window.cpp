@@ -2,7 +2,7 @@
 
 
 Window::Window (Config *config)
-		: menu (), game (config) {
+		: game (config) {
 	winState.attrib.screenSize.width = config->screen.width;
 	winState.attrib.screenSize.height = config->screen.height;
 
@@ -40,17 +40,18 @@ Window::Window (Config *config)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 
 	nkContext = nk_sdl_init (sdlWindow);
-	winState.nkContext = &nkContext;
+	winState.nkContext = nkContext;
 	struct nk_font_atlas *atlas;
-	nk_sdl_font_stash_begin(&atlas);
-	nk_sdl_font_stash_end();
+	nk_sdl_font_stash_begin (&atlas);
+	nk_sdl_font_stash_end ();
+	game.loadLuaNk (&winState);
 
 	routine = &game;
 }
 
 
 Window::~Window () {
-	nk_sdl_shutdown();
+	nk_sdl_shutdown ();
 	if (sdlWindow) SDL_DestroyWindow (sdlWindow);
 	SDL_Quit ();
 }
@@ -67,13 +68,13 @@ int Window::mainLoop () {
 					running = false;
 					break;
 				default:
-					nk_sdl_handle_event(&event);
+					nk_sdl_handle_event (&event);
 					routine->eventHandler (&event);
 			}
 		nk_input_end (nkContext);
 		routine->update (&winState);
 		routine->render ();
-		nk_sdl_render(NK_ANTI_ALIASING_ON);
+		nk_sdl_render (NK_ANTI_ALIASING_ON);
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
 		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);

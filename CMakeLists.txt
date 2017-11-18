@@ -20,9 +20,9 @@ set(SOURCE_FILENAMES
         Save.cpp
         util.cpp
         exceptions.cpp
-        nuklear_implementation.cpp
-
-        menus/MainMenu.cpp)
+        nk_implement.cpp
+        nk_lua.cpp
+        )
 
 include(prepend)
 prepend(SOURCE_FILES ${SOURCE_DIR} ${SOURCE_FILENAMES})

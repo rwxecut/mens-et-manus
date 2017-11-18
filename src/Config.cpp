@@ -1,4 +1,3 @@
-#include <Config.h>
 #include "Config.h"
 
 #define CONFIG_PATH "../assets/config.lua"

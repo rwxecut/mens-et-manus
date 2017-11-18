@@ -4,11 +4,6 @@
 #include "exceptions.h"
 #include "lua_overlay.h"
 
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
 
 class Config {
 

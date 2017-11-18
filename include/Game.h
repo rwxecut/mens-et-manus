@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <GL/glu.h>
-#include "nuklear/nuklear_common.h"
+#include "nk_lua.h"
 
 #include "Routine.h"
 #include "windowState.h"
@@ -17,6 +17,7 @@ class Game : public Routine {
 
 	Map map;
 	Cam cam;
+	lua_State *LGUI;
 
 	void unproject (point2d<GLdouble> source, point2d<GLdouble> *object);
 
@@ -25,6 +26,8 @@ class Game : public Routine {
 
 public:
 	Game (Config *config);
+	~Game ();
+	void loadLuaNk (WindowState *winState);
 
 	void update (WindowState *winState);
 	void render ();
