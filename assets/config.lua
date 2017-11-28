@@ -10,3 +10,5 @@ cam = {
 	moveAcceleration = 0.5,
 	zoomSpeed = 20.0
 }
+
+fpsInterval = 1.5

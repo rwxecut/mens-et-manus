@@ -20,5 +20,9 @@ Config::Config () {
 	cam.zoomSpeed = (GLdouble) lua::getTableField<double> (L, "zoomSpeed");
 	lua_pop (L, 1);
 
+	lua_getglobal (L, "fpsInterval");
+	fpsInterval = luaL_checknumber (L, 1);
+	lua_pop (L, 1);
+
 	lua_close (L);
 }

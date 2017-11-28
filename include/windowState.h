@@ -6,6 +6,7 @@
 struct WindowState {
 	struct {
 		size2d<int> screenSize;
+		GLdouble fpsInterval;
 	} attrib;
 	point2d<int> mousePos;
 	struct nk_context *nkContext;

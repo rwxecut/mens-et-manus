@@ -1,3 +1,4 @@
+#include <windowState.h>
 #include "Window.h"
 
 
@@ -5,6 +6,7 @@ Window::Window (Config *config)
 		: game (config) {
 	winState.attrib.screenSize.width = config->screen.width;
 	winState.attrib.screenSize.height = config->screen.height;
+	winState.attrib.fpsInterval = config->fpsInterval * 1000;
 
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
@@ -14,7 +16,7 @@ Window::Window (Config *config)
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 
-	sdlWindow = SDL_CreateWindow ("Mens Et Manus",
+	sdlWindow = SDL_CreateWindow ("Mens et Manus",
 	                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	                              winState.attrib.screenSize.width, winState.attrib.screenSize.height,
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
@@ -57,6 +59,21 @@ Window::~Window () {
 }
 
 
+uint32_t Window::getFPS() {
+	static uint32_t FPS = 0;
+	static uint32_t frames = 0;
+	static uint32_t lasttime = SDL_GetTicks ();
+
+	frames++;
+	if (lasttime < SDL_GetTicks () - winState.attrib.fpsInterval) {
+		lasttime = SDL_GetTicks ();
+		FPS = frames;
+		frames = 0;
+	}
+	return FPS;
+}
+
+
 int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
@@ -78,6 +95,10 @@ int Window::mainLoop () {
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
 		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
+
+		char fpsStr[32] = {0};
+		snprintf (fpsStr, 31, "Mens et Manus [FPS: %zu]", getFPS ());
+		SDL_SetWindowTitle (sdlWindow, fpsStr);
 	}
 	return 0;
 }

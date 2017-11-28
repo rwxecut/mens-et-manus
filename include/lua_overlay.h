@@ -18,11 +18,12 @@ namespace lua {
 		lua_gettable (L, -2);
 		T value;
 		if (std::is_same<T, int>::value)
-			value = (int) lua_tointeger (L, -1);
+			value = (int) luaL_checkinteger (L, -1);
 		if (std::is_same<T, double>::value)
-			value = (double) lua_tonumber (L, -1);
+			value = (double) luaL_checknumber (L, -1);
 		lua_pop(L, 1);
 		return value;
 	}
 
+	void stackDump (lua_State *L);
 }

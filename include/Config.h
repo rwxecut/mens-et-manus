@@ -13,8 +13,11 @@ public:
 	struct {
 		int width, height;
 	} screen;
+
 	struct {
 		GLdouble moveSpeedMax, moveAcceleration;
 		GLdouble zoomSpeed;
 	} cam;
+
+	GLdouble fpsInterval;
 };

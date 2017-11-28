@@ -18,6 +18,7 @@ set(SOURCE_FILENAMES
         Config.cpp
         Tile.cpp
         Save.cpp
+        lua_overlay.cpp
         util.cpp
         exceptions.cpp
         nk_implement.cpp

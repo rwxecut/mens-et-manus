@@ -25,6 +25,8 @@ class Window {
 
 	Routine* routine;
 
+	uint32_t getFPS();
+
 public:
 	Window (Config *config);
 	~Window ();
