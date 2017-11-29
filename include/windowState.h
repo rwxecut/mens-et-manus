@@ -9,5 +9,4 @@ struct WindowState {
 		GLdouble fpsInterval;
 	} attrib;
 	point2d<int> mousePos;
-	struct nk_context *nkContext;
 };

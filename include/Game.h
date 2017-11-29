@@ -12,6 +12,7 @@
 #include "Map.h"
 #include "Cam.h"
 
+#define GAME_GUI_PATH "../assets/gameMenu.lua"
 
 class Game : public Routine {
 
@@ -27,7 +28,7 @@ class Game : public Routine {
 public:
 	Game (Config *config);
 	~Game ();
-	void loadLuaNk (WindowState *winState);
+	void loadLuaNk (nk_context *nkContext);
 
 	void update (WindowState *winState);
 	void render ();

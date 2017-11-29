@@ -13,5 +13,5 @@ namespace lua::nk {
 	int begin (lua_State *L);
 	int layout_row_static (lua_State *L);
 	int button_label (lua_State *L);
-	int end (lua_State *L);
+	int _end (lua_State *L);
 }

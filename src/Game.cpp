@@ -11,10 +11,10 @@ Game::~Game () {
 }
 
 
-void Game::loadLuaNk (WindowState *winState) {
+void Game::loadLuaNk (nk_context *nkContext) {
 	LGUI = luaL_newstate ();
 	luaL_openlibs (LGUI);
-	lua::nk::init (LGUI, winState->nkContext);
+	lua::nk::init (LGUI, nkContext);
 }
 
 
@@ -29,7 +29,7 @@ void Game::update (WindowState *winState) {
 	unproject ({(GLdouble) winState->mousePos.x, (GLdouble) winState->mousePos.y}, &unprojection);
 	map.getHoveredTile (unprojection);
 
-	luaL_dofile (LGUI, "../assets/menu.lua");
+	luaL_dofile (LGUI, GAME_GUI_PATH);
 }
 
 

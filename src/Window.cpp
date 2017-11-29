@@ -41,12 +41,12 @@ Window::Window (Config *config)
 	if (glGetError () != GL_NO_ERROR)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 
+	// Init Nuklear
 	nkContext = nk_sdl_init (sdlWindow);
-	winState.nkContext = nkContext;
 	struct nk_font_atlas *atlas;
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
-	game.loadLuaNk (&winState);
+	game.loadLuaNk (nkContext);
 
 	routine = &game;
 }
