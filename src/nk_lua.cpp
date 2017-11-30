@@ -3,36 +3,30 @@
 
 namespace lua::nk {
 
-#define addBindNkFunc(name) {#name, name}
-#define addExportNkKey(key) {#key, (int) key}
-
-
-	void init (lua_State *L, nk_context *nkContext) {
-		lua::nk::ctx = nkContext;
-
+	void init (lua_State *L) {
 		// Bind functions
 		luaL_Reg funclist[] = {
-				addBindNkFunc (begin),
-				addBindNkFunc (layout_row_static),
-				addBindNkFunc (button_label),
-				addBindNkFunc (_end),
+				lua_addBindFunc (begin),
+				lua_addBindFunc (layout_row_static),
+				lua_addBindFunc (button_label),
+				lua_addBindFunc (_end),
 				{NULL, NULL}
 		};
 		luaL_newlib (L, funclist);
 
 		// Export constants
 		field<int> keys[] = {
-				addExportNkKey (NK_WINDOW_BORDER),
-				addExportNkKey (NK_WINDOW_MOVABLE),
-				addExportNkKey (NK_WINDOW_SCALABLE),
-				addExportNkKey (NK_WINDOW_CLOSABLE),
-				addExportNkKey (NK_WINDOW_MINIMIZABLE),
-				addExportNkKey (NK_WINDOW_NO_SCROLLBAR),
-				addExportNkKey (NK_WINDOW_TITLE),
-				addExportNkKey (NK_WINDOW_SCROLL_AUTO_HIDE),
-				addExportNkKey (NK_WINDOW_BACKGROUND),
-				addExportNkKey (NK_WINDOW_SCALE_LEFT),
-				addExportNkKey (NK_WINDOW_NO_INPUT),
+				lua_addExportKey (NK_WINDOW_BORDER),
+				lua_addExportKey (NK_WINDOW_MOVABLE),
+				lua_addExportKey (NK_WINDOW_SCALABLE),
+				lua_addExportKey (NK_WINDOW_CLOSABLE),
+				lua_addExportKey (NK_WINDOW_MINIMIZABLE),
+				lua_addExportKey (NK_WINDOW_NO_SCROLLBAR),
+				lua_addExportKey (NK_WINDOW_TITLE),
+				lua_addExportKey (NK_WINDOW_SCROLL_AUTO_HIDE),
+				lua_addExportKey (NK_WINDOW_BACKGROUND),
+				lua_addExportKey (NK_WINDOW_SCALE_LEFT),
+				lua_addExportKey (NK_WINDOW_NO_INPUT),
 				{NULL, 0}
 		};
 		setTableFields (L, keys);
@@ -40,8 +34,10 @@ namespace lua::nk {
 	}
 
 
-#undef addBindNkFunc
-#undef addExportNkKey
+	void run (lua_State *L, nk_context *nkContext, const char *filename) {
+		lua::nk::ctx = nkContext;
+		luaL_dofile (L, filename);
+	}
 
 
 	// Binded functions

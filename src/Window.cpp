@@ -3,11 +3,13 @@
 
 
 Window::Window (Config *config)
-		: game (config) {
+		: game (config), mainMenu () {
+	// Load attributes from config
 	winState.attrib.screenSize.width = config->screen.width;
 	winState.attrib.screenSize.height = config->screen.height;
 	winState.attrib.fpsInterval = config->fpsInterval * 1000;
 
+	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
 		                        "SDL could not initialize!");
@@ -20,7 +22,6 @@ Window::Window (Config *config)
 	                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	                              winState.attrib.screenSize.width, winState.attrib.screenSize.height,
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-
 	if (!sdlWindow)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO,
 		                        "Window could not be created!");
@@ -42,13 +43,12 @@ Window::Window (Config *config)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 
 	// Init Nuklear
-	nkContext = nk_sdl_init (sdlWindow);
+	winState.nkContext = nk_sdl_init (sdlWindow);
 	struct nk_font_atlas *atlas;
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
-	game.loadLuaNk (nkContext);
 
-	routine = &game;
+	routineID = mainMenuRoutine;
 }
 
 
@@ -59,7 +59,20 @@ Window::~Window () {
 }
 
 
-uint32_t Window::getFPS() {
+void Window::switchRoutine () {
+	switch (routineID) {
+		case gameRoutine:
+			routine = &game;
+			break;
+		case mainMenuRoutine:
+			routine = &mainMenu;
+			break;
+		default:;
+	}
+}
+
+
+uint32_t Window::getFPS () {
 	static uint32_t FPS = 0;
 	static uint32_t frames = 0;
 	static uint32_t lasttime = SDL_GetTicks ();
@@ -78,7 +91,8 @@ int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
 	while (running) {
-		nk_input_begin (nkContext);
+		switchRoutine ();
+		nk_input_begin (winState.nkContext);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
 				case SDL_QUIT:
@@ -88,7 +102,7 @@ int Window::mainLoop () {
 					nk_sdl_handle_event (&event);
 					routine->eventHandler (&event);
 			}
-		nk_input_end (nkContext);
+		nk_input_end (winState.nkContext);
 		routine->update (&winState);
 		routine->render ();
 		nk_sdl_render (NK_ANTI_ALIASING_ON);

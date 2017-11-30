@@ -7,7 +7,8 @@ namespace lua::nk {
 
 	static nk_context *ctx;
 
-	void init (lua_State *L, nk_context *nkContext);
+	void init (lua_State *L);
+	void run (lua_State *L, nk_context *nkContext, const char *filename);
 
 	// Binded functions
 	int begin (lua_State *L);

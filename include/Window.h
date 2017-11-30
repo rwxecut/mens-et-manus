@@ -4,28 +4,31 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "nuklear/nuklear_common.h"
-#include "nk_lua.h"
+#include "game_lua.h"
+#include "geometry.h"
 
 #include "Config.h"
-#include "geometry.h"
 #include "Routine.h"
 #include "windowState.h"
 
+#include "MainMenu.h"
 #include "Game.h"
 
+extern int routineID;
 
 class Window {
 
 	WindowState winState;
 	SDL_GLContext glContext;
 	SDL_Window *sdlWindow;
-	nk_context *nkContext;
 
+	MainMenu mainMenu;
 	Game game;
 
-	Routine* routine;
+	Routine *routine;
+	void switchRoutine();
 
-	uint32_t getFPS();
+	uint32_t getFPS ();
 
 public:
 	Window (Config *config);

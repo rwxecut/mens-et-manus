@@ -6,6 +6,7 @@
 #include <SDL_opengl.h>
 #include <GL/glu.h>
 #include "nk_lua.h"
+#include "game_lua.h"
 
 #include "Routine.h"
 #include "windowState.h"
@@ -28,7 +29,6 @@ class Game : public Routine {
 public:
 	Game (Config *config);
 	~Game ();
-	void loadLuaNk (nk_context *nkContext);
 
 	void update (WindowState *winState);
 	void render ();

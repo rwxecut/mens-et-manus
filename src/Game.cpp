@@ -3,18 +3,16 @@
 
 Game::Game (Config *config)
 		: map (), cam (config) {
+	// Create GUI
+	LGUI = luaL_newstate ();
+	luaL_openlibs (LGUI);
+	lua::nk::init (LGUI);
+	lua::game::init (LGUI);
 }
 
 
 Game::~Game () {
 	lua_close (LGUI);
-}
-
-
-void Game::loadLuaNk (nk_context *nkContext) {
-	LGUI = luaL_newstate ();
-	luaL_openlibs (LGUI);
-	lua::nk::init (LGUI, nkContext);
 }
 
 
@@ -29,7 +27,7 @@ void Game::update (WindowState *winState) {
 	unproject ({(GLdouble) winState->mousePos.x, (GLdouble) winState->mousePos.y}, &unprojection);
 	map.getHoveredTile (unprojection);
 
-	luaL_dofile (LGUI, GAME_GUI_PATH);
+	lua::nk::run (LGUI, winState->nkContext, GAME_GUI_PATH);
 }
 
 

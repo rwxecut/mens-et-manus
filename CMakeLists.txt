@@ -17,12 +17,14 @@ set(SOURCE_FILENAMES
         Map.cpp
         Config.cpp
         Tile.cpp
+        MainMenu.cpp
         Save.cpp
         lua_overlay.cpp
         util.cpp
         exceptions.cpp
         nk_implement.cpp
         nk_lua.cpp
+        game_lua.cpp
         )
 
 include(prepend)

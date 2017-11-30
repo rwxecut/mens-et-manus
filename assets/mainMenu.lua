@@ -3,6 +3,7 @@ if gui.begin('Sample main menu', 50, 50, 270, 80, gui.NK_WINDOW_TITLE | gui.NK_W
 	gui.layout_row_static(30, 250, 1)
 	if gui.button_label('UPGRADE') then
 		print('Upgrading into game...')
+		game.switchRoutine(game.gameRoutine)
 	end
 end
 gui._end()

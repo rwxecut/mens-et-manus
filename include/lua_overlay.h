@@ -8,6 +8,10 @@ extern "C" {
 #include <lualib.h>
 }
 
+#define lua_addBindFunc(name) {#name, name}
+#define lua_addExportKey(key) {#key, (int) key}
+
+
 namespace lua {
 
 	template<typename T>

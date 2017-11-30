@@ -3,6 +3,12 @@
 #include <SDL.h>
 #include "windowState.h"
 
+// Routines' IDs for Lua
+enum {
+	gameRoutine = 0,
+	mainMenuRoutine = 1
+};
+
 class Routine {
 public:
 	virtual void update (WindowState *winState) = 0;
