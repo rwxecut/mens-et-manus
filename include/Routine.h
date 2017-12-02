@@ -5,8 +5,9 @@
 
 // Routines' IDs for Lua
 enum {
-	gameRoutine = 0,
-	mainMenuRoutine = 1
+	finalization,
+	gameRoutine,
+	mainMenuRoutine
 };
 
 class Routine {

@@ -1,9 +1,11 @@
-if gui.begin('Sample main menu', 50, 50, 270, 80, gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR |
-	                                              gui.NK_WINDOW_MOVABLE) then
+if gui.begin('Sample main menu', 50, 50, 270, 110, gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR |
+	                                               gui.NK_WINDOW_MOVABLE) then
 	gui.layout_row_static(30, 250, 1)
-	if gui.button_label('UPGRADE') then
-		print('Upgrading into game...')
+	if gui.button_label('Start game') then
 		game.switchRoutine(game.gameRoutine)
+	end
+	if gui.button_label('Exit') then
+		game.switchRoutine(game.finalization)
 	end
 end
 gui._end()

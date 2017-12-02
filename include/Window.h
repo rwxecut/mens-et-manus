@@ -26,7 +26,8 @@ class Window {
 	Game game;
 
 	Routine *routine;
-	void switchRoutine();
+	int currRoutineID;
+	bool switchRoutine();
 
 	uint32_t getFPS ();
 

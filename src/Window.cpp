@@ -1,4 +1,3 @@
-#include <windowState.h>
 #include "Window.h"
 
 
@@ -48,6 +47,7 @@ Window::Window (Config *config)
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
 
+	currRoutineID = 0;
 	routineID = mainMenuRoutine;
 }
 
@@ -59,8 +59,10 @@ Window::~Window () {
 }
 
 
-void Window::switchRoutine () {
+bool Window::switchRoutine () {
 	switch (routineID) {
+		case finalization:
+			return false;
 		case gameRoutine:
 			routine = &game;
 			break;
@@ -69,6 +71,7 @@ void Window::switchRoutine () {
 			break;
 		default:;
 	}
+	return true;
 }
 
 
@@ -91,7 +94,8 @@ int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
 	while (running) {
-		switchRoutine ();
+		if (currRoutineID != routineID)
+			running = switchRoutine ();
 		nk_input_begin (winState.nkContext);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {

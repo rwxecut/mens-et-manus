@@ -14,6 +14,7 @@ namespace lua::game {
 
 		// Export constants
 		field<int> keys[] = {
+				lua_addExportKey (finalization),
 				lua_addExportKey (gameRoutine),
 				lua_addExportKey (mainMenuRoutine),
 				{NULL, 0}
