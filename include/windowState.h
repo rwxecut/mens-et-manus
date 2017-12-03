@@ -1,6 +1,6 @@
 #pragma once
 
-#include "geometry.h"
+#include "auxiliary/geometry.h"
 #include "nuklear/nuklear_common.h"
 
 struct WindowState {

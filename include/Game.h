@@ -5,8 +5,8 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <GL/glu.h>
-#include "nk_lua.h"
-#include "game_lua.h"
+#include "auxiliary/nk_lua.h"
+#include "auxiliary/game_lua.h"
 
 #include "Routine.h"
 #include "windowState.h"

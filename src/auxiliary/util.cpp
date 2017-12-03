@@ -1,4 +1,4 @@
-#include "util.h"
+#include "auxiliary/util.h"
 
 #include <string>
 #include <stdexcept>

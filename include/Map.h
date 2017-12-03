@@ -6,7 +6,7 @@
 #include <cmath>
 #include <new>
 
-#include "geometry.h"
+#include "auxiliary/geometry.h"
 #include "Tile.h"
 
 class Map {

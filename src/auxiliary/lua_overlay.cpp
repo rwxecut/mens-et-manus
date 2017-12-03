@@ -1,4 +1,4 @@
-#include "lua_overlay.h"
+#include "auxiliary/lua_overlay.h"
 
 namespace lua {
 

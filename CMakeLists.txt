@@ -19,13 +19,13 @@ set(SOURCE_FILENAMES
         Tile.cpp
         MainMenu.cpp
         Save.cpp
-        sdl_gl_overlay.cpp
-        lua_overlay.cpp
-        util.cpp
-        exceptions.cpp
         nk_implement.cpp
-        nk_lua.cpp
-        game_lua.cpp
+        exceptions.cpp
+        auxiliary/sdl_gl_overlay.cpp
+        auxiliary/lua_overlay.cpp
+        auxiliary/util.cpp
+        auxiliary/nk_lua.cpp
+        auxiliary/game_lua.cpp
         )
 
 include(prepend)

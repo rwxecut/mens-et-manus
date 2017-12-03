@@ -2,7 +2,7 @@
 
 #include <GL/gl.h>
 #include <cstdint>
-#include "geometry.h"
+#include "auxiliary/geometry.h"
 
 class Tile {
 

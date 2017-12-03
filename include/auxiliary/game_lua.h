@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Routine.h"
-#include "lua_overlay.h"
+#include "auxiliary/lua_overlay.h"
 
 
 namespace lua::game {

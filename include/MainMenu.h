@@ -6,9 +6,9 @@
 
 #include "Routine.h"
 #include "windowState.h"
-#include "game_lua.h"
-#include "nk_lua.h"
-#include "sdl_gl_overlay.h"
+#include "auxiliary/game_lua.h"
+#include "auxiliary/nk_lua.h"
+#include "auxiliary/sdl_gl_overlay.h"
 
 #define MAINMENU_GUI_PATH "../assets/mainMenu.lua"
 

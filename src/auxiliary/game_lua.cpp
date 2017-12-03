@@ -1,4 +1,4 @@
-#include "game_lua.h"
+#include "auxiliary/game_lua.h"
 
 int routineID;
 

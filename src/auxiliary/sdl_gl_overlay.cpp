@@ -1,4 +1,4 @@
-#include "sdl_gl_overlay.h"
+#include "auxiliary/sdl_gl_overlay.h"
 
 bool sdl_gl::loadTexture (GLtexture *tex, const char *filename) {
 	SDL_Surface *image = IMG_Load (filename);

@@ -2,7 +2,7 @@
 
 #include <GL/glu.h>
 #include "Config.h"
-#include "geometry.h"
+#include "auxiliary/geometry.h"
 
 typedef struct {
 	bool left, right, up, down;
