@@ -10,8 +10,7 @@ Window::Window (Config *config)
 
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
-		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION,
-		                        "SDL could not initialize!");
+		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION, "SDL could not initialize!");
 
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -22,8 +21,12 @@ Window::Window (Config *config)
 	                              winState.attrib.screenSize.width, winState.attrib.screenSize.height,
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!sdlWindow)
-		throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO,
-		                        "Window could not be created!");
+		throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO, "Window could not be created!");
+
+	// Init SDL_image
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init (imgFlags) & imgFlags))
+		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION, "SDL_image could not initialize!");
 
 	// Init OpenGL
 	glContext = SDL_GL_CreateContext (sdlWindow);
@@ -38,6 +41,7 @@ Window::Window (Config *config)
 	glLoadIdentity ();
 	glClearColor (0.f, 0.f, 0.f, 1.f);
 	glEnable (GL_DEPTH_TEST);
+	glEnable (GL_TEXTURE_2D);
 	if (glGetError () != GL_NO_ERROR)
 		throw video::GL_Error ("Failed to initialize OpenGL!");
 
@@ -49,12 +53,15 @@ Window::Window (Config *config)
 
 	currRoutineID = 0;
 	routineID = mainMenuRoutine;
+
+	mainMenu.loadTestTex ();
 }
 
 
 Window::~Window () {
 	nk_sdl_shutdown ();
 	if (sdlWindow) SDL_DestroyWindow (sdlWindow);
+	IMG_Quit ();
 	SDL_Quit ();
 }
 
@@ -71,6 +78,7 @@ bool Window::switchRoutine () {
 			break;
 		default:;
 	}
+	currRoutineID = routineID;
 	return true;
 }
 
