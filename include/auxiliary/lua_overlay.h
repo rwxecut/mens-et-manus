@@ -25,8 +25,7 @@ namespace lua {
 	inline T getTableField (lua_State *L, const char *field) {
 		static_assert (std::is_same<T, int>::value || std::is_same<T, double>::value,
 		               "Only int and double are allowed");
-		lua_pushstring (L, field);
-		lua_gettable (L, -2);
+		lua_getfield (L, -1, field);
 		T value;
 		if (std::is_same<T, int>::value)
 			value = (int) luaL_checkinteger (L, -1);

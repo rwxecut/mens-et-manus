@@ -8,4 +8,4 @@ if gui.begin('Sample main menu', 50, 50, 270, 110, gui.NK_WINDOW_TITLE | gui.NK_
 		game.switchRoutine(game.finalization)
 	end
 end
-gui._end()
+gui.finish()

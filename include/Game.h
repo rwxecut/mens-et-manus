@@ -27,7 +27,7 @@ class Game : public Routine {
 	void mousePositionHandler (WindowState *winState);
 
 public:
-	Game (Config *config);
+	Game (Config *config, WindowState *winState);
 	~Game ();
 
 	void update (WindowState *winState);

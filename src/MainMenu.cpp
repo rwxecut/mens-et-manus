@@ -1,16 +1,13 @@
 #include "MainMenu.h"
 
 
-MainMenu::MainMenu () {
+MainMenu::MainMenu (WindowState *winState) {
 	// Create GUI
 	LGUI = luaL_newstate ();
 	luaL_openlibs (LGUI);
 	lua::nk::init (LGUI);
-	lua::game::init (LGUI);
-}
+	lua::game::init (LGUI, winState);
 
-
-void MainMenu::loadTestTex () {
 	sdl_gl::loadTexture (&tex, "../assets/thinking.png");
 }
 

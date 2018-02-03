@@ -3,13 +3,15 @@
 
 namespace lua::nk {
 
+	nk_context *ctx;
+
 	void init (lua_State *L) {
 		// Bind functions
 		luaL_Reg funclist[] = {
 				lua_addBindFunc (begin),
 				lua_addBindFunc (layout_row_static),
 				lua_addBindFunc (button_label),
-				lua_addBindFunc (_end),
+				lua_addBindFunc (finish),
 				{NULL, NULL}
 		};
 		luaL_newlib (L, funclist);
@@ -68,7 +70,7 @@ namespace lua::nk {
 	}
 
 
-	int _end (lua_State *L) {
+	int finish (lua_State *L) {
 		nk_end (lua::nk::ctx);
 		return 0;
 	}

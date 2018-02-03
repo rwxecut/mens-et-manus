@@ -1,13 +1,13 @@
 #include "Game.h"
 
 
-Game::Game (Config *config)
+Game::Game (Config *config, WindowState *winState)
 		: map (), cam (config) {
 	// Create GUI
 	LGUI = luaL_newstate ();
 	luaL_openlibs (LGUI);
 	lua::nk::init (LGUI);
-	lua::game::init (LGUI);
+	lua::game::init (LGUI, winState);
 }
 
 
@@ -62,9 +62,9 @@ void Game::keyHandler () {
 
 void Game::mousePositionHandler (WindowState *winState) {
 	direction_t dir = {(winState->mousePos.x < map.mouseMoveArea),
-	                   (winState->mousePos.x > winState->attrib.screenSize.width - map.mouseMoveArea),
+	                   (winState->mousePos.x > winState->screenSize.width - map.mouseMoveArea),
 	                   (winState->mousePos.y < map.mouseMoveArea),
-	                   (winState->mousePos.y > winState->attrib.screenSize.height - map.mouseMoveArea)};
+	                   (winState->mousePos.y > winState->screenSize.height - map.mouseMoveArea)};
 	cam.accelerate (&dir);
 }
 

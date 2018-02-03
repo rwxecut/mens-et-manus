@@ -4,10 +4,8 @@
 #include "nuklear/nuklear_common.h"
 
 struct WindowState {
-	struct {
-		size2d<int> screenSize;
-		GLdouble fpsInterval;
-	} attrib;
+	size2d<int> screenSize;
 	point2d<int> mousePos;
 	nk_context *nkContext;
+	int routineID;
 };

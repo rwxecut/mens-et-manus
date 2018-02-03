@@ -1,10 +1,13 @@
 #include "auxiliary/game_lua.h"
 
-int routineID;
 
 namespace lua::game {
 
-	void init (lua_State *L) {
+	int *routineID;
+
+	void init (lua_State *L, WindowState *winState) {
+		routineID = &(winState->routineID);
+
 		// Bind functions
 		luaL_Reg funclist[] = {
 				lua_addBindFunc (switchRoutine),
@@ -27,7 +30,7 @@ namespace lua::game {
 	// Binded functions
 
 	int switchRoutine (lua_State *L) {
-		routineID = (int) luaL_checkinteger (L, 1);
+		*routineID = (int) luaL_checkinteger (L, 1);
 		return 0;
 	}
 }

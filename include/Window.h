@@ -15,7 +15,6 @@
 #include "MainMenu.h"
 #include "Game.h"
 
-extern int routineID;
 
 class Window {
 
@@ -23,13 +22,11 @@ class Window {
 	SDL_GLContext glContext;
 	SDL_Window *sdlWindow;
 
-	MainMenu mainMenu;
-	Game game;
-
+	MainMenu* mainMenu;
+	Game* game;
 	Routine *routine;
-	int currRoutineID;
-	bool switchRoutine();
 
+	GLdouble fpsInterval;
 	uint32_t getFPS ();
 
 public:

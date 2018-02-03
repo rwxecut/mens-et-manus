@@ -17,9 +17,8 @@ class MainMenu : public Routine {
 	GLtexture tex;
 
 public:
-	MainMenu ();
+	MainMenu (WindowState *winState);
 	~MainMenu ();
-	void loadTestTex();
 
 	void update (WindowState *winState);
 	void render ();

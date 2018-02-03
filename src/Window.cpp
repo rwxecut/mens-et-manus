@@ -1,12 +1,11 @@
 #include "Window.h"
 
 
-Window::Window (Config *config)
-		: game (config), mainMenu () {
+Window::Window (Config *config) {
 	// Load attributes from config
-	winState.attrib.screenSize.width = config->screen.width;
-	winState.attrib.screenSize.height = config->screen.height;
-	winState.attrib.fpsInterval = config->fpsInterval * 1000;
+	winState.screenSize.width = config->screen.width;
+	winState.screenSize.height = config->screen.height;
+	fpsInterval = config->fpsInterval * 1000;
 
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
@@ -18,7 +17,7 @@ Window::Window (Config *config)
 
 	sdlWindow = SDL_CreateWindow ("Mens et Manus",
 	                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	                              winState.attrib.screenSize.width, winState.attrib.screenSize.height,
+	                              winState.screenSize.width, winState.screenSize.height,
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!sdlWindow)
 		throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO, "Window could not be created!");
@@ -51,35 +50,19 @@ Window::Window (Config *config)
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
 
-	currRoutineID = 0;
-	routineID = mainMenuRoutine;
-
-	mainMenu.loadTestTex ();
+	winState.routineID = mainMenuRoutine;
+	mainMenu = new MainMenu (&winState);
+	game = new Game (config, &winState);
 }
 
 
 Window::~Window () {
+	delete game;
+	delete mainMenu;
 	nk_sdl_shutdown ();
 	if (sdlWindow) SDL_DestroyWindow (sdlWindow);
 	IMG_Quit ();
 	SDL_Quit ();
-}
-
-
-bool Window::switchRoutine () {
-	switch (routineID) {
-		case finalization:
-			return false;
-		case gameRoutine:
-			routine = &game;
-			break;
-		case mainMenuRoutine:
-			routine = &mainMenu;
-			break;
-		default:;
-	}
-	currRoutineID = routineID;
-	return true;
 }
 
 
@@ -89,7 +72,7 @@ uint32_t Window::getFPS () {
 	static uint32_t lasttime = SDL_GetTicks ();
 
 	frames++;
-	if (lasttime < SDL_GetTicks () - winState.attrib.fpsInterval) {
+	if (lasttime < SDL_GetTicks () - fpsInterval) {
 		lasttime = SDL_GetTicks ();
 		FPS = frames;
 		frames = 0;
@@ -102,8 +85,19 @@ int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
 	while (running) {
-		if (currRoutineID != routineID)
-			running = switchRoutine ();
+
+		switch (winState.routineID) {
+			case finalization:
+				running = false;
+			case gameRoutine:
+				routine = game;
+				break;
+			case mainMenuRoutine:
+				routine = mainMenu;
+				break;
+			default:;
+		}
+
 		nk_input_begin (winState.nkContext);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
@@ -115,12 +109,13 @@ int Window::mainLoop () {
 					routine->eventHandler (&event);
 			}
 		nk_input_end (winState.nkContext);
+		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
 		routine->update (&winState);
+
 		routine->render ();
 		nk_sdl_render (NK_ANTI_ALIASING_ON);
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
-		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
 
 		char fpsStr[32] = {0};
 		snprintf (fpsStr, 31, "Mens et Manus [FPS: %zu]", getFPS ());
