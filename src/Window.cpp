@@ -122,7 +122,7 @@ int Window::mainLoop () {
 
 		// Write FPS to window title
 		char fpsStr[32] = {0};
-		snprintf (fpsStr, 31, "Mens et Manus [FPS: %zu]", getFPS ());
+		snprintf (fpsStr, 32, "Mens et Manus [FPS: %zu]", getFPS ());
 		SDL_SetWindowTitle (sdlWindow, fpsStr);
 	}
 	return 0;

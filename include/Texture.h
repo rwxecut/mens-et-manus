@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdexcept>
+#include <memory>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
@@ -11,6 +12,7 @@ class Texture {
 
 public:
 	Texture (const char *filename);
-	void draw (const GLint *vertices, const GLint* texVertices);
+	void draw (GLenum mode, GLsizei count, const GLfloat *vertex, const GLfloat *texCoord);
+	void stateDraw (GLenum mode, GLsizei count, const GLfloat *vertex, const GLfloat *texCoord);
 	~Texture ();
 };

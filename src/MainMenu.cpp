@@ -29,16 +29,16 @@ void MainMenu::render () {
 	glLoadIdentity ();
 
 	//@formatter:off
-	GLint vertices[] = {-1, -1,
-	                     1, -1,
-			             1,  1,
-			            -1,  1};
-	GLint texVertices[] = {0, 1,
+	GLfloat vertex[] = {-1,  1, 0,
+	                    -1, -1, 0,
+	                     1, -1, 0,
+	                     1,  1, 0};
+	GLfloat texCoords[] = {0, 0,
+	                       0, 1,
 	                       1, 1,
-	                       1, 0,
-	                       0, 0};
+	                       1, 0};
 	//@formatter:on
-	background->draw (vertices, texVertices);
+	background->stateDraw (GL_QUADS, 4, vertex, texCoords);
 }
 
 
