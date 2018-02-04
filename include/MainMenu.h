@@ -5,10 +5,10 @@
 #include <SDL_image.h>
 
 #include "Routine.h"
+#include "Texture.h"
 #include "windowState.h"
 #include "auxiliary/game_lua.h"
 #include "auxiliary/nk_lua.h"
-#include "auxiliary/sdl_gl_overlay.h"
 
 #define MAINMENU_GUI_PATH "../assets/mainMenu.lua"
 

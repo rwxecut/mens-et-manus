@@ -8,8 +8,7 @@ MainMenu::MainMenu (WindowState *winState) {
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, winState);
 
-	background = new Texture ();
-	if (!background->load ("../assets/thinking.png")) ;
+	background = new Texture ("../assets/thinking.png");
 }
 
 

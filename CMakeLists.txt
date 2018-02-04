@@ -19,9 +19,8 @@ set(SOURCE_FILENAMES
         Tile.cpp
         MainMenu.cpp
         Save.cpp
+        Texture.cpp
         nk_implement.cpp
-        exceptions.cpp
-        auxiliary/sdl_gl_overlay.cpp
         auxiliary/lua_overlay.cpp
         auxiliary/util.cpp
         auxiliary/nk_lua.cpp

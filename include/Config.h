@@ -1,7 +1,7 @@
 #pragma once
 
+#include <stdexcept>
 #include <GL/gl.h>
-#include "exceptions.h"
 #include "auxiliary/lua_overlay.h"
 
 

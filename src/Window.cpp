@@ -1,6 +1,5 @@
 #include "Window.h"
 
-
 Window::Window (Config *config) {
 	// Load attributes from config
 	winState.screenSize.width = config->screen.width;
@@ -9,7 +8,7 @@ Window::Window (Config *config) {
 
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
-		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION, "SDL could not initialize!");
+		throw std::runtime_error ("SDL could not initialize!");
 
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -20,17 +19,17 @@ Window::Window (Config *config) {
 	                              winState.screenSize.width, winState.screenSize.height,
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!sdlWindow)
-		throw video::SDL_Error (SDL_LOG_CATEGORY_VIDEO, "Window could not be created!");
+		throw std::runtime_error ("Window could not be created!");
 
 	// Init SDL_image
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init (imgFlags) & imgFlags))
-		throw video::SDL_Error (SDL_LOG_CATEGORY_APPLICATION, "SDL_image could not initialize!");
+		throw std::runtime_error ("SDL_image could not initialize!");
 
 	// Init OpenGL
 	glContext = SDL_GL_CreateContext (sdlWindow);
 	if (!glContext)
-		throw video::GL_Error ("Failed to create OpenGL context!");
+		throw std::runtime_error ("Failed to create OpenGL context!");
 	if (SDL_GL_SetSwapInterval (1) < 0)
 		SDL_LogWarn (SDL_LOG_CATEGORY_VIDEO, "Can't enable VSync!");
 
@@ -42,7 +41,7 @@ Window::Window (Config *config) {
 	glEnable (GL_DEPTH_TEST);
 	glEnable (GL_TEXTURE_2D);
 	if (glGetError () != GL_NO_ERROR)
-		throw video::GL_Error ("Failed to initialize OpenGL!");
+		throw std::runtime_error ("Failed to initialize OpenGL!");
 
 	// Init Nuklear
 	winState.nkContext = nk_sdl_init (sdlWindow);
