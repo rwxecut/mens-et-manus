@@ -10,6 +10,9 @@ extern "C" {
 
 #define lua_addBindFunc(name) {#name, name}
 #define lua_addExportKey(key) {#key, (int) key}
+#define lua_cfunc(name) int name (lua_State *L)
+#define lua_arg_int(L, n) (int) luaL_checkinteger (L, n)
+#define lua_arg_float(L, n) (float) luaL_checknumber (L, n)
 
 
 namespace lua {

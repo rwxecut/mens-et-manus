@@ -5,10 +5,12 @@ namespace lua::nk {
 
 	nk_context *ctx;
 
+
 	void init (lua_State *L) {
 		// Bind functions
 		luaL_Reg funclist[] = {
 				lua_addBindFunc (begin),
+				lua_addBindFunc (layout_row_dynamic),
 				lua_addBindFunc (layout_row_static),
 				lua_addBindFunc (button_label),
 				lua_addBindFunc (finish),
@@ -44,34 +46,44 @@ namespace lua::nk {
 
 	// Binded functions
 
-	int begin (lua_State *L) {
-		lua_pushboolean (L, nk_begin (lua::nk::ctx, luaL_checkstring (L, 1),
-		                              nk_rect ((float) luaL_checknumber (L, 2),
-		                                       (float) luaL_checknumber (L, 3),
-		                                       (float) luaL_checknumber (L, 4),
-		                                       (float) luaL_checknumber (L, 5)),
-		                              (nk_flags) luaL_checkinteger (L, 6)));
+	lua_cfunc (begin) {
+		lua_pushboolean (L, nk_begin (ctx,
+		                              luaL_checkstring (L, 1),
+		                              nk_rect (lua_arg_float (L, 2),
+		                                       lua_arg_float (L, 3),
+		                                       lua_arg_float (L, 4),
+		                                       lua_arg_float (L, 5)),
+		                              (nk_flags) lua_arg_int (L, 6)));
 		return 1;
 	}
 
 
-	int layout_row_static (lua_State *L) {
-		nk_layout_row_static (lua::nk::ctx,
-		                      (float) luaL_checknumber (L, 1),
-		                      (int) luaL_checkinteger (L, 2),
-		                      (int) luaL_checkinteger (L, 3));
+	lua_cfunc (layout_row_dynamic) {
+		nk_layout_row_dynamic (ctx,
+		                       lua_arg_float (L, 1),
+		                       lua_arg_int (L, 2));
 		return 0;
 	}
 
 
-	int button_label (lua_State *L) {
-		lua_pushboolean (L, nk_button_label (lua::nk::ctx, luaL_checkstring (L, 1)));
+	lua_cfunc (layout_row_static) {
+		nk_layout_row_static (ctx,
+		                      lua_arg_float (L, 1),
+		                      lua_arg_int (L, 2),
+		                      lua_arg_int (L, 3));
+		return 0;
+	}
+
+
+	lua_cfunc (button_label) {
+		lua_pushboolean (L, nk_button_label (ctx,
+		                                     luaL_checkstring (L, 1)));
 		return 1;
 	}
 
 
-	int finish (lua_State *L) {
-		nk_end (lua::nk::ctx);
+	lua_cfunc (finish) {
+		nk_end (ctx);
 		return 0;
 	}
 

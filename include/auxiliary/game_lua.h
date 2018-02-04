@@ -8,5 +8,5 @@ namespace lua::game {
 	void init (lua_State *L, WindowState *winState);
 
 	// Binded functions
-	int switchRoutine (lua_State *L);
+	lua_cfunc (switchRoutine);
 }

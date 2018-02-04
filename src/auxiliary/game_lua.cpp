@@ -29,8 +29,8 @@ namespace lua::game {
 
 	// Binded functions
 
-	int switchRoutine (lua_State *L) {
-		*routineID = (int) luaL_checkinteger (L, 1);
+	lua_cfunc (switchRoutine) {
+		*routineID = lua_arg_int (L, 1);
 		return 0;
 	}
 }
