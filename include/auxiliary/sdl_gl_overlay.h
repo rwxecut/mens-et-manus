@@ -4,8 +4,13 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
-typedef GLuint GLtexture;
 
-namespace sdl_gl {
-	bool loadTexture (GLtexture *tex, const char *filename);
-}
+class Texture {
+	GLuint texID;
+
+public:
+	Texture ();
+	bool load (const char *filename);
+	void draw (const GLint *vertices, const GLint* texVertices);
+	~Texture ();
+};

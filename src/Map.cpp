@@ -26,6 +26,7 @@ void Map::draw () {
 		for (uint16_t x = 0; x < size.width; x++)
 			tiles[y][x].draw ();
 	glDisableClientState (GL_VERTEX_ARRAY);
+	glColor3f (1, 1, 1); // reset color
 }
 
 
@@ -44,7 +45,7 @@ void Map::getHoveredTile (point2d<GLdouble> point) {
 	int16_t y_floor = (int16_t) std::floor (y_hex);
 	tCntr[0].x = (int16_t) std::floor (x_hex);
 	tCntr[1].x = (int16_t) std::ceil (x_hex);
-	if ((tCntr[0].x & 1) == (y_floor & 1)) { // Hard to explain
+	if ((tCntr[0].x & 1) == (y_floor & 1)) { // Check parity
 		tCntr[0].y = (int16_t) std::floor (y_hex);
 		tCntr[1].y = (int16_t) std::ceil (y_hex);
 	} else {

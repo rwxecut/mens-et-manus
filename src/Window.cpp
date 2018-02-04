@@ -50,6 +50,7 @@ Window::Window (Config *config) {
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
 
+	// Create menu & game
 	winState.routineID = mainMenuRoutine;
 	mainMenu = new MainMenu (&winState);
 	game = new Game (config, &winState);
@@ -85,10 +86,11 @@ int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
 	while (running) {
-
+		// Switch current routine
 		switch (winState.routineID) {
 			case finalization:
 				running = false;
+				break;
 			case gameRoutine:
 				routine = game;
 				break;
@@ -98,6 +100,7 @@ int Window::mainLoop () {
 			default:;
 		}
 
+		// Get events & update
 		nk_input_begin (winState.nkContext);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
@@ -112,11 +115,13 @@ int Window::mainLoop () {
 		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
 		routine->update (&winState);
 
+		// Render
 		routine->render ();
 		nk_sdl_render (NK_ANTI_ALIASING_ON);
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
 
+		// Write FPS to window title
 		char fpsStr[32] = {0};
 		snprintf (fpsStr, 31, "Mens et Manus [FPS: %zu]", getFPS ());
 		SDL_SetWindowTitle (sdlWindow, fpsStr);

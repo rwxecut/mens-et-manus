@@ -14,7 +14,7 @@
 
 class MainMenu : public Routine {
 	lua_State *LGUI;
-	GLtexture tex;
+	Texture *background;
 
 public:
 	MainMenu (WindowState *winState);

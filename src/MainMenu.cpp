@@ -8,12 +8,13 @@ MainMenu::MainMenu (WindowState *winState) {
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, winState);
 
-	sdl_gl::loadTexture (&tex, "../assets/thinking.png");
+	background = new Texture ();
+	if (!background->load ("../assets/thinking.png")) ;
 }
 
 
 MainMenu::~MainMenu () {
-	glDeleteTextures (1, &tex);
+	delete background;
 	lua_close (LGUI);
 }
 
@@ -38,15 +39,7 @@ void MainMenu::render () {
 	                       1, 0,
 	                       0, 0};
 	//@formatter:on
-
-	glBindTexture (GL_TEXTURE_2D, tex);
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer (2, GL_INT, 0, vertices);
-	glTexCoordPointer (2, GL_INT, 0, texVertices);
-	glDrawArrays (GL_QUADS, 0, 4);
-	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState (GL_VERTEX_ARRAY);
+	background->draw (vertices, texVertices);
 }
 
 

@@ -1,23 +1,5 @@
 #include "exceptions.h"
 
-#include <sstream>
-
-namespace file {
-	std::string FileNotFound::fileNotFoundMsg
-			(std::string const &fname,
-					std::vector<std::string> const &dirs_searched) {
-		std::stringstream msg;
-		msg << "Couldn't find a " << fname << " file. Locations searched: ";
-		for (auto p = dirs_searched.begin ();
-		     p != dirs_searched.end (); p++)
-			msg << *p << (p + 1 == dirs_searched.end () ? "." : ",") << "\n";
-		return msg.str ();
-	}
-
-	FileNotFound::FileNotFound (std::string const &fname,
-		std::vector<std::string> const &dirs_searched)
-		: std::runtime_error (fileNotFoundMsg (fname, dirs_searched)) {};
-}
 
 namespace video {
 	std::string SDL_Error::SDL_ErrorMsg (std::string msg) {
