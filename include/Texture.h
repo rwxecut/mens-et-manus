@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdexcept>
-#include <memory>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>

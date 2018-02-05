@@ -37,7 +37,7 @@ Window::Window (Config *config) {
 	glLoadIdentity ();
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity ();
-	glClearColor (0.f, 0.f, 0.f, 1.f);
+	glClearColor (0, 0, 0, 1);
 	glEnable (GL_DEPTH_TEST);
 	glEnable (GL_TEXTURE_2D);
 	if (glGetError () != GL_NO_ERROR)

@@ -13,9 +13,25 @@ public:
 	static constexpr GLfloat hex_r = 86.6f;
 
 	//@formatter:off
-	const GLfloat colorUnselected[3] = {1.000, 1.000, 1.000};
-	const GLfloat colorSelected[3]   = {0.122, 0.608, 0.176};
-	const GLfloat colorBorder[3]     = {0.737, 0.737, 0.737};
+	const GLfloat hexVertex[18] = {
+			-hex_r, -hex_l / 2, 0,
+			 0.00f, -hex_l,     0,
+			 hex_r, -hex_l / 2, 0,
+			 hex_r,  hex_l / 2, 0,
+			 0.00f,  hex_l,     0,
+			-hex_r,  hex_l / 2, 0
+	};
+	const GLfloat texCoords[12] = {
+			-hex_r / 200 + 0.5f, 1 - (hex_l / 200 - 0.25f),
+			 0.00f / 200 + 0.5f, 1 - 0,
+			 hex_r / 200 + 0.5f, 1 - (hex_l / 200 - 0.25f),
+			 hex_r / 200 + 0.5f, 1 - (hex_l / 200 + 0.25f),
+			 0.00f / 200 + 0.5f, 1 - 1,
+			-hex_r / 200 + 0.5f, 1 - (hex_l / 200 + 0.25f)
+	};
+	const GLfloat colorUnselected[3]  = {1.000, 1.000, 1.000};
+	const GLfloat colorSelected[3]    = {0.122, 0.608, 0.176};
+	const GLfloat colorBorder[3]      = {0.737, 0.737, 0.737};
 	//@formatter:on
 
 	point2d<uint16_t> pos;
