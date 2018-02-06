@@ -50,7 +50,7 @@ Window::Window (Config *config) {
 
 	// Init Nuklear
 	winState.nkContext = nk_sdl_init (sdlWindow);
-	struct nk_font_atlas *atlas;
+	nk_font_atlas *atlas;
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
 	logger.write ("Nuklear initialized");

@@ -7,6 +7,7 @@
 #include <new>
 
 #include "auxiliary/geometry.h"
+#include "auxiliary/util.h"
 #include "Tile.h"
 #include "Texture.h"
 
@@ -22,7 +23,9 @@ class Map {
 	Texture *grassTex;
 
 	void draw ();
-	void getHoveredTile (point2d<GLdouble> point);
+	point2d<int16_t> getHoveredTile (point2d<GLdouble> point);
+	void setSelectedTile (point2d<int> mousePos);
+	void setVisibleTiles (size2d<int> winSize);
 
 public:
 	Map ();

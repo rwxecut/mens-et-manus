@@ -21,8 +21,6 @@ class Game : public Routine {
 	Cam cam;
 	lua_State *LGUI;
 
-	void unproject (point2d<GLdouble> source, point2d<GLdouble> *object);
-
 	void keyHandler ();
 	void mousePositionHandler (WindowState *winState);
 

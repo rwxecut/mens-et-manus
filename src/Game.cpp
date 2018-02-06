@@ -23,9 +23,8 @@ void Game::update (WindowState *winState) {
 		cam.decelerate ();
 	cam.move ();
 
-	point2d<GLdouble> unprojection;
-	unproject ({(GLdouble) winState->mousePos.x, (GLdouble) winState->mousePos.y}, &unprojection);
-	map.getHoveredTile (unprojection);
+	map.setSelectedTile (winState->mousePos);
+	map.setVisibleTiles (winState->screenSize);
 
 	lua::nk::run (LGUI, winState->nkContext, GAME_GUI_PATH);
 }
@@ -34,21 +33,6 @@ void Game::update (WindowState *winState) {
 void Game::render () {
 	cam.setup ();
 	map.draw ();
-}
-
-
-void Game::unproject (point2d<GLdouble> source, point2d<GLdouble> *object) {
-	GLdouble modelview[16], projection[16];
-	GLint viewport[4];
-	GLfloat srcZ;
-	GLdouble objZ;
-
-	glGetDoublev (GL_MODELVIEW_MATRIX, modelview);
-	glGetDoublev (GL_PROJECTION_MATRIX, projection);
-	glGetIntegerv (GL_VIEWPORT, viewport);
-	source.y = (GLfloat) (viewport[3] - source.y);
-	glReadPixels ((GLint) source.x, (GLint) source.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
-	gluUnProject (source.x, source.y, srcZ, modelview, projection, viewport, &object->x, &object->y, &objZ);
 }
 
 

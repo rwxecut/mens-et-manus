@@ -22,11 +22,12 @@ Map::~Map () {
 
 
 void Map::draw () {
+	// Draw visible tiles
 	glLineWidth (2.0);
 	glEnableClientState (GL_VERTEX_ARRAY);
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-	for (uint16_t y = 0; y < size.height; y++)
-		for (uint16_t x = 0; x < size.width; x++)
+	for (int16_t y = Tile::visBottomLeft.y; y <= Tile::visTopRight.y; y++)
+		for (int16_t x = Tile::visBottomLeft.x; x <= Tile::visTopRight.x; x++)
 			tiles[y][x].draw ();
 	glDisableClientState (GL_VERTEX_ARRAY);
 	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
@@ -34,7 +35,27 @@ void Map::draw () {
 }
 
 
-void Map::getHoveredTile (point2d<GLdouble> point) {
+void Map::setSelectedTile (point2d<int> mousePos) {
+	point2d<GLdouble> unprojection = gl::unproject ({(GLdouble) mousePos.x, (GLdouble) mousePos.y});
+	Tile::selected = getHoveredTile (unprojection);
+}
+
+
+void Map::setVisibleTiles (size2d<int> winSize) {
+	Tile::visBottomLeft = getHoveredTile (gl::unproject ({0, (GLdouble) winSize.height}));
+	Tile::visTopRight = getHoveredTile (gl::unproject ({(GLdouble) winSize.width, 0}));
+	// Extend range
+	#define reserved 3
+	Tile::visBottomLeft -= (point2d<int16_t>){reserved, reserved};
+	Tile::visTopRight += (point2d<int16_t>){reserved, reserved};
+	if (Tile::visBottomLeft.x < 0) Tile::visBottomLeft.x = 0;
+	if (Tile::visBottomLeft.y < 0) Tile::visBottomLeft.y = 0;
+	if (Tile::visTopRight.x >= size.width) Tile::visTopRight.x = (int16_t) (size.width - 1);
+	if (Tile::visTopRight.y >= size.height) Tile::visTopRight.y = (int16_t) (size.height - 1);
+}
+
+
+point2d<int16_t> Map::getHoveredTile (point2d<GLdouble> point) {
 	struct {
 		int16_t x; // Coordinates of centers
 		int16_t y; // of the two nearest tiles
@@ -66,6 +87,7 @@ void Map::getHoveredTile (point2d<GLdouble> point) {
 
 	// Return the nearest tile center
 	int nearest = tCntr[0].dist >= tCntr[1].dist;
-	Tile::selected.x = tCntr[nearest].x >> 1;
-	Tile::selected.y = tCntr[nearest].y;
+	tCntr[nearest].x >>= 1;
+	return {.x = tCntr[nearest].x,
+			.y = tCntr[nearest].y};
 }

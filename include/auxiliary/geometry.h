@@ -23,6 +23,13 @@ struct point2d {
 		x += source.x;
 		y += source.y;
 	}
+
+
+	template<typename U>
+	inline void operator-= (const point2d<U> &source) {
+		x -= source.x;
+		y -= source.y;
+	}
 };
 
 #define vector2d point2d
@@ -50,7 +57,7 @@ struct point3d {
 
 
 template<typename T>
-void moveVertex3d (const T *in, T *out, int count, T dx, T dy, T dz) {
+void moveVertexArray3d (const T *in, T *out, int count, T dx, T dy, T dz) {
 	for (int i = 0; i < count; i++) {
 		out[i * 3 + 0] = in[i * 3 + 0] + dx;
 		out[i * 3 + 1] = in[i * 3 + 1] + dy;
