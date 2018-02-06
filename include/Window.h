@@ -9,6 +9,7 @@
 #include "auxiliary/game_lua.h"
 #include "auxiliary/geometry.h"
 
+#include "Logger.h"
 #include "Config.h"
 #include "Routine.h"
 #include "windowState.h"

@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <GL/gl.h>
 #include "auxiliary/lua_overlay.h"
+#include "Logger.h"
 
 
 class Config {

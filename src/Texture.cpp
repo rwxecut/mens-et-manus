@@ -15,6 +15,7 @@ Texture::Texture (const char *filename) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	SDL_FreeSurface (image);
+	logger.write ("Texture loaded: %s", filename);
 };
 
 

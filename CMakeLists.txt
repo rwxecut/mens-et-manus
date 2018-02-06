@@ -16,6 +16,7 @@ set(SOURCE_FILENAMES
         Cam.cpp
         Map.cpp
         Config.cpp
+        Logger.cpp
         Tile.cpp
         MainMenu.cpp
         Save.cpp

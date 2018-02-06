@@ -25,4 +25,6 @@ Config::Config () {
 	lua_pop (L, 1);
 
 	lua_close (L);
+
+	logger.write ("Config loaded: %s", CONFIG_PATH);
 }

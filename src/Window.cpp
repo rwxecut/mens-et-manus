@@ -20,18 +20,22 @@ Window::Window (Config *config) {
 	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if (!sdlWindow)
 		throw std::runtime_error ("Window could not be created!");
+	logger.write ("SDL initialized");
 
 	// Init SDL_image
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init (imgFlags) & imgFlags))
 		throw std::runtime_error ("SDL_image could not initialize!");
+	logger.write ("SDL_image initialized");
 
 	// Init OpenGL
 	glContext = SDL_GL_CreateContext (sdlWindow);
 	if (!glContext)
 		throw std::runtime_error ("Failed to create OpenGL context!");
+	logger.write ("SDL GL context created");
 	if (SDL_GL_SetSwapInterval (1) < 0)
-		SDL_LogWarn (SDL_LOG_CATEGORY_VIDEO, "Can't enable VSync!");
+		logger.write ("WARNING: Can't enable VSync");
+	logger.write ("VSync enabled");
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
@@ -42,12 +46,14 @@ Window::Window (Config *config) {
 	glEnable (GL_TEXTURE_2D);
 	if (glGetError () != GL_NO_ERROR)
 		throw std::runtime_error ("Failed to initialize OpenGL!");
+	logger.write ("OpenGL initialized");
 
 	// Init Nuklear
 	winState.nkContext = nk_sdl_init (sdlWindow);
 	struct nk_font_atlas *atlas;
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
+	logger.write ("Nuklear initialized");
 
 	// Create menu & game
 	winState.routineID = mainMenuRoutine;
@@ -122,7 +128,7 @@ int Window::mainLoop () {
 
 		// Write FPS to window title
 		char fpsStr[32] = {0};
-		snprintf (fpsStr, 32, "Mens et Manus [FPS: %zu]", getFPS ());
+		snprintf (fpsStr, sizeof (fpsStr), "Mens et Manus [FPS: %zu]", getFPS ());
 		SDL_SetWindowTitle (sdlWindow, fpsStr);
 	}
 	return 0;
