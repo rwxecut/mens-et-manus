@@ -5,7 +5,7 @@ namespace lua::game {
 
 	int *routineID;
 
-	void init (lua_State *L, WindowState *winState) {
+	void init (LuaFile *LF, WindowState *winState) {
 		routineID = &(winState->routineID);
 
 		// Bind functions
@@ -13,7 +13,7 @@ namespace lua::game {
 				lua_addBindFunc (switchRoutine),
 				{NULL, NULL}
 		};
-		luaL_newlib (L, funclist);
+		luaL_newlib (LF->L, funclist);
 
 		// Export constants
 		field<int> keys[] = {
@@ -22,8 +22,8 @@ namespace lua::game {
 				lua_addExportKey (mainMenuRoutine),
 				{NULL, 0}
 		};
-		setTableFields (L, keys);
-		lua_setglobal (L, "game");
+		setTableFields (LF->L, keys);
+		lua_setglobal (LF->L, "game");
 	}
 
 

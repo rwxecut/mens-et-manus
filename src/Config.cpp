@@ -4,27 +4,24 @@
 
 
 Config::Config () {
-	lua_State *L = luaL_newstate ();
-	luaL_openlibs (L);
-	if (luaL_loadfile (L, CONFIG_PATH) || lua_pcall (L, 0, 0, 0))
-		throw fatalError ("Error while loading config.lua");
+	logger.write ("Loading config");
+	LuaFile *conf = new LuaFile (CONFIG_PATH);
+	conf->run ();
 
-	lua_getglobal (L, "screen");
-	screen.width = lua::getTableField<int> (L, "width");
-	screen.height = lua::getTableField<int> (L, "height");
-	lua_pop (L, 1);
+	lua_getglobal (conf->L, "screen");
+	screen.width = lua::getTableField<int> (conf->L, "width");
+	screen.height = lua::getTableField<int> (conf->L, "height");
+	lua_pop (conf->L, 1);
 
-	lua_getglobal (L, "cam");
-	cam.moveSpeedMax = (GLdouble) lua::getTableField<double> (L, "moveSpeedMax");
-	cam.moveAcceleration = (GLdouble) lua::getTableField<double> (L, "moveAcceleration");
-	cam.zoomSpeed = (GLdouble) lua::getTableField<double> (L, "zoomSpeed");
-	lua_pop (L, 1);
+	lua_getglobal (conf->L, "cam");
+	cam.moveSpeedMax = (GLdouble) lua::getTableField<double> (conf->L, "moveSpeedMax");
+	cam.moveAcceleration = (GLdouble) lua::getTableField<double> (conf->L, "moveAcceleration");
+	cam.zoomSpeed = (GLdouble) lua::getTableField<double> (conf->L, "zoomSpeed");
+	lua_pop (conf->L, 1);
 
-	lua_getglobal (L, "fpsInterval");
-	fpsInterval = luaL_checknumber (L, 1);
-	lua_pop (L, 1);
+	lua_getglobal (conf->L, "fpsInterval");
+	fpsInterval = luaL_checknumber (conf->L, -1);
+	lua_pop (conf->L, 1);
 
-	lua_close (L);
-
-	logger.write ("Config loaded: %s", CONFIG_PATH);
+	delete conf;
 }

@@ -17,6 +17,9 @@ extern "C" {
 
 namespace lua {
 
+	void stackDump (lua_State *L);
+
+
 	template<typename T>
 	struct field {
 		const char *name;
@@ -61,7 +64,4 @@ namespace lua {
 			i++;
 		}
 	}
-
-
-	void stackDump (lua_State *L);
 }

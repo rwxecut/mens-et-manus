@@ -6,7 +6,7 @@ namespace lua::nk {
 	nk_context *ctx;
 
 
-	void init (lua_State *L) {
+	void init (LuaFile *LF) {
 		// Bind functions
 		luaL_Reg funclist[] = {
 				lua_addBindFunc (begin),
@@ -16,7 +16,7 @@ namespace lua::nk {
 				lua_addBindFunc (finish),
 				{NULL, NULL}
 		};
-		luaL_newlib (L, funclist);
+		luaL_newlib (LF->L, funclist);
 
 		// Export constants
 		field<int> keys[] = {
@@ -33,14 +33,14 @@ namespace lua::nk {
 				lua_addExportKey (NK_WINDOW_NO_INPUT),
 				{NULL, 0}
 		};
-		setTableFields (L, keys);
-		lua_setglobal (L, "gui");
+		setTableFields (LF->L, keys);
+		lua_setglobal (LF->L, "gui");
 	}
 
 
-	void run (lua_State *L, nk_context *nkContext, const char *filename) {
+	void run (LuaFile *LF, nk_context *nkContext) {
 		lua::nk::ctx = nkContext;
-		luaL_dofile (L, filename);
+		LF->run ();
 	}
 
 

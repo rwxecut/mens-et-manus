@@ -6,7 +6,7 @@
 
 
 int main (int argc, char *args[]) {
-	logger.write ("Mens Et Manus " VERSION);
+	logger.write ("Mens et Manus " VERSION);
 
 	Config config;
 

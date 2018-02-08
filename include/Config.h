@@ -1,8 +1,9 @@
 #pragma once
 
 #include <GL/gl.h>
+#include "LuaFile.h"
 #include "auxiliary/lua_overlay.h"
-#include "auxiliary/exceptions.h"
+#include "auxiliary/errors.h"
 #include "Logger.h"
 
 

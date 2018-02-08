@@ -4,6 +4,7 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
+#include "LuaFile.h"
 #include "Routine.h"
 #include "Texture.h"
 #include "windowState.h"
@@ -13,7 +14,8 @@
 #define MAINMENU_GUI_PATH "../assets/mainMenu.lua"
 
 class MainMenu : public Routine {
-	lua_State *LGUI;
+
+	LuaFile *LGUI;
 	Texture *background;
 
 public:

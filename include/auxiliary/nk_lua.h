@@ -1,11 +1,12 @@
 #pragma once
 
+#include "LuaFile.h"
 #include "nuklear/nuklear_common.h"
 #include "lua_overlay.h"
 
 namespace lua::nk {
-	void init (lua_State *L);
-	void run (lua_State *L, nk_context *nkContext, const char *filename);
+	void init (LuaFile *LF);
+	void run (LuaFile *LF, nk_context *nkContext);
 
 	// Binded functions
 	lua_cfunc (begin);

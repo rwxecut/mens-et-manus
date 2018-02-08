@@ -13,6 +13,7 @@ set(SOURCE_FILENAMES
         main.cpp
         Window.cpp
         Game.cpp
+        LuaFile.cpp
         Cam.cpp
         Map.cpp
         Config.cpp

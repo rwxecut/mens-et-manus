@@ -8,7 +8,7 @@
 #include "auxiliary/game_lua.h"
 #include "auxiliary/geometry.h"
 
-#include "auxiliary/exceptions.h"
+#include "auxiliary/errors.h"
 #include "Logger.h"
 #include "Config.h"
 #include "Routine.h"

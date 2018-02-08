@@ -8,6 +8,7 @@
 #include "auxiliary/nk_lua.h"
 #include "auxiliary/game_lua.h"
 
+#include "LuaFile.h"
 #include "Routine.h"
 #include "windowState.h"
 #include "Map.h"
@@ -19,7 +20,7 @@ class Game : public Routine {
 
 	Map map;
 	Cam cam;
-	lua_State *LGUI;
+	LuaFile *LGUI;
 
 	void keyHandler ();
 	void mousePositionHandler (WindowState *winState);

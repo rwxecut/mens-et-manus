@@ -3,8 +3,7 @@
 
 MainMenu::MainMenu (WindowState *winState) {
 	// Create GUI
-	LGUI = luaL_newstate ();
-	luaL_openlibs (LGUI);
+	LGUI = new LuaFile (MAINMENU_GUI_PATH);
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, winState);
 
@@ -14,12 +13,12 @@ MainMenu::MainMenu (WindowState *winState) {
 
 MainMenu::~MainMenu () {
 	delete background;
-	lua_close (LGUI);
+	delete LGUI;
 }
 
 
 void MainMenu::update (WindowState *winState) {
-	lua::nk::run (LGUI, winState->nkContext, MAINMENU_GUI_PATH);
+	lua::nk::run (LGUI, winState->nkContext);
 }
 
 

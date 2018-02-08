@@ -4,7 +4,7 @@
 Texture::Texture (const char *filename) {
 	SDL_Surface *image = IMG_Load (filename);
 	if (!image)
-		throw fatalError ("Can't load texture: %s", filename);
+		fatalError ("Can't load texture: %s", filename);
 	glGenTextures (1, &texID);
 	glBindTexture (GL_TEXTURE_2D, texID);
 	GLenum mode = (image->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
@@ -36,4 +36,3 @@ void Texture::stateDraw (GLenum mode, GLsizei count, const GLfloat *vertex, cons
 Texture::~Texture () {
 	glDeleteTextures (1, &texID);
 }
-

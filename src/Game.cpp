@@ -4,8 +4,7 @@
 Game::Game (Config *config, WindowState *winState)
 		: map (), cam (config) {
 	// Create GUI
-	LGUI = luaL_newstate ();
-	luaL_openlibs (LGUI);
+	LGUI = new LuaFile (GAME_GUI_PATH);
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, winState);
 	// Initially set visible tiles
@@ -15,7 +14,7 @@ Game::Game (Config *config, WindowState *winState)
 
 
 Game::~Game () {
-	lua_close (LGUI);
+	delete LGUI;
 }
 
 
@@ -32,7 +31,7 @@ void Game::update (WindowState *winState) {
 
 	map.setSelectedTile (winState->mousePos);
 
-	lua::nk::run (LGUI, winState->nkContext, GAME_GUI_PATH);
+	lua::nk::run (LGUI, winState->nkContext);
 }
 
 
