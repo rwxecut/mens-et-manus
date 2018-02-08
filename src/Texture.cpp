@@ -3,11 +3,8 @@
 
 Texture::Texture (const char *filename) {
 	SDL_Surface *image = IMG_Load (filename);
-	if (!image) {
-		char errstr[128] = {0};
-		snprintf (errstr, 128, "Can't load texture: %s", filename);
-		throw std::runtime_error (errstr);
-	}
+	if (!image)
+		throw fatalError ("Can't load texture: %s", filename);
 	glGenTextures (1, &texID);
 	glBindTexture (GL_TEXTURE_2D, texID);
 	GLenum mode = (image->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;

@@ -7,7 +7,7 @@ Config::Config () {
 	lua_State *L = luaL_newstate ();
 	luaL_openlibs (L);
 	if (luaL_loadfile (L, CONFIG_PATH) || lua_pcall (L, 0, 0, 0))
-		throw std::runtime_error ("Error while loading config.lua");
+		throw fatalError ("Error while loading config.lua");
 
 	lua_getglobal (L, "screen");
 	screen.width = lua::getTableField<int> (L, "width");

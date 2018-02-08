@@ -19,7 +19,6 @@ set(SOURCE_FILENAMES
         Logger.cpp
         Tile.cpp
         MainMenu.cpp
-        Save.cpp
         Texture.cpp
         nk_implement.cpp
         auxiliary/lua_overlay.cpp

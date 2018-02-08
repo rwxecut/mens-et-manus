@@ -14,6 +14,7 @@ public:
 	Logger (const char *filename);
 	~Logger ();
 
+	void vwrite (const char *fmt, va_list args);
 	void write (const char *fmt, ...);
 };
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdio>
-#include <stdexcept>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
@@ -9,6 +8,7 @@
 #include "auxiliary/game_lua.h"
 #include "auxiliary/geometry.h"
 
+#include "auxiliary/exceptions.h"
 #include "Logger.h"
 #include "Config.h"
 #include "Routine.h"

@@ -45,9 +45,11 @@ void Map::setVisibleTiles (size2d<int> winSize) {
 	Tile::visBottomLeft = getHoveredTile (gl::unproject ({0, (GLdouble) winSize.height}));
 	Tile::visTopRight = getHoveredTile (gl::unproject ({(GLdouble) winSize.width, 0}));
 	// Extend range
-	#define reserved 3
-	Tile::visBottomLeft -= (point2d<int16_t>){reserved, reserved};
-	Tile::visTopRight += (point2d<int16_t>){reserved, reserved};
+	const int exRange = 3;
+	vector2d<int16_t> exVector = {exRange, exRange};
+	Tile::visBottomLeft -= exVector;
+	Tile::visTopRight += exVector;
+	// Crop to bounds
 	if (Tile::visBottomLeft.x < 0) Tile::visBottomLeft.x = 0;
 	if (Tile::visBottomLeft.y < 0) Tile::visBottomLeft.y = 0;
 	if (Tile::visTopRight.x >= size.width) Tile::visTopRight.x = (int16_t) (size.width - 1);
@@ -66,19 +68,15 @@ point2d<int16_t> Map::getHoveredTile (point2d<GLdouble> point) {
 	GLdouble x_hex = point.x / Tile::hex_r;
 	GLdouble y_hex = point.y / (Tile::hex_l * 3 / 2);
 
-	// Choose the nearest tiles
+	// Choose two nearest tiles
 	int16_t y_floor = (int16_t) std::floor (y_hex);
 	tCntr[0].x = (int16_t) std::floor (x_hex);
 	tCntr[1].x = (int16_t) std::ceil (x_hex);
-	if ((tCntr[0].x & 1) == (y_floor & 1)) { // Check parity
-		tCntr[0].y = (int16_t) std::floor (y_hex);
-		tCntr[1].y = (int16_t) std::ceil (y_hex);
-	} else {
-		tCntr[0].y = (int16_t) std::ceil (y_hex);
-		tCntr[1].y = (int16_t) std::floor (y_hex);
-	}
+	bool parity = (tCntr[0].x & 1) == (y_floor & 1);
+	tCntr[parity].y = (int16_t) std::ceil (y_hex);
+	tCntr[!parity].y = y_floor;
 
-	// Calculate distance to the nearest tile center
+	// Calculate distance to tile centers
 	for (int i = 0; i <= 1; i++) {
 		GLdouble dist_x = point.x - tCntr[i].x * Tile::hex_r;
 		GLdouble dist_y = point.y - tCntr[i].y * Tile::hex_l * 3 / 2;
