@@ -9,19 +9,17 @@ Config::Config () {
 	conf->run ();
 
 	lua_getglobal (conf->L, "screen");
-	screen.width = lua::getTableField<int> (conf->L, "width");
-	screen.height = lua::getTableField<int> (conf->L, "height");
+	screen.width = conf->getValue<int> ("width", Scope::tableField);
+	screen.height = conf->getValue<int> ("height", Scope::tableField);
 	lua_pop (conf->L, 1);
 
 	lua_getglobal (conf->L, "cam");
-	cam.moveSpeedMax = (GLdouble) lua::getTableField<double> (conf->L, "moveSpeedMax");
-	cam.moveAcceleration = (GLdouble) lua::getTableField<double> (conf->L, "moveAcceleration");
-	cam.zoomSpeed = (GLdouble) lua::getTableField<double> (conf->L, "zoomSpeed");
+	cam.moveSpeedMax = conf->getValue<double> ("moveSpeedMax", Scope::tableField);
+	cam.moveAcceleration = conf->getValue<double> ("moveAcceleration", Scope::tableField);
+	cam.zoomSpeed = conf->getValue<double> ("zoomSpeed", Scope::tableField);
 	lua_pop (conf->L, 1);
 
-	lua_getglobal (conf->L, "fpsInterval");
-	fpsInterval = luaL_checknumber (conf->L, -1);
-	lua_pop (conf->L, 1);
+	fpsInterval = conf->getValue<double> ("fpsInterval", Scope::global);
 
 	delete conf;
 }

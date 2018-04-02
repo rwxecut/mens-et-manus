@@ -40,7 +40,7 @@ namespace lua::nk {
 
 	void run (LuaFile *LF, nk_context *nkContext) {
 		lua::nk::ctx = nkContext;
-		LF->run ();
+		LF->run ("render");
 	}
 
 

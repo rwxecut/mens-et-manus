@@ -7,7 +7,9 @@ MainMenu::MainMenu (WindowState *winState) {
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, winState);
 
-	background = new Texture ("../assets/thinking.png");
+	LGUI->run ();
+	char * bgPath = LGUI->getValue<char*> ("background", Scope::global);
+	background = new Texture (bgPath);
 }
 
 

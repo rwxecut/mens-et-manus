@@ -7,6 +7,7 @@ Game::Game (Config *config, WindowState *winState)
 	LGUI = new LuaFile (GAME_GUI_PATH);
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, winState);
+	LGUI->run ();
 	// Initially set visible tiles
 	cam.setup ();
 	map.setVisibleTiles (winState->screenSize);
@@ -21,10 +22,10 @@ Game::~Game () {
 void Game::update (WindowState *winState) {
 	keyHandler ();
 	mousePositionHandler (winState);
-	if (cam.moveSpeed != point2d<GLdouble>{0, 0})
+	if (cam.moveSpeed != vector2d<GLdouble>{0, 0})
 		cam.decelerate ();
 	// cam.moveSpeed has changed, so we have to recheck
-	if (cam.moveSpeed != point2d<GLdouble>{0, 0}) {
+	if (cam.moveSpeed != vector2d<GLdouble>{0, 0}) {
 		cam.move ();
 		map.setVisibleTiles (winState->screenSize);
 	}

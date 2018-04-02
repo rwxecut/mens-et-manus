@@ -28,21 +28,6 @@ namespace lua {
 
 
 	template<typename T>
-	inline T getTableField (lua_State *L, const char *field) {
-		static_assert (std::is_same<T, int>::value || std::is_same<T, double>::value,
-		               "Only int and double are allowed");
-		lua_getfield (L, -1, field);
-		T value;
-		if (std::is_same<T, int>::value)
-			value = (int) luaL_checkinteger (L, -1);
-		if (std::is_same<T, double>::value)
-			value = (double) luaL_checknumber (L, -1);
-		lua_pop(L, 1);
-		return value;
-	}
-
-
-	template<typename T>
 	inline void setTableField (lua_State *L, const char *field, T value) {
 		static_assert (std::is_same<T, int>::value || std::is_same<T, double>::value,
 		               "Only int and double are allowed");
