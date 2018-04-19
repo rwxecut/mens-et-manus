@@ -17,7 +17,7 @@ extern "C" {
 
 namespace lua {
 
-	void stackDump (lua_State *L);
+	char *stackDump (lua_State *L);
 
 
 	template<typename T>

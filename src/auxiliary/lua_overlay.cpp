@@ -1,29 +1,37 @@
 #include "auxiliary/lua_overlay.h"
+#include <sstream>
+#include <cstring>
 
 namespace lua {
 
-	void stackDump (lua_State *L) {
+	char *stackDump (lua_State *L) {
+		std::ostringstream strStream;
 		int top = lua_gettop (L);
-		printf ("Size: %d\n", top);
+		strStream << "Size: " << top << "\n";
 
 		for (int i = 1; i <= top; i++) {
 			int t = lua_type (L, i);
 			switch (t) {
 				case LUA_TSTRING:
-					printf ("string: '%s'\n", lua_tostring(L, i));
+					strStream << "string: '" << lua_tostring (L, i) << "'\n";
 					break;
 				case LUA_TBOOLEAN:
-					printf ("boolean %s\n", lua_toboolean (L, i) ? "true" : "false");
+					strStream << "boolean: " << (lua_toboolean (L, i) ? "true" : "false") << "\n";
 					break;
 				case LUA_TNUMBER:
-					printf ("number: %g\n", lua_tonumber(L, i));
+					strStream << "number: " << lua_tonumber (L, i) << "\n";
 					break;
 				default:
-					printf ("%s\n", lua_typename (L, t));
+					strStream << lua_typename (L, t) << "\n";
 					break;
 			}
 		}
-		printf ("\n");
+
+		std::string str = strStream.str ();
+		char *cstr = new char[str.size () + 1];
+		strcpy (cstr, str.c_str ());
+		return cstr;
 	}
+
 }
 

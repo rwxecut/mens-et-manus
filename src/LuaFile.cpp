@@ -29,8 +29,8 @@ void LuaFile::run (const char *func) {
 		lua_pushvalue (L, -1);
 	int errcode = 0;
 	if ((errcode = lua_pcall (L, 0, LUA_MULTRET, 0))) {
-		const char *msg = lua_tostring (L, -1);
-		fatalError ("Error while executing Lua file %s (error code %d):\n%s",
-		            filename, errcode, msg);
+		const char *stkDump = lua::stackDump (L);
+		fatalError ("Error while executing Lua file %s (error code %d):\nLua stack dump:\n%s",
+		            filename, errcode, stkDump);
 	}
 };
