@@ -2,11 +2,10 @@
 
 
 namespace lua::game {
+	RoutineHandler *rHandler;
 
-	int *routineID;
-
-	void init (LuaFile *LF, WindowState *winState) {
-		routineID = &(winState->routineID);
+	void init (LuaFile *LF, RoutineHandler *routineHandler) {
+		rHandler = routineHandler;
 
 		// Bind functions
 		luaL_Reg funclist[] = {
@@ -30,7 +29,7 @@ namespace lua::game {
 	// Binded functions
 
 	lua_cfunc (switchRoutine) {
-		*routineID = lua_arg_int (L, 1);
+		rHandler->id = lua_arg_int (L, 1);
 		return 0;
 	}
 }

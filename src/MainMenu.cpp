@@ -1,11 +1,11 @@
 #include "MainMenu.h"
 
 
-MainMenu::MainMenu (WindowState *winState) {
+MainMenu::MainMenu (RoutineHandler *routineHandler) {
 	// Create GUI
 	LGUI = new LuaFile (MAINMENU_GUI_PATH);
 	lua::nk::init (LGUI);
-	lua::game::init (LGUI, winState);
+	lua::game::init (LGUI, routineHandler);
 
 	LGUI->run ();
 	char *bgPath = LGUI->getValue<char *> ("background", Scope::global);

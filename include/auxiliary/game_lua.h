@@ -6,7 +6,7 @@
 
 
 namespace lua::game {
-	void init (LuaFile *LF, WindowState *winState);
+	void init (LuaFile *LF, RoutineHandler *routineHandler);
 
 	// Binded functions
 	lua_cfunc (switchRoutine);

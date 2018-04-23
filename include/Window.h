@@ -24,11 +24,11 @@ class Window {
 	SDL_GLContext glContext;
 	SDL_Window *sdlWindow;
 
-	MainMenu* mainMenu;
-	Game* game;
-	Routine *routine;
+	MainMenu *mainMenu;
+	Game *game;
+	RoutineHandler routineHandler;
 
-	GLdouble fpsInterval;
+	GLdouble fpsMeasureInterval;
 	uint32_t getFPS ();
 
 public:

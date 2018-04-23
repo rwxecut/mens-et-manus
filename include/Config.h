@@ -21,5 +21,5 @@ public:
 		GLdouble zoomSpeed;
 	} cam;
 
-	GLdouble fpsInterval;
+	GLdouble fpsMeasureInterval;
 };

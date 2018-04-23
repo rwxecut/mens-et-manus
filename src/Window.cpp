@@ -4,7 +4,7 @@ Window::Window (Config *config) {
 	// Load attributes from config
 	winState.screenSize.width = config->screen.width;
 	winState.screenSize.height = config->screen.height;
-	fpsInterval = config->fpsInterval * 1000;
+	fpsMeasureInterval = config->fpsMeasureInterval * 1000;
 
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
@@ -56,9 +56,11 @@ Window::Window (Config *config) {
 	logger.write ("Nuklear initialized");
 
 	// Create menu & game
-	winState.routineID = mainMenuRoutine;
-	mainMenu = new MainMenu (&winState);
-	game = new Game (config, &winState);
+	mainMenu = new MainMenu (&routineHandler);
+	game = new Game (config, &winState, &routineHandler);
+	const std::vector<Routine *> rTable = {nullptr, game, mainMenu};
+	routineHandler.assignRoutinesTable (rTable);
+	routineHandler.id = mainMenuRoutine;
 }
 
 
@@ -78,7 +80,7 @@ uint32_t Window::getFPS () {
 	static uint32_t lasttime = SDL_GetTicks ();
 
 	frames++;
-	if (lasttime < SDL_GetTicks () - fpsInterval) {
+	if (lasttime < SDL_GetTicks () - fpsMeasureInterval) {
 		lasttime = SDL_GetTicks ();
 		FPS = frames;
 		frames = 0;
@@ -91,19 +93,7 @@ int Window::mainLoop () {
 	SDL_Event event;
 	bool running = true;
 	while (running) {
-		// Switch current routine
-		switch (winState.routineID) {
-			case finalization:
-				running = false;
-				break;
-			case gameRoutine:
-				routine = game;
-				break;
-			case mainMenuRoutine:
-				routine = mainMenu;
-				break;
-			default:;
-		}
+		running = routineHandler.switchID ();
 
 		// Get events & update
 		nk_input_begin (winState.nkContext);
@@ -114,14 +104,14 @@ int Window::mainLoop () {
 					break;
 				default:
 					nk_sdl_handle_event (&event);
-					routine->eventHandler (&event);
+					routineHandler.eventHandler (&event);
 			}
 		nk_input_end (winState.nkContext);
 		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
-		routine->update (&winState);
+		routineHandler.update (&winState);
 
 		// Render
-		routine->render ();
+		routineHandler.render ();
 		nk_sdl_render (NK_ANTI_ALIASING_ON);
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);

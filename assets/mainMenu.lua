@@ -1,5 +1,6 @@
 background = '../assets/thinking.png'
 
+
 function render ()
 	if gui.begin('Sample main menu', 50, 50, 270, 110, gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR |
 													   gui.NK_WINDOW_MOVABLE) then

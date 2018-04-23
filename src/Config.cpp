@@ -19,7 +19,7 @@ Config::Config () {
 	cam.zoomSpeed = conf->getValue<double> ("zoomSpeed", Scope::tableField);
 	lua_pop (conf->L, 1);
 
-	fpsInterval = conf->getValue<double> ("fpsInterval", Scope::global);
+	fpsMeasureInterval = conf->getValue<double> ("fpsInterval", Scope::global);
 
 	delete conf;
 }

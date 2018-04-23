@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdexcept>
-#include <sstream>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <GL/glu.h>
@@ -26,7 +24,7 @@ class Game : public Routine {
 	void mousePositionHandler (WindowState *winState);
 
 public:
-	Game (Config *config, WindowState *winState);
+	Game (Config *config, WindowState *winState, RoutineHandler *routineHandler);
 	~Game ();
 
 	void update (WindowState *winState);
