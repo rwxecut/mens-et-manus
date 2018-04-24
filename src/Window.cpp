@@ -58,6 +58,8 @@ Window::Window (Config *config) {
 	// Create menu & game
 	mainMenu = new MainMenu (&routineHandler);
 	game = new Game (config, &winState, &routineHandler);
+
+	// Create routineHandler
 	const std::vector<Routine *> rTable = {nullptr, game, mainMenu};
 	routineHandler.assignRoutinesTable (rTable);
 	routineHandler.id = mainMenuRoutine;
@@ -107,7 +109,6 @@ int Window::mainLoop () {
 					routineHandler.eventHandler (&event);
 			}
 		nk_input_end (winState.nkContext);
-		SDL_GetMouseState (&winState.mousePos.x, &winState.mousePos.y);
 		routineHandler.update (&winState);
 
 		// Render

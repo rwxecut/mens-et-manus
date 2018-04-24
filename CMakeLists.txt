@@ -12,7 +12,6 @@ set(INCLUDE_DIR include)
 set(SOURCE_FILENAMES
         main.cpp
         Window.cpp
-        Routine.cpp
         Game.cpp
         LuaFile.cpp
         Cam.cpp

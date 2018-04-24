@@ -29,10 +29,32 @@ class RoutineHandler {
 public:
 	uint8_t id;
 
-	void assignRoutinesTable (std::vector<Routine *> routineTable);
-	bool switchID ();
 
-	void update (WindowState *winState);
-	void render ();
-	void eventHandler (SDL_Event *event);
+	inline void assignRoutinesTable (std::vector<Routine *> const &routineTable) {
+		rTable = routineTable;
+	}
+
+
+	inline bool switchID () {
+		if (rTable.at (id)) {
+			routine = rTable.at (id);
+			return true;
+		}
+		return false;
+	}
+
+
+	inline void update (WindowState *winState) {
+		routine->update (winState);
+	}
+
+
+	inline void render () {
+		routine->render ();
+	}
+
+
+	inline void eventHandler (SDL_Event *event) {
+		routine->eventHandler (event);
+	}
 };

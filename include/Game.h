@@ -11,6 +11,7 @@
 #include "windowState.h"
 #include "Map.h"
 #include "Cam.h"
+#include "auxiliary/geometry.h"
 
 #define GAME_GUI_PATH "../assets/gameMenu.lua"
 
@@ -19,6 +20,8 @@ class Game : public Routine {
 	Map map;
 	Cam cam;
 	LuaFile *LGUI;
+
+	point2d<int> mousePos;
 
 	void keyHandler ();
 	void mousePositionHandler (WindowState *winState);
