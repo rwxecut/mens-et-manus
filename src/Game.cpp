@@ -7,16 +7,13 @@ Game::Game (Config *config, WindowState *winState, RoutineHandler *routineHandle
 	LGUI = new LuaFile (GAME_GUI_PATH);
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, routineHandler);
-	LGUI->run ();
 	// Initially set visible tiles
 	cam.setup ();
 	map.setVisibleTiles (winState->screenSize);
 }
 
 
-Game::~Game () {
-	delete LGUI;
-}
+Game::~Game () {}
 
 
 void Game::update (WindowState *winState) {

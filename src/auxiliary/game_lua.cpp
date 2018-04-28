@@ -4,32 +4,24 @@
 namespace lua::game {
 	RoutineHandler *rHandler;
 
+
 	void init (LuaFile *LF, RoutineHandler *routineHandler) {
 		rHandler = routineHandler;
 
+		sol::table game = LF->state.create_named_table ("game");
 		// Bind functions
-		luaL_Reg funclist[] = {
-				lua_addBindFunc (switchRoutine),
-				{NULL, NULL}
-		};
-		luaL_newlib (LF->L, funclist);
+		game["switchRoutine"] = switchRoutine;
 
 		// Export constants
-		field<int> keys[] = {
-				lua_addExportKey (finalization),
-				lua_addExportKey (gameRoutine),
-				lua_addExportKey (mainMenuRoutine),
-				{NULL, 0}
-		};
-		setTableFields (LF->L, keys);
-		lua_setglobal (LF->L, "game");
+		game["finalization"] = finalization;
+		game["gameRoutine"] = gameRoutine;
+		game["mainMenuRoutine"] = mainMenuRoutine;
 	}
 
 
 	// Binded functions
 
-	lua_cfunc (switchRoutine) {
-		rHandler->id = lua_arg_int (L, 1);
-		return 0;
+	void switchRoutine (int routineID) {
+		rHandler->id = (uint8_t) routineID;
 	}
 }

@@ -7,15 +7,13 @@ MainMenu::MainMenu (RoutineHandler *routineHandler) {
 	lua::nk::init (LGUI);
 	lua::game::init (LGUI, routineHandler);
 
-	LGUI->run ();
-	char *bgPath = LGUI->getValue<char *> ("background", Scope::global);
-	background = new Texture (bgPath);
+	std::string bgPath = LGUI->state["background"];
+	background = new Texture (bgPath.c_str ());
 }
 
 
 MainMenu::~MainMenu () {
 	delete background;
-	delete LGUI;
 }
 
 

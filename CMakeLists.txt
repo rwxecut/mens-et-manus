@@ -22,7 +22,6 @@ set(SOURCE_FILENAMES
         MainMenu.cpp
         Texture.cpp
         nk_implement.cpp
-        auxiliary/lua_overlay.cpp
         auxiliary/util.cpp
         auxiliary/nk_lua.cpp
         auxiliary/game_lua.cpp

@@ -2,8 +2,6 @@
 
 #include <GL/gl.h>
 #include "LuaFile.h"
-#include "auxiliary/lua_overlay.h"
-#include "auxiliary/errors.h"
 #include "Logger.h"
 
 

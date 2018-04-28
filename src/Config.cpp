@@ -6,20 +6,13 @@
 Config::Config () {
 	logger.write ("Loading config");
 	LuaFile *conf = new LuaFile (CONFIG_PATH);
-	conf->run ();
 
-	lua_getglobal (conf->L, "screen");
-	screen.width = conf->getValue<int> ("width", Scope::tableField);
-	screen.height = conf->getValue<int> ("height", Scope::tableField);
-	lua_pop (conf->L, 1);
+	screen.width = conf->state["screen"]["width"];
+	screen.height = conf->state["screen"]["height"];
 
-	lua_getglobal (conf->L, "cam");
-	cam.moveSpeedMax = conf->getValue<double> ("moveSpeedMax", Scope::tableField);
-	cam.moveAcceleration = conf->getValue<double> ("moveAcceleration", Scope::tableField);
-	cam.zoomSpeed = conf->getValue<double> ("zoomSpeed", Scope::tableField);
-	lua_pop (conf->L, 1);
+	cam.moveSpeedMax = conf->state["cam"]["moveSpeedMax"];
+	cam.moveAcceleration = conf->state["cam"]["moveAcceleration"];
+	cam.zoomSpeed = conf->state["cam"]["zoomSpeed"];
 
-	fpsMeasureInterval = conf->getValue<double> ("fpsInterval", Scope::global);
-
-	delete conf;
+	fpsMeasureInterval = conf->state["fpsInterval"];
 }
