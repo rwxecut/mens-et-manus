@@ -32,8 +32,7 @@ namespace lua::nk {
 
 	void run (LuaFile *LF, nk_context *nkContext) {
 		lua::nk::ctx = nkContext;
-		sol::function render = LF->state["render"];
-		render ();
+		LF->call ("render");
 	}
 
 

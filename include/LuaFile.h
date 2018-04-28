@@ -15,4 +15,5 @@ public:
 	sol::state state;
 
 	LuaFile (const char *filename);
+	void call (const char *funcname);
 };

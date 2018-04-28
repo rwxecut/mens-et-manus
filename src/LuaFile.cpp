@@ -4,12 +4,21 @@
 LuaFile::LuaFile (const char *filename) {
 	this->filename = filename;
 	state.open_libraries ();
-	state.script_file (filename);
-	/*int errcode = 0;
-	if ((errcode = luaL_loadfile (L, filename))) {
-		const char *msg = lua_tostring (L, -1);
-		fatalError ("Error while loading Lua file %s (error code %d):\n%s",
-		            filename, errcode, msg);
-	}*/
+	try {
+		state.safe_script_file (filename);
+	}
+	catch (const sol::error &e) {
+		fatalError ("Error while executing Lua file %s: %s", filename, e.what ());
+	}
 	logger.write ("Lua file loaded: %s", filename);
 };
+
+
+void LuaFile::call (const char *funcname) {
+	sol::protected_function func = state[funcname];
+	sol::protected_function_result result = func ();
+	if (!result.valid ()) {
+		sol::error err = result;
+		fatalError ("Error while executing function '%s': %s", funcname, err.what ());
+	}
+}
