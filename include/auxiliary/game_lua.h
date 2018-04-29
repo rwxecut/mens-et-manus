@@ -6,7 +6,4 @@
 
 namespace lua::game {
 	void init (LuaFile *LF, RoutineHandler *routineHandler);
-
-	// Binded functions
-	void switchRoutine (int routineID);
 }
