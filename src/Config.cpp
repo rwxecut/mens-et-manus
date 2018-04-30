@@ -1,18 +1,19 @@
 #include "Config.h"
 
-#define CONFIG_PATH "../assets/config.lua"
+#define CONFIG_PATH "../cfg/config.lua"
 
 
 Config::Config () {
 	logger.write ("Loading config");
-	LuaFile *conf = new LuaFile (CONFIG_PATH);
+	LuaFile *confFile = new LuaFile (CONFIG_PATH);
+	sol::table conf = confFile->state["Config"];
 
-	screen.width = conf->state["screen"]["width"];
-	screen.height = conf->state["screen"]["height"];
+	screen.width = conf["screen"]["width"];
+	screen.height = conf["screen"]["height"];
 
-	cam.moveSpeedMax = conf->state["cam"]["moveSpeedMax"];
-	cam.moveAcceleration = conf->state["cam"]["moveAcceleration"];
-	cam.zoomSpeed = conf->state["cam"]["zoomSpeed"];
+	cam.moveSpeedMax = conf["cam"]["moveSpeedMax"];
+	cam.moveAcceleration = conf["cam"]["moveAcceleration"];
+	cam.zoomSpeed = conf["cam"]["zoomSpeed"];
 
-	fpsMeasureInterval = conf->state["fpsInterval"];
+	fpsMeasureInterval = conf["fpsInterval"];
 }

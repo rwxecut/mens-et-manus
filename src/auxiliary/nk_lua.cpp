@@ -1,6 +1,7 @@
 #include "auxiliary/nk_lua.h"
 
 #define GUI_ADD_FIELD(field) {gui[#field] = field;}
+typedef std::vector<std::string> vector_str;
 
 namespace lua::nk {
 
@@ -39,18 +40,26 @@ namespace lua::nk {
 	}
 
 
-	int check_label (const char *str, int active) {
-		return nk_check_label (ctx, str, active);
+	bool check_label (const char *str, bool active) {
+		return (bool) nk_check_label (ctx, str, active);
 	}
 
 
-	int combo_separator (const char *items, int separator, int selected, int count, int item_height,
+	int combo (sol::as_table_t<vector_str> items, int selected, int item_height, float width, float height) {
+		const vector_str& strings = items.source;
+		std::vector<const char *> cstrings;
+		for (auto &str : strings) cstrings.push_back (str.c_str ());
+		return nk_combo (ctx, &cstrings[0], cstrings.size (), selected, item_height, nk_vec2 (width, height));
+	}
+
+
+	int combo_separator (const char *items, const char* separator, int selected, int count, int item_height,
 	                     float width, float height) {
-		return nk_combo_separator (ctx, items, separator, selected, count, item_height, nk_vec2 (width, height));
+		return nk_combo_separator (ctx, items, separator[0], selected, count, item_height, nk_vec2 (width, height));
 	}
 
 
-	bool finish () {
+	void finish () {
 		nk_end (ctx);
 	}
 
@@ -65,6 +74,7 @@ namespace lua::nk {
 		GUI_ADD_FIELD (label);
 		GUI_ADD_FIELD (button_label);
 		GUI_ADD_FIELD (check_label);
+		GUI_ADD_FIELD (combo);
 		GUI_ADD_FIELD (combo_separator);
 		GUI_ADD_FIELD (finish);
 
