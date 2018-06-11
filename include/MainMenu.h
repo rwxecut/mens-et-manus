@@ -19,7 +19,7 @@ class MainMenu : public Routine {
 	Texture *background;
 
 public:
-	MainMenu (RoutineHandler *routineHandler);
+	MainMenu ();
 	~MainMenu ();
 
 	void update (WindowState *winState);

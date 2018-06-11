@@ -1,8 +1,9 @@
-return {
+Settings = {
   fullscreen = false,
   resolution = {
-    h = 480,
-    w = 640
+    h = 600,
+    w = 800
   },
   resolution_selected = 0
 }
+return Settings

@@ -1,12 +1,12 @@
 #include "Game.h"
 
 
-Game::Game (Config *config, WindowState *winState, RoutineHandler *routineHandler)
+Game::Game (Config *config, WindowState *winState)
 		: map (), cam (config) {
 	// Create GUI
 	LGUI = new LuaFile (GAME_GUI_PATH);
-	lua::nk::init (LGUI);
-	lua::game::init (LGUI, routineHandler);
+	lua::nk::bind (LGUI);
+	lua::game::bind (LGUI);
 	// Initially set visible tiles
 	cam.setup ();
 	map.setVisibleTiles (winState->screenSize);

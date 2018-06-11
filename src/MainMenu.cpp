@@ -1,11 +1,11 @@
 #include "MainMenu.h"
 
 
-MainMenu::MainMenu (RoutineHandler *routineHandler) {
+MainMenu::MainMenu () {
 	// Create GUI
 	LGUI = new LuaFile (MAINMENU_GUI_PATH);
-	lua::nk::init (LGUI);
-	lua::game::init (LGUI, routineHandler);
+	lua::nk::bind (LGUI);
+	lua::game::bind (LGUI);
 
 	std::string bgPath = LGUI->state["background"];
 	background = new Texture (bgPath.c_str ());

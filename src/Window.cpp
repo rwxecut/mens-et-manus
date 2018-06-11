@@ -1,10 +1,13 @@
+#include <Config.h>
 #include "Window.h"
+
 
 Window::Window (Config *config) {
 	// Load attributes from config
 	winState.screenSize.width = config->screen.width;
 	winState.screenSize.height = config->screen.height;
 	fpsMeasureInterval = config->fpsMeasureInterval * 1000;
+	bool fullscreen = config->screen.fullscreen;
 
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
@@ -15,9 +18,9 @@ Window::Window (Config *config) {
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 
 	sdlWindow = SDL_CreateWindow ("Mens et Manus",
-	                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+	                              SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 	                              winState.screenSize.width, winState.screenSize.height,
-	                              SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	                              SDL_WINDOW_OPENGL | (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
 	if (!sdlWindow)
 		fatalError ("Window could not be created!");
 	logger.write ("SDL initialized");
@@ -56,13 +59,14 @@ Window::Window (Config *config) {
 	logger.write ("Nuklear initialized");
 
 	// Create menu & game
-	mainMenu = new MainMenu (&routineHandler);
-	game = new Game (config, &winState, &routineHandler);
+	mainMenu = new MainMenu ();
+	game = new Game (config, &winState);
 
-	// Create routineHandler
+	// Init routineHandler
 	const std::vector<Routine *> rTable = {nullptr, game, mainMenu};
 	routineHandler.assignRoutinesTable (rTable);
 	routineHandler.id = mainMenuRoutine;
+	lua::game::init (config, sdlWindow, &routineHandler);
 }
 
 

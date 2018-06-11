@@ -2,7 +2,7 @@
 
 
 namespace file {
-	bool exists (char *fname) {
+	bool exists (const char *fname) {
 		struct stat buffer;
 		return (stat (fname, &buffer) == 0);
 	}

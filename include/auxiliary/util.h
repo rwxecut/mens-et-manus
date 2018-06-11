@@ -7,7 +7,7 @@
 #include "geometry.h"
 
 namespace file {
-	bool exists (char *fname);
+	bool exists (const char *fname);
 }
 
 

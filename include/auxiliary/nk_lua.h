@@ -4,6 +4,6 @@
 #include "nuklear/nuklear_common.h"
 
 namespace lua::nk {
-	void init (LuaFile *LF);
+	void bind (LuaFile *LF);
 	void run (LuaFile *LF, nk_context *nkContext);
 }

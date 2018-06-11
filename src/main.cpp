@@ -9,6 +9,7 @@ int main (int argc, char *args[]) {
 	logger.write ("Mens et Manus " VERSION);
 
 	Config config;
+	config.load ();
 
 	Window window (&config);
 	window.mainLoop ();

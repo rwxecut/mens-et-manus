@@ -65,7 +65,7 @@ namespace lua::nk {
 
 
 	// Bind functions
-	void init (LuaFile *LF) {
+	void bind (LuaFile *LF) {
 		sol::table gui = LF->state.create_named_table ("gui");
 		// Bind functions
 		GUI_ADD_FIELD (begin);

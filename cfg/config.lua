@@ -14,8 +14,8 @@ Config.cam = {
 }
 
 Config.resolutions = {
-	str = { '640x480', '1366x768' },
-	val = {{w = 640, h = 480}, {w = 1366, h = 768}}
+	str = { '800x600', '1366x768' },
+	val = {{w = 800, h = 600}, {w = 1366, h = 768}}
 }
 
 Config.fpsInterval = 1.5

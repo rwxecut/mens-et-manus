@@ -1,17 +1,19 @@
 #pragma once
 
 #include <GL/gl.h>
+#include "auxiliary/util.h"
 #include "LuaFile.h"
 #include "Logger.h"
 
 
-class Config {
-
-public:
-	Config ();
+struct Config {
+	void load ();
+	void loadConfig ();
+	void loadSettings ();
 
 	struct {
 		int width, height;
+		bool fullscreen;
 	} screen;
 
 	struct {

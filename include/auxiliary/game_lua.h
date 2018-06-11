@@ -1,9 +1,12 @@
 #pragma once
 
+#include <SDL.h>
 #include "LuaFile.h"
+#include "Config.h"
 #include "Routine.h"
 
 
 namespace lua::game {
-	void init (LuaFile *LF, RoutineHandler *routineHandler);
+	void init (Config *config, SDL_Window *window, RoutineHandler *routineHandler);
+	void bind (LuaFile *LF);
 }
