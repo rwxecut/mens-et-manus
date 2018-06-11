@@ -1,7 +1,8 @@
+#include <Config.h>
 #include "Game.h"
 
 
-Game::Game (WindowState *winState)
+Game::Game ()
 		: map (), cam () {
 	// Create GUI
 	LGUI = new LuaFile (GAME_GUI_PATH);
@@ -61,6 +62,7 @@ void Game::eventHandler (SDL_Event *event) {
 	switch (event->type) {
 		case SDL_MOUSEWHEEL:
 			cam.zoom (event->wheel.y);
+			map.setVisibleTiles (config.screen.size);
 			break;
 		default:;
 	}

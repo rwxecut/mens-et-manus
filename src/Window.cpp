@@ -58,7 +58,7 @@ Window::Window () {
 
 	// Create menu & game
 	mainMenu = new MainMenu ();
-	game = new Game (&winState);
+	game = new Game ();
 
 	// Init routineHandler
 	const std::vector<Routine *> rTable = {nullptr, game, mainMenu};

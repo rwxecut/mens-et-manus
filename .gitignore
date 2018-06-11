@@ -3,3 +3,4 @@ cmake-build-debug/
 SDL2/
 bin/
 /lua/
+cfg/settings.lua
