@@ -9,9 +9,13 @@ settings = utils.safeRequire('settings', 'settings_default')
 --/////////////////////////////////////////////////////////////////////--
 
 function saveSettings ()
-    local rs = settings.resolution_selected + 1
-    settings.resolution.w = config.resolutions.val[rs].w
-    settings.resolution.h = config.resolutions.val[rs].h
+    if settings.fullscreen then
+        settings.resolution.w, settings.resolution.h = game.getScreenResolution()
+    else
+        local rs = settings.resolution_selected + 1
+        settings.resolution.w = config.resolutions.val[rs].w
+        settings.resolution.h = config.resolutions.val[rs].h
+    end
     local settingsSerialized = serpent.block(settings, { comment = false, nohuge = true })
     local settingsFile = io.open('../cfg/settings.lua', "w")
     settingsFile:write('Settings = ', settingsSerialized, '\nreturn Settings\n')

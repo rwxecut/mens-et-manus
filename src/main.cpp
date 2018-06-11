@@ -1,17 +1,22 @@
 #define VERSION "v. dev0"
 
 #include "auxiliary/logger_implenent.h"
-#include "Config.h"
 #include "Window.h"
+
+#define CONFIG_IMPLEMENT
+#include "Config.h"
+#undef CONFIG_IMPLEMENT
+
+
+Config config;
 
 
 int main (int argc, char *args[]) {
 	logger.write ("Mens et Manus " VERSION);
 
-	Config config;
 	config.load ();
 
-	Window window (&config);
+	Window window;
 	window.mainLoop ();
 
 	return 0;

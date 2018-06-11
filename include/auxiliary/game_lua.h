@@ -7,6 +7,6 @@
 
 
 namespace lua::game {
-	void init (Config *config, SDL_Window *window, RoutineHandler *routineHandler);
+	void init (SDL_Window *window, RoutineHandler *routineHandler);
 	void bind (LuaFile *LF);
 }

@@ -12,7 +12,7 @@ struct Config {
 	void loadSettings ();
 
 	struct {
-		int width, height;
+		size2d<int> size;
 		bool fullscreen;
 	} screen;
 
@@ -23,3 +23,7 @@ struct Config {
 
 	GLdouble fpsMeasureInterval;
 };
+
+#ifndef CONFIG_IMPLEMENT
+extern Config config;
+#endif

@@ -32,7 +32,7 @@ class Window {
 	uint32_t getFPS ();
 
 public:
-	Window (Config *config);
+	Window ();
 	~Window ();
 
 	int mainLoop ();

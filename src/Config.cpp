@@ -14,16 +14,14 @@ void Config::load () {
 
 void Config::loadConfig () {
 	logger.write ("Loading config");
-	LuaFile *confFile = new LuaFile (CONFIG_PATH);
-	sol::table conf = confFile->state["Config"];
+	LuaFile confFile (CONFIG_PATH);
+	sol::table conf = confFile.state["Config"];
 
 	cam.moveSpeedMax = conf["cam"]["moveSpeedMax"];
 	cam.moveAcceleration = conf["cam"]["moveAcceleration"];
 	cam.zoomSpeed = conf["cam"]["zoomSpeed"];
 
 	fpsMeasureInterval = conf["fpsInterval"];
-
-	// delete confFile;
 }
 
 
@@ -38,9 +36,7 @@ void Config::loadSettings () {
 		settingsFile = new LuaFile (SETTINGS_PATH);
 	sol::table settings = settingsFile->state["Settings"];
 
-	screen.width = settings["resolution"]["w"];
-	screen.height = settings["resolution"]["h"];
+	screen.size.width = settings["resolution"]["w"];
+	screen.size.height = settings["resolution"]["h"];
 	screen.fullscreen = settings["fullscreen"];
-
-	//delete settingsFile;
 }

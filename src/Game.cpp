@@ -1,15 +1,15 @@
 #include "Game.h"
 
 
-Game::Game (Config *config, WindowState *winState)
-		: map (), cam (config) {
+Game::Game (WindowState *winState)
+		: map (), cam () {
 	// Create GUI
 	LGUI = new LuaFile (GAME_GUI_PATH);
 	lua::nk::bind (LGUI);
 	lua::game::bind (LGUI);
 	// Initially set visible tiles
 	cam.setup ();
-	map.setVisibleTiles (winState->screenSize);
+	map.setVisibleTiles (config.screen.size);
 }
 
 
@@ -25,7 +25,7 @@ void Game::update (WindowState *winState) {
 	// cam.moveSpeed has changed, so we have to recheck
 	if (cam.moveSpeed != vector2d<GLdouble>{0, 0}) {
 		cam.move ();
-		map.setVisibleTiles (winState->screenSize);
+		map.setVisibleTiles (config.screen.size);
 	}
 
 	map.setSelectedTile (mousePos);
@@ -50,9 +50,9 @@ void Game::keyHandler () {
 
 void Game::mousePositionHandler (WindowState *winState) {
 	direction_t dir = {(mousePos.x < map.mouseMoveArea),
-	                   (mousePos.x > winState->screenSize.width - map.mouseMoveArea),
+	                   (mousePos.x > config.screen.size.width - map.mouseMoveArea),
 	                   (mousePos.y < map.mouseMoveArea),
-	                   (mousePos.y > winState->screenSize.height - map.mouseMoveArea)};
+	                   (mousePos.y > config.screen.size.height - map.mouseMoveArea)};
 	cam.accelerate (&dir);
 }
 

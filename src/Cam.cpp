@@ -1,10 +1,10 @@
 #include "Cam.h"
 
 
-Cam::Cam (Config *config) {
-	moveSpeedMax = config->cam.moveSpeedMax;
-	moveAcceleration = config->cam.moveAcceleration;
-	zoomSpeed = config->cam.zoomSpeed;
+Cam::Cam () {
+	moveSpeedMax = config.cam.moveSpeedMax;
+	moveAcceleration = config.cam.moveAcceleration;
+	zoomSpeed = config.cam.zoomSpeed;
 }
 
 

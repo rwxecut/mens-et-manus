@@ -2,12 +2,10 @@
 #include "Window.h"
 
 
-Window::Window (Config *config) {
+Window::Window () {
 	// Load attributes from config
-	winState.screenSize.width = config->screen.width;
-	winState.screenSize.height = config->screen.height;
-	fpsMeasureInterval = config->fpsMeasureInterval * 1000;
-	bool fullscreen = config->screen.fullscreen;
+	fpsMeasureInterval = config.fpsMeasureInterval * 1000;
+	bool fullscreen = config.screen.fullscreen;
 
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
@@ -19,7 +17,7 @@ Window::Window (Config *config) {
 
 	sdlWindow = SDL_CreateWindow ("Mens et Manus",
 	                              SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-	                              winState.screenSize.width, winState.screenSize.height,
+	                              config.screen.size.width, config.screen.size.height,
 	                              SDL_WINDOW_OPENGL | (fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
 	if (!sdlWindow)
 		fatalError ("Window could not be created!");
@@ -60,13 +58,13 @@ Window::Window (Config *config) {
 
 	// Create menu & game
 	mainMenu = new MainMenu ();
-	game = new Game (config, &winState);
+	game = new Game (&winState);
 
 	// Init routineHandler
 	const std::vector<Routine *> rTable = {nullptr, game, mainMenu};
 	routineHandler.assignRoutinesTable (rTable);
 	routineHandler.id = mainMenuRoutine;
-	lua::game::init (config, sdlWindow, &routineHandler);
+	lua::game::init (sdlWindow, &routineHandler);
 }
 
 

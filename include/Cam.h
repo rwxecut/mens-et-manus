@@ -29,5 +29,5 @@ class Cam {
 	void zoom (int delta);
 
 public:
-	Cam (Config *config);
+	Cam ();
 };
