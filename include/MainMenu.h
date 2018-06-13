@@ -4,14 +4,15 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
+#include "Config.h"
 #include "LuaFile.h"
 #include "Routine.h"
 #include "Texture.h"
 #include "windowState.h"
+#include "auxiliary/filesystem.h"
 #include "auxiliary/game_lua.h"
 #include "auxiliary/nk_lua.h"
 
-#define MAINMENU_GUI_PATH "../assets/mainMenu.lua"
 
 class MainMenu : public Routine {
 
@@ -21,6 +22,8 @@ class MainMenu : public Routine {
 public:
 	MainMenu ();
 	~MainMenu ();
+
+	void loadModList ();
 
 	void update (WindowState *winState);
 	void render ();

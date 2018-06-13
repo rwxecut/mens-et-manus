@@ -1,14 +1,8 @@
 #pragma once
 
-#include <cstdint>
-#include <sys/stat.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "geometry.h"
-
-namespace file {
-	bool exists (const char *fname);
-}
 
 
 namespace gl {

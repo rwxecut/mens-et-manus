@@ -4,7 +4,7 @@ project(mens_et_manus)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCE_DIR src)
 set(INCLUDE_DIR include)
@@ -52,4 +52,4 @@ include_directories(
         ${SDL2_IMAGE_INCLUDE_DIR}
         ${OPENGL_INCLUDE_DIR})
 
-target_link_libraries(mens_et_manus ${LUA_LIBRARIES} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${OPENGL_LIBRARIES})
+target_link_libraries(mens_et_manus stdc++fs ${LUA_LIBRARIES} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${OPENGL_LIBRARIES})

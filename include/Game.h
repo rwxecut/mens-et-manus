@@ -6,6 +6,7 @@
 #include "auxiliary/nk_lua.h"
 #include "auxiliary/game_lua.h"
 
+#include <Config.h>
 #include "LuaFile.h"
 #include "Routine.h"
 #include "windowState.h"
@@ -13,7 +14,6 @@
 #include "Cam.h"
 #include "auxiliary/geometry.h"
 
-#define GAME_GUI_PATH "../assets/gameMenu.lua"
 
 class Game : public Routine {
 

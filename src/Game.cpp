@@ -1,11 +1,10 @@
-#include <Config.h>
 #include "Game.h"
 
 
 Game::Game ()
 		: map (), cam () {
 	// Create GUI
-	LGUI = new LuaFile (GAME_GUI_PATH);
+	LGUI = new LuaFile (config.path.gameMenuGUI.c_str ());
 	lua::nk::bind (LGUI);
 	lua::game::bind (LGUI);
 	// Initially set visible tiles

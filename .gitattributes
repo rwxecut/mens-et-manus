@@ -2,3 +2,4 @@
 include/nuklear/nuklear.h linguist-vendored
 include/auxiliary/sol.hpp linguist-vendored
 lua_utils/serpent.lua linguist-vendored
+cmake/* linguist-vendored

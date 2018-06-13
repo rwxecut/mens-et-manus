@@ -2,7 +2,7 @@
 
 
 Map::Map () {
-	grassTex = new Texture ("../assets/grass.png");
+	grassTex = new Texture ("../assets/vanilla/tiles/grass.png");
 	size = {20, 10}; // temp
 	tiles = (Tile **) calloc (size.height, sizeof (Tile *));
 	tilesMem = (Tile *) calloc (size.width * size.height, sizeof (Tile));

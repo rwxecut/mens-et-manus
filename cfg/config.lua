@@ -15,9 +15,16 @@ Config.cam = {
 
 Config.resolutions = {
 	str = { '800x600', '1366x768' },
-	val = {{w = 800, h = 600}, {w = 1366, h = 768}}
+	val = { { w = 800, h = 600 }, { w = 1366, h = 768 } }
 }
 
 Config.fpsInterval = 1.5
+
+Config.path = {
+	modfile = "mod.lua",
+	assets = "../assets",
+}
+Config.path["mainMenuGUI"] = Config.path.assets .. "/mainMenu.lua"
+Config.path["gameMenuGUI"] = Config.path.assets .. "/gameMenu.lua"
 
 return Config

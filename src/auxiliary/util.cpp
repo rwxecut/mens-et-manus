@@ -1,14 +1,5 @@
 #include "auxiliary/util.h"
 
-
-namespace file {
-	bool exists (const char *fname) {
-		struct stat buffer;
-		return (stat (fname, &buffer) == 0);
-	}
-}
-
-
 namespace gl {
 	point2d<GLdouble> unproject (point2d<GLdouble> source) {
 		// Load matricies

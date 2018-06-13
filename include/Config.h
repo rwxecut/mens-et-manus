@@ -1,9 +1,16 @@
 #pragma once
 
+#include <string>
 #include <GL/gl.h>
-#include "auxiliary/util.h"
 #include "LuaFile.h"
 #include "Logger.h"
+#include "auxiliary/geometry.h"
+#include "auxiliary/filesystem.h"
+
+
+#define CONFIG_PATH "../cfg/config.lua"
+#define SETTINGS_PATH "../cfg/settings.lua"
+#define SETTINGS_DEFAULT_PATH "../cfg/settings_default.lua"
 
 
 struct Config {
@@ -15,6 +22,13 @@ struct Config {
 		size2d<int> size;
 		bool fullscreen;
 	} screen;
+
+	struct {
+		std::string modfile;
+		std::string assets;
+		std::string mainMenuGUI;
+		std::string gameMenuGUI;
+	} path;
 
 	struct {
 		GLdouble moveSpeedMax, moveAcceleration;

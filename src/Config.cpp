@@ -1,9 +1,4 @@
-#include <Config.h>
 #include "Config.h"
-
-#define CONFIG_PATH "../cfg/config.lua"
-#define SETTINGS_PATH "../cfg/settings.lua"
-#define SETTINGS_DEFAULT_PATH "../cfg/settings_default.lua"
 
 
 void Config::load () {
@@ -17,6 +12,11 @@ void Config::loadConfig () {
 	LuaFile confFile (CONFIG_PATH);
 	sol::table conf = confFile.state["Config"];
 
+	path.modfile = conf["path"]["modfile"];
+	path.assets = conf["path"]["assets"];
+	path.mainMenuGUI = conf["path"]["mainMenuGUI"];
+	path.gameMenuGUI = conf["path"]["gameMenuGUI"];
+
 	cam.moveSpeedMax = conf["cam"]["moveSpeedMax"];
 	cam.moveAcceleration = conf["cam"]["moveAcceleration"];
 	cam.zoomSpeed = conf["cam"]["zoomSpeed"];
@@ -28,7 +28,7 @@ void Config::loadConfig () {
 void Config::loadSettings () {
 	logger.write ("Loading settings");
 	LuaFile *settingsFile = nullptr;
-	if (!file::exists (SETTINGS_PATH)) {
+	if (!fs::exists (SETTINGS_PATH)) {
 		logger.write ("User settings not found, loading default settings");
 		settingsFile = new LuaFile (SETTINGS_DEFAULT_PATH);
 	}
