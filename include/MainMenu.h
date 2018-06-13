@@ -8,8 +8,8 @@
 #include "LuaFile.h"
 #include "Routine.h"
 #include "Texture.h"
-#include "windowState.h"
-#include "auxiliary/filesystem.h"
+#include "Mod.h"
+#include "nuklear/nuklear_common.h"
 #include "auxiliary/game_lua.h"
 #include "auxiliary/nk_lua.h"
 
@@ -18,14 +18,13 @@ class MainMenu : public Routine {
 
 	LuaFile *LGUI;
 	Texture *background;
+	ModList modList;
 
 public:
 	MainMenu ();
 	~MainMenu ();
 
-	void loadModList ();
-
-	void update (WindowState *winState);
+	void update (nk_context *nkContext);
 	void render ();
 	void eventHandler (SDL_Event *event);
 };

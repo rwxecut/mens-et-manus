@@ -49,7 +49,7 @@ Window::Window () {
 	logger.write ("OpenGL initialized");
 
 	// Init Nuklear
-	winState.nkContext = nk_sdl_init (sdlWindow);
+	nkContext = nk_sdl_init (sdlWindow);
 	nk_font_atlas *atlas;
 	nk_sdl_font_stash_begin (&atlas);
 	nk_sdl_font_stash_end ();
@@ -99,7 +99,7 @@ int Window::mainLoop () {
 		running = routineHandler.switchID ();
 
 		// Get events & update
-		nk_input_begin (winState.nkContext);
+		nk_input_begin (nkContext);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
 				case SDL_QUIT:
@@ -109,8 +109,8 @@ int Window::mainLoop () {
 					nk_sdl_handle_event (&event);
 					routineHandler.eventHandler (&event);
 			}
-		nk_input_end (winState.nkContext);
-		routineHandler.update (&winState);
+		nk_input_end (nkContext);
+		routineHandler.update (nkContext);
 
 		// Render
 		routineHandler.render ();

@@ -12,7 +12,6 @@
 #include "Logger.h"
 #include "Config.h"
 #include "Routine.h"
-#include "windowState.h"
 
 #include "MainMenu.h"
 #include "Game.h"
@@ -20,9 +19,9 @@
 
 class Window {
 
-	WindowState winState;
 	SDL_GLContext glContext;
 	SDL_Window *sdlWindow;
+	nk_context *nkContext;
 
 	MainMenu *mainMenu;
 	Game *game;

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <SDL.h>
-#include "windowState.h"
+#include "nuklear/nuklear_common.h"
 #include "Logger.h"
 
 // Routines' IDs for Lua
@@ -15,7 +15,7 @@ enum {
 
 class Routine {
 public:
-	virtual void update (WindowState *winState) = 0;
+	virtual void update (nk_context *nkContext) = 0;
 	virtual void render () = 0;
 	virtual void eventHandler (SDL_Event *event) = 0;
 };
@@ -44,8 +44,8 @@ public:
 	}
 
 
-	inline void update (WindowState *winState) {
-		routine->update (winState);
+	inline void update (nk_context *nkContext) {
+		routine->update (nkContext);
 	}
 
 

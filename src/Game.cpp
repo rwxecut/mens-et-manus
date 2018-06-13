@@ -16,10 +16,10 @@ Game::Game ()
 Game::~Game () {}
 
 
-void Game::update (WindowState *winState) {
+void Game::update (nk_context *nkContext) {
 	keyHandler ();
 	SDL_GetMouseState (&mousePos.x, &mousePos.y);
-	mousePositionHandler (winState);
+	mousePositionHandler ();
 	if (cam.moveSpeed != vector2d<GLdouble>{0, 0})
 		cam.decelerate ();
 	// cam.moveSpeed has changed, so we have to recheck
@@ -30,7 +30,7 @@ void Game::update (WindowState *winState) {
 
 	map.setSelectedTile (mousePos);
 
-	lua::nk::run (LGUI, winState->nkContext);
+	lua::nk::run (LGUI, nkContext);
 }
 
 
@@ -48,7 +48,7 @@ void Game::keyHandler () {
 }
 
 
-void Game::mousePositionHandler (WindowState *winState) {
+void Game::mousePositionHandler () {
 	direction_t dir = {(mousePos.x < map.mouseMoveArea),
 	                   (mousePos.x > config.screen.size.width - map.mouseMoveArea),
 	                   (mousePos.y < map.mouseMoveArea),

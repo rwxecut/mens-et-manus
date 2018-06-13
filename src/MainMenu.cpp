@@ -12,7 +12,7 @@ MainMenu::MainMenu () {
 	background = new Texture (bgPath.c_str ());
 
 	// Load mods list
-	loadModList ();
+	modList.load ();
 }
 
 
@@ -21,8 +21,8 @@ MainMenu::~MainMenu () {
 }
 
 
-void MainMenu::update (WindowState *winState) {
-	lua::nk::run (LGUI, winState->nkContext);
+void MainMenu::update (nk_context *nkContext) {
+	lua::nk::run (LGUI, nkContext);
 }
 
 
@@ -46,18 +46,3 @@ void MainMenu::render () {
 
 
 void MainMenu::eventHandler (SDL_Event *event) {}
-
-
-void MainMenu::loadModList () {
-	for (auto &dir: fs::directory_iterator (config.path.assets))
-		if (fs::is_directory (dir)) {
-			fs::path modFilePath = dir.path () / config.path.modfile;
-			if (fs::exists (modFilePath)) {
-				// mingw does some shit with fs::path.c_str()
-				LuaFile modFile (modFilePath.string ().c_str ());
-				std::string modName = modFile.state["name"];
-				std::string modVersion = modFile.state["version"];
-				logger.write ("Mod found: %s %s\n", modName.c_str (), modVersion.c_str ());
-			}
-		}
-}

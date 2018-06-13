@@ -14,6 +14,7 @@ set(SOURCE_FILENAMES
         Window.cpp
         Game.cpp
         LuaFile.cpp
+        Mod.cpp
         Cam.cpp
         Map.cpp
         Config.cpp
