@@ -14,8 +14,7 @@ void Cam::setup () {
 	glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
-	GLdouble aspect = (GLdouble) config.screen.size.width / (GLdouble) config.screen.size.height;
-	gluPerspective (FOV, aspect, 1, renderDistance);
+	gluPerspective (FOV, config.screen.aspect, 1, renderDistance);
 	gluLookAt (pos.x, pos.y, pos.z, sight.x, sight.y, sight.z, 0, 1, 0);
 }
 

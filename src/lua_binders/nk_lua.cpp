@@ -1,4 +1,7 @@
-#include "auxiliary/nk_lua.h"
+#include "lua_binders/nk_lua.h"
+#include <string>
+#include <vector>
+#include <tuple>
 
 #define GUI_ADD_FIELD(field) {gui[#field] = field;}
 typedef std::vector<std::string> vector_str;
@@ -8,8 +11,12 @@ namespace lua::nk {
 	nk_context *ctx;
 
 
-	void run (LuaFile *LF, nk_context *nkContext) {
+	void init (nk_context *nkContext) {
 		ctx = nkContext;
+	}
+
+
+	void run (LuaFile *LF) {
 		LF->call ("render");
 	}
 
@@ -17,6 +24,16 @@ namespace lua::nk {
 
 	bool begin (const char *title, float x, float y, float w, float h, int flags) {
 		return (bool) nk_begin (ctx, title, nk_rect (x, y, w, h), (nk_flags) flags);
+	}
+
+
+	bool group_begin (const char *title, int flags) {
+		return (bool) nk_group_begin (ctx, title, (nk_flags) flags);
+	}
+
+
+	void group_end () {
+		nk_group_end (ctx);
 	}
 
 
@@ -35,6 +52,14 @@ namespace lua::nk {
 	}
 
 
+	std::tuple<int, int> selectable_label (const char *str, int flags, int value) {
+		// wtf, rewrite!!
+		int newValue = value;
+		int changed = nk_selectable_label (ctx, str, (nk_flags) flags, &newValue);
+		return std::make_tuple (newValue, changed);
+	}
+
+
 	bool button_label (const char *str) {
 		return (bool) nk_button_label (ctx, str);
 	}
@@ -46,14 +71,14 @@ namespace lua::nk {
 
 
 	int combo (sol::as_table_t<vector_str> items, int selected, int item_height, float width, float height) {
-		const vector_str& strings = items.source;
+		const vector_str &strings = items.source;
 		std::vector<const char *> cstrings;
 		for (auto &str : strings) cstrings.push_back (str.c_str ());
-		return nk_combo (ctx, &cstrings[0], cstrings.size (), selected, item_height, nk_vec2 (width, height));
+		return nk_combo (ctx, &cstrings[0], (int) cstrings.size (), selected, item_height, nk_vec2 (width, height));
 	}
 
 
-	int combo_separator (const char *items, const char* separator, int selected, int count, int item_height,
+	int combo_separator (const char *items, const char *separator, int selected, int count, int item_height,
 	                     float width, float height) {
 		return nk_combo_separator (ctx, items, separator[0], selected, count, item_height, nk_vec2 (width, height));
 	}
@@ -64,14 +89,17 @@ namespace lua::nk {
 	}
 
 
-	// Bind functions
+	// Bind
 	void bind (LuaFile *LF) {
 		sol::table gui = LF->state.create_named_table ("gui");
-		// Bind functions
+		/*---------- Export functions ----------*/
 		GUI_ADD_FIELD (begin);
+		GUI_ADD_FIELD (group_begin);
+		GUI_ADD_FIELD (group_end);
 		GUI_ADD_FIELD (layout_row_dynamic);
 		GUI_ADD_FIELD (layout_row_static)
 		GUI_ADD_FIELD (label);
+		GUI_ADD_FIELD (selectable_label);
 		GUI_ADD_FIELD (button_label);
 		GUI_ADD_FIELD (check_label);
 		GUI_ADD_FIELD (combo);

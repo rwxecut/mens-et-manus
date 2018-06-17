@@ -24,6 +24,7 @@ Config.path = {
 	modfile = "mod.lua",
 	assets = "../assets",
 }
+Config.path["splash"] = Config.path.assets .. "/splash.png"
 Config.path["mainMenuGUI"] = Config.path.assets .. "/mainMenu.lua"
 Config.path["gameMenuGUI"] = Config.path.assets .. "/gameMenu.lua"
 

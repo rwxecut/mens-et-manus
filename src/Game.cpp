@@ -16,7 +16,7 @@ Game::Game ()
 Game::~Game () {}
 
 
-void Game::update (nk_context *nkContext) {
+void Game::update () {
 	keyHandler ();
 	SDL_GetMouseState (&mousePos.x, &mousePos.y);
 	mousePositionHandler ();
@@ -30,7 +30,7 @@ void Game::update (nk_context *nkContext) {
 
 	map.setSelectedTile (mousePos);
 
-	lua::nk::run (LGUI, nkContext);
+	lua::nk::run (LGUI);
 }
 
 

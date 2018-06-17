@@ -11,9 +11,18 @@ Texture::Texture (const char *filename) {
 	glTexImage2D (GL_TEXTURE_2D, 0, mode, image->w, image->h, 0, mode, GL_UNSIGNED_BYTE, image->pixels);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	width = image->w;
+	height = image->h;
+
 	SDL_FreeSurface (image);
 	logger.write ("Texture loaded: %s", filename);
 };
+
+
+Texture::~Texture () {
+	glDeleteTextures (1, &texID);
+}
 
 
 void Texture::draw (GLenum mode, GLsizei count, const GLfloat *vertex, const GLfloat *texCoord) {
@@ -33,6 +42,10 @@ void Texture::stateDraw (GLenum mode, GLsizei count, const GLfloat *vertex, cons
 }
 
 
-Texture::~Texture () {
-	glDeleteTextures (1, &texID);
-}
+int Texture::w () { return width; }
+
+
+int Texture::h () { return height; }
+
+
+GLdouble Texture::aspect () { return (GLdouble) width / (GLdouble) height; }

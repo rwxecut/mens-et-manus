@@ -3,10 +3,10 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <GL/glu.h>
-#include "auxiliary/nk_lua.h"
-#include "auxiliary/game_lua.h"
+#include "lua_binders/nk_lua.h"
+#include "lua_binders/game_lua.h"
 
-#include <Config.h>
+#include "Config.h"
 #include "LuaFile.h"
 #include "Routine.h"
 #include "nuklear/nuklear_common.h"
@@ -30,7 +30,7 @@ public:
 	Game ();
 	~Game ();
 
-	void update (nk_context *nkContext);
+	void update ();
 	void render ();
 	void eventHandler (SDL_Event *event);
 };

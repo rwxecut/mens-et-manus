@@ -10,8 +10,9 @@
 #include "Texture.h"
 #include "Mod.h"
 #include "nuklear/nuklear_common.h"
-#include "auxiliary/game_lua.h"
-#include "auxiliary/nk_lua.h"
+#include "lua_binders/game_lua.h"
+#include "lua_binders/nk_lua.h"
+#include "lua_binders/modlist_lua.h"
 
 
 class MainMenu : public Routine {
@@ -24,7 +25,7 @@ public:
 	MainMenu ();
 	~MainMenu ();
 
-	void update (nk_context *nkContext);
+	void update ();
 	void render ();
 	void eventHandler (SDL_Event *event);
 };

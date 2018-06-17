@@ -9,15 +9,18 @@
 enum {
 	finalization,
 	gameRoutine,
-	mainMenuRoutine
+	mainMenuRoutine,
+	splashRoutine
 };
 
 
 class Routine {
 public:
-	virtual void update (nk_context *nkContext) = 0;
+	virtual void update () = 0;
 	virtual void render () = 0;
 	virtual void eventHandler (SDL_Event *event) = 0;
+
+	virtual ~Routine () {};
 };
 
 
@@ -44,8 +47,8 @@ public:
 	}
 
 
-	inline void update (nk_context *nkContext) {
-		routine->update (nkContext);
+	inline void update () {
+		routine->update ();
 	}
 
 

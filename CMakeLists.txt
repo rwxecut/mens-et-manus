@@ -20,12 +20,14 @@ set(SOURCE_FILENAMES
         Config.cpp
         Logger.cpp
         Tile.cpp
+        Splash.cpp
         MainMenu.cpp
         Texture.cpp
         nk_implement.cpp
+        lua_binders/nk_lua.cpp
+        lua_binders/game_lua.cpp
+        lua_binders/modlist_lua.cpp
         auxiliary/util.cpp
-        auxiliary/nk_lua.cpp
-        auxiliary/game_lua.cpp
         )
 
 include(prepend)

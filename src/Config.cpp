@@ -14,6 +14,7 @@ void Config::loadConfig () {
 
 	path.modfile = conf["path"]["modfile"];
 	path.assets = conf["path"]["assets"];
+	path.splash = conf["path"]["splash"];
 	path.mainMenuGUI = conf["path"]["mainMenuGUI"];
 	path.gameMenuGUI = conf["path"]["gameMenuGUI"];
 
@@ -38,5 +39,6 @@ void Config::loadSettings () {
 
 	screen.size.width = settings["resolution"]["w"];
 	screen.size.height = settings["resolution"]["h"];
+	screen.aspect = (GLdouble) screen.size.width / (GLdouble) screen.size.height;
 	screen.fullscreen = settings["fullscreen"];
 }

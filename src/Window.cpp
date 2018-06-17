@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#define ENABLE_SPLASH true
+
 
 Window::Window () {
 	// Load attributes from config
@@ -28,7 +30,7 @@ Window::Window () {
 		fatalError ("SDL_image could not initialize!");
 	logger.write ("SDL_image initialized");
 
-	// Init OpenGL
+	// Create GL context
 	glContext = SDL_GL_CreateContext (sdlWindow);
 	if (!glContext)
 		fatalError ("Failed to create OpenGL context!");
@@ -37,6 +39,7 @@ Window::Window () {
 		logger.write ("WARNING: Can't enable VSync");
 	logger.write ("VSync enabled");
 
+	// Init OpenGL
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 	glMatrixMode (GL_MODELVIEW);
@@ -55,21 +58,25 @@ Window::Window () {
 	nk_sdl_font_stash_end ();
 	logger.write ("Nuklear initialized");
 
-	// Create menu & game
+	// Create routines
+	splash = new Splash (&routineHandler);
 	mainMenu = new MainMenu ();
 	game = new Game ();
 
 	// Init routineHandler
-	const std::vector<Routine *> rTable = {nullptr, game, mainMenu};
+	rTable = {nullptr, game, mainMenu, splash};
 	routineHandler.assignRoutinesTable (rTable);
-	routineHandler.id = mainMenuRoutine;
+	routineHandler.id = ENABLE_SPLASH ? splashRoutine : mainMenuRoutine;
+
+	// Init lua binders
 	lua::game::init (sdlWindow, &routineHandler);
+	lua::nk::init (nkContext);
 }
 
 
 Window::~Window () {
-	delete game;
-	delete mainMenu;
+	for (Routine *routine: rTable)
+		delete routine;
 	nk_sdl_shutdown ();
 	if (sdlWindow) SDL_DestroyWindow (sdlWindow);
 	IMG_Quit ();
@@ -110,7 +117,7 @@ int Window::mainLoop () {
 					routineHandler.eventHandler (&event);
 			}
 		nk_input_end (nkContext);
-		routineHandler.update (nkContext);
+		routineHandler.update ();
 
 		// Render
 		routineHandler.render ();

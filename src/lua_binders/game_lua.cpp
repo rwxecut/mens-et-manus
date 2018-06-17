@@ -1,7 +1,5 @@
-#include <Config.h>
+#include "lua_binders/game_lua.h"
 #include <tuple>
-#include <SDL_video.h>
-#include "auxiliary/game_lua.h"
 
 #define GAME_ADD_FIELD(field) {game[#field] = field;}
 
@@ -39,15 +37,15 @@ namespace lua::game {
 	}
 
 
-	// Bind functions
+	// Bind
 	void bind (LuaFile *LF) {
 		sol::table game = LF->state.create_named_table ("game");
-		// Bind functions
+		/*---------- Export functions ----------*/
 		GAME_ADD_FIELD (getScreenResolution);
 		GAME_ADD_FIELD (switchRoutine);
 		GAME_ADD_FIELD (applySettings);
 
-		// Export constants
+		/*---------- Export constants ----------*/
 		GAME_ADD_FIELD (finalization);
 		GAME_ADD_FIELD (gameRoutine);
 		GAME_ADD_FIELD (mainMenuRoutine);

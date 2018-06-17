@@ -1,5 +1,3 @@
-background = '../assets/thinking.png'
--------------------------------------
 package.path = package.path .. ';../lua_utils/?.lua;../cfg/?.lua'
 serpent = require('serpent')
 utils = require('utils')
@@ -7,11 +5,17 @@ config = require('config')
 settings = utils.safeRequire('settings', 'settings_default')
 
 --/////////////////////////////////////////////////////////////////////--
+background = '../assets/thinking.png'
+secondWindowX = 250
 
 startWindowVisible = false
 function renderStartWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Start game', 320, 50, 300, 140, windowFlags) then
+	if gui.begin('Start game', secondWindowX, 50, 300, 170, windowFlags) then
+		------------------------------
+		gui.layout_row_dynamic(20, 1)
+		gui.label("Mods: [UNDER CONSTRUCTION]", gui.NK_TEXT_LEFT)
+		gui.layout_row_dynamic(74, 1);
 		------------------------------
 		gui.layout_row_dynamic(30, 2)
 		if gui.button_label('Start') then
@@ -44,7 +48,7 @@ end
 settingsWindowVisible = false
 function renderSettingsWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Settings', 320, 50, 300, 140, windowFlags) then
+	if gui.begin('Settings', secondWindowX, 50, 300, 140, windowFlags) then
 		------------------------------
 		gui.layout_row_dynamic(30, 1)
 		settings.fullscreen = gui.check_label('Fullscreen', settings.fullscreen)
@@ -53,6 +57,8 @@ function renderSettingsWindow ()
 			gui.layout_row_dynamic(30, 2)
 			gui.label('Screen resolution', gui.NK_TEXT_LEFT)
 			settings.resolution_selected = gui.combo(config.resolutions.str, settings.resolution_selected, 25, 140, 100)
+		else -- empty row
+			gui.layout_row_static (30, 0, 0)
 		end
 		------------------------------
 		gui.layout_row_dynamic(30, 2)
@@ -73,12 +79,20 @@ end
 
 function renderMainWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Main menu', 50, 50, 270, 140, windowFlags) then
+	if gui.begin('Main menu', 50, 50, 200, 170, windowFlags) then
 		gui.layout_row_dynamic(30, 1)
 		-----------------------------
 		if gui.button_label('Start game') then
 			startWindowVisible = not startWindowVisible
 			settingsWindowVisible = false
+		end
+		-----------------------------
+		if gui.button_label('Mods') then
+			startWindowVisible = false
+			settingsWindowVisible = false
+			local modlist = mods.getList()
+			local modlistStr = serpent.block(modlist, { comment = false, nohuge = true })
+			print(modlistStr)
 		end
 		-----------------------------
 		if gui.button_label('Settings') then
