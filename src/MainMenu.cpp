@@ -15,6 +15,7 @@ MainMenu::MainMenu () {
 
 	// Load mods list
 	modList.load ();
+	LGUI->call ("loadModList");
 }
 
 

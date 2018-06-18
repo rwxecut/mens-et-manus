@@ -1,10 +1,12 @@
 #include "lua_binders/nk_lua.h"
 #include <string>
 #include <vector>
+#include <map>
 #include <tuple>
 
 #define GUI_ADD_FIELD(field) {gui[#field] = field;}
 typedef std::vector<std::string> vector_str;
+typedef std::map<std::string, float> float_map;
 
 namespace lua::nk {
 
@@ -27,6 +29,16 @@ namespace lua::nk {
 	}
 
 
+	sol::as_table_t<float_map> window_get_bounds () {
+		struct nk_rect nk_bounds = nk_window_get_bounds (ctx);
+		float_map bounds = {{"x", nk_bounds.x},
+		                    {"y", nk_bounds.y},
+		                    {"w", nk_bounds.w},
+		                    {"h", nk_bounds.h}};
+		return sol::as_table_t<float_map> (bounds);
+	};
+
+
 	bool group_begin (const char *title, int flags) {
 		return (bool) nk_group_begin (ctx, title, (nk_flags) flags);
 	}
@@ -47,16 +59,40 @@ namespace lua::nk {
 	}
 
 
+	sol::as_table_t<float_map> layout_space_bounds () {
+		struct nk_rect nk_bounds = nk_layout_space_bounds (ctx);
+		float_map bounds = {{"x", nk_bounds.x},
+		                    {"y", nk_bounds.y},
+		                    {"w", nk_bounds.w},
+		                    {"h", nk_bounds.h}};
+		return sol::as_table_t<float_map> (bounds);
+	};
+
+
+	sol::as_table_t<float_map> widget_bounds () {
+		struct nk_rect nk_bounds = nk_widget_bounds (ctx);
+		float_map bounds = {{"x", nk_bounds.x},
+		                    {"y", nk_bounds.y},
+		                    {"w", nk_bounds.w},
+		                    {"h", nk_bounds.h}};
+		return sol::as_table_t<float_map> (bounds);
+	};
+
+
 	void label (const char *str, int flags) {
 		nk_label (ctx, str, (nk_flags) flags);
 	}
 
 
-	std::tuple<int, int> selectable_label (const char *str, int flags, int value) {
-		// wtf, rewrite!!
-		int newValue = value;
-		int changed = nk_selectable_label (ctx, str, (nk_flags) flags, &newValue);
-		return std::make_tuple (newValue, changed);
+	void label_wrap (const char *str) {
+		nk_label_wrap (ctx, str);
+	}
+
+
+	bool selectable_label (const char *str, int flags, bool selected) {
+		int sel = (int) selected;
+		nk_selectable_label (ctx, str, (nk_flags) flags, &sel);
+		return (bool) sel;
 	}
 
 
@@ -67,6 +103,21 @@ namespace lua::nk {
 
 	bool check_label (const char *str, bool active) {
 		return (bool) nk_check_label (ctx, str, active);
+	}
+
+
+	bool popup_begin (int type, const char *title, int flags, float x, float y, float w, float h) {
+		return (bool) nk_popup_begin (ctx, (nk_popup_type) type, title, (nk_flags) flags, nk_rect (x, y, w, h));
+	}
+
+
+	void popup_close () {
+		nk_popup_close (ctx);
+	}
+
+
+	void popup_end () {
+		nk_popup_end (ctx);
 	}
 
 
@@ -84,6 +135,21 @@ namespace lua::nk {
 	}
 
 
+	void tooltip (const char *str) {
+		nk_tooltip (ctx, str);
+	}
+
+
+	bool input_is_mouse_hovering_rect (sol::as_table_t<float_map> bounds) {
+		const float_map &bounds_in = bounds.source;
+		struct nk_rect nk_bounds = {bounds_in.at ("x"),
+		                            bounds_in.at ("y"),
+		                            bounds_in.at ("w"),
+		                            bounds_in.at ("h")};
+		return (bool) nk_input_is_mouse_hovering_rect (&ctx->input, nk_bounds);
+	}
+
+
 	void finish () {
 		nk_end (ctx);
 	}
@@ -94,16 +160,25 @@ namespace lua::nk {
 		sol::table gui = LF->state.create_named_table ("gui");
 		/*---------- Export functions ----------*/
 		GUI_ADD_FIELD (begin);
+		GUI_ADD_FIELD (window_get_bounds)
 		GUI_ADD_FIELD (group_begin);
 		GUI_ADD_FIELD (group_end);
 		GUI_ADD_FIELD (layout_row_dynamic);
-		GUI_ADD_FIELD (layout_row_static)
+		GUI_ADD_FIELD (layout_row_static);
+		GUI_ADD_FIELD (layout_space_bounds);
+		GUI_ADD_FIELD (widget_bounds);
 		GUI_ADD_FIELD (label);
+		GUI_ADD_FIELD (label_wrap);
 		GUI_ADD_FIELD (selectable_label);
 		GUI_ADD_FIELD (button_label);
 		GUI_ADD_FIELD (check_label);
+		GUI_ADD_FIELD (popup_begin);
+		GUI_ADD_FIELD (popup_close);
+		GUI_ADD_FIELD (popup_end);
 		GUI_ADD_FIELD (combo);
 		GUI_ADD_FIELD (combo_separator);
+		GUI_ADD_FIELD (tooltip)
+		GUI_ADD_FIELD (input_is_mouse_hovering_rect);
 		GUI_ADD_FIELD (finish);
 
 		/*---------- Export constants ----------*/
@@ -123,5 +198,8 @@ namespace lua::nk {
 		GUI_ADD_FIELD (NK_TEXT_LEFT);
 		GUI_ADD_FIELD (NK_TEXT_CENTERED);
 		GUI_ADD_FIELD (NK_TEXT_RIGHT);
+		/*----- Popup ---- */
+		GUI_ADD_FIELD (NK_POPUP_STATIC);
+		GUI_ADD_FIELD (NK_POPUP_DYNAMIC);
 	}
 }
