@@ -45,7 +45,7 @@ void Map::setVisibleTiles (size2d<int> winSize) {
 	Tile::visBottomLeft = getHoveredTile (gl::unproject ({0, (GLdouble) winSize.height}));
 	Tile::visTopRight = getHoveredTile (gl::unproject ({(GLdouble) winSize.width, 0}));
 	// Extend range
-	const int exRange = 3;
+	const int exRange = 1;
 	vector2d<int16_t> exVector = {exRange, exRange};
 	Tile::visBottomLeft -= exVector;
 	Tile::visTopRight += exVector;
