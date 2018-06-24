@@ -10,6 +10,8 @@ class Splash : public Routine {
 
 	Texture *splash;
 	RoutineHandler *rHandler;
+	GLfloat alpha = 0, d_alpha = 0.01;
+
 
 public:
 

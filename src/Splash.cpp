@@ -4,6 +4,8 @@
 Splash::Splash (RoutineHandler *rHandler) {
 	splash = new Texture (config.path.splash.c_str ());
 	this->rHandler = rHandler;
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -13,16 +15,18 @@ Splash::~Splash () {
 
 
 void Splash::update () {
-	// dumb temporarily workaround
-	static int cntr = 0;
-	cntr++;
-	SDL_Delay (10);
-	if (cntr == 100)
+	alpha += d_alpha;
+	if (alpha >= 1)
+		d_alpha = -d_alpha;
+	if (alpha <= 0) {
+		glDisable (GL_BLEND);
 		rHandler->id = mainMenuRoutine;
+	}
 }
 
 
 void Splash::render () {
+	if (alpha <= 0) return;
 	glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
@@ -38,6 +42,7 @@ void Splash::render () {
 	                       1, 1,
 	                       1, 0};
 	//@formatter:on
+	glColor4f (1, 1, 1, alpha);
 	splash->stateDraw (GL_QUADS, 4, vertex, texCoords);
 }
 

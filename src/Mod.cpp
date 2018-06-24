@@ -2,19 +2,18 @@
 
 
 void ModList::load () {
-	logger.write ("Scanning for mods...");
+	logger.write_inc ("Scanning for mods...");
 	for (auto &dir: fs::directory_iterator (config.path.assets))
 		if (fs::is_directory (dir)) {
 			fs::path modFilePath = dir.path () / config.path.modfile;
 			if (fs::exists (modFilePath)) {
-				// mingw does some shit with fs::path.c_str()
-				LuaFile modFile (modFilePath.string ().c_str ());
+				LuaFile modFile (modFilePath.string ());
 				Mod::info_t info = loadModInfo (modFile);
 				logger.write ("Mod found: %s %s", info["name"].c_str (), info["version"].c_str ());
 				list.emplace_back (info);
 			}
 		}
-	logger.write ("Found %zu mods", list.size ());
+	logger.dec_write ("Found %zu mods", list.size ());
 }
 
 

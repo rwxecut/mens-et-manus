@@ -1,7 +1,7 @@
 #include "LuaFile.h"
 
 
-LuaFile::LuaFile (const char *filename) {
+LuaFile::LuaFile (std::string const &filename) {
 	this->filename = filename;
 	state.open_libraries ();
 	try {
@@ -10,7 +10,7 @@ LuaFile::LuaFile (const char *filename) {
 	catch (const sol::error &e) {
 		fatalError ("Error while executing Lua file %s: %s", filename, e.what ());
 	}
-	logger.write ("Lua file loaded: %s", filename);
+	logger.write ("Lua file loaded: %s", filename.c_str ());
 };
 
 

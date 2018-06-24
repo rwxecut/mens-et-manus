@@ -7,6 +7,7 @@
 #define GUI_ADD_FIELD(field) {gui[#field] = field;}
 typedef std::vector<std::string> vector_str;
 typedef std::map<std::string, float> float_map;
+typedef sol::as_table_t<float_map> lua_float_map;
 
 namespace lua::nk {
 
@@ -22,20 +23,30 @@ namespace lua::nk {
 		LF->call ("render");
 	}
 
-	// Binded functions
+	// Auxiliary functions
 
-	bool begin (const char *title, float x, float y, float w, float h, int flags) {
-		return (bool) nk_begin (ctx, title, nk_rect (x, y, w, h), (nk_flags) flags);
+	inline struct nk_rect map2rect (float_map const &map) {
+		return nk_rect (map.at ("x"), map.at ("y"), map.at ("w"), map.at ("h"));
 	}
 
 
-	sol::as_table_t<float_map> window_get_bounds () {
+	inline float_map rect2map (struct nk_rect const &rect) {
+		return {{"x", rect.x},
+		        {"y", rect.y},
+		        {"w", rect.w},
+		        {"h", rect.h}};
+	}
+
+	// Binded functions
+
+	bool begin (const char *title, lua_float_map bounds, int flags) {
+		return (bool) nk_begin (ctx, title, map2rect (bounds.source), (nk_flags) flags);
+	}
+
+
+	lua_float_map window_get_bounds () {
 		struct nk_rect nk_bounds = nk_window_get_bounds (ctx);
-		float_map bounds = {{"x", nk_bounds.x},
-		                    {"y", nk_bounds.y},
-		                    {"w", nk_bounds.w},
-		                    {"h", nk_bounds.h}};
-		return sol::as_table_t<float_map> (bounds);
+		return lua_float_map (rect2map (nk_bounds));
 	};
 
 
@@ -59,23 +70,15 @@ namespace lua::nk {
 	}
 
 
-	sol::as_table_t<float_map> layout_space_bounds () {
+	lua_float_map layout_space_bounds () {
 		struct nk_rect nk_bounds = nk_layout_space_bounds (ctx);
-		float_map bounds = {{"x", nk_bounds.x},
-		                    {"y", nk_bounds.y},
-		                    {"w", nk_bounds.w},
-		                    {"h", nk_bounds.h}};
-		return sol::as_table_t<float_map> (bounds);
+		return lua_float_map (rect2map (nk_bounds));
 	};
 
 
-	sol::as_table_t<float_map> widget_bounds () {
+	lua_float_map widget_bounds () {
 		struct nk_rect nk_bounds = nk_widget_bounds (ctx);
-		float_map bounds = {{"x", nk_bounds.x},
-		                    {"y", nk_bounds.y},
-		                    {"w", nk_bounds.w},
-		                    {"h", nk_bounds.h}};
-		return sol::as_table_t<float_map> (bounds);
+		return lua_float_map (rect2map (nk_bounds));
 	};
 
 
@@ -106,8 +109,8 @@ namespace lua::nk {
 	}
 
 
-	bool popup_begin (int type, const char *title, int flags, float x, float y, float w, float h) {
-		return (bool) nk_popup_begin (ctx, (nk_popup_type) type, title, (nk_flags) flags, nk_rect (x, y, w, h));
+	bool popup_begin (int type, const char *title, int flags, lua_float_map bounds) {
+		return (bool) nk_popup_begin (ctx, (nk_popup_type) type, title, (nk_flags) flags, map2rect (bounds.source));
 	}
 
 
@@ -140,12 +143,8 @@ namespace lua::nk {
 	}
 
 
-	bool input_is_mouse_hovering_rect (sol::as_table_t<float_map> bounds) {
-		const float_map &bounds_in = bounds.source;
-		struct nk_rect nk_bounds = {bounds_in.at ("x"),
-		                            bounds_in.at ("y"),
-		                            bounds_in.at ("w"),
-		                            bounds_in.at ("h")};
+	bool input_is_mouse_hovering_rect (lua_float_map bounds) {
+		struct nk_rect nk_bounds = map2rect (bounds.source);
 		return (bool) nk_input_is_mouse_hovering_rect (&ctx->input, nk_bounds);
 	}
 

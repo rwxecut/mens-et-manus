@@ -8,22 +8,39 @@ settings = utils.safeRequire('settings', 'settings_default')
 
 background = '../assets/thinking.png'
 modlist = nil
+renderActiveWindow = nil
 
 -- Windows positions and widths
-windowY = 50
-firstWindowX = 50
-firstWindowW = 200
-secondWindowX = firstWindowX + firstWindowW
-secondWindowW = 300
-thirdWindowX = secondWindowX + secondWindowW
-thirdWindowW = 200
+function firstWindowBounds(height)
+	return {
+		x = 50,
+		y = 50,
+		w = 200,
+		h = height
+	}
+end
+function secondWindowBounds(height)
+	return {
+		x = 250,
+		y = 50,
+		w = 300,
+		h = height
+	}
+end
+function thirdWindowBounds(height)
+	return {
+		x = 550,
+		y = 50,
+		w = 200,
+		h = height
+	}
+end
 
 --/////////////////////////////////////////////////////////////////////--
 
-startWindowVisible = false
 function renderStartWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Start game', secondWindowX, windowY, secondWindowW, 170, windowFlags) then
+	if gui.begin('Start game', secondWindowBounds(170), windowFlags) then
 		------------------------------
 		gui.layout_row_dynamic(20, 1)
 		gui.label("Mods:", gui.NK_TEXT_LEFT)
@@ -77,10 +94,9 @@ function saveSettings ()
 	io.close(settingsFile)
 end
 
-settingsWindowVisible = false
 function renderSettingsWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Settings', secondWindowX, windowY, secondWindowW, 140, windowFlags) then
+	if gui.begin('Settings', secondWindowBounds(140), windowFlags) then
 		------------------------------
 		gui.layout_row_dynamic(30, 1)
 		settings.fullscreen = gui.check_label('Fullscreen', settings.fullscreen)
@@ -110,11 +126,10 @@ end
 
 --/////////////////////////////////////////////////////////////////////--
 
-modInfoWindowVisible = false
 currMod = nil
 function renderModInfoWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE
-	if gui.begin(currMod["name"], thirdWindowX, windowY, thirdWindowW, 170, windowFlags) then
+	if gui.begin(currMod["name"], thirdWindowBounds(170), windowFlags) then
 		gui.layout_row_dynamic(0, 1)
 		gui.label_wrap("Version: " .. currMod["version"])
 		gui.label_wrap("Author: " .. currMod["author"])
@@ -123,10 +138,10 @@ function renderModInfoWindow ()
 	end
 end
 
-modWindowVisible = false
 function renderModWindow()
 	local windowFlags = gui.NK_WINDOW_TITLE
-	if gui.begin("Mods", secondWindowX, windowY, secondWindowW, 170, windowFlags) then
+	local modInfoWindowVisible = false
+	if gui.begin("Mods", secondWindowBounds(170), windowFlags) then
 		gui.layout_row_dynamic(20, 1)
 		for _, mod in pairs(modlist) do
 			local currModSelected = (currMod == mod)
@@ -140,34 +155,28 @@ function renderModWindow()
 		modInfoWindowVisible = (currMod ~= nil)
 		gui.finish()
 	end
+	if modInfoWindowVisible then
+		renderModInfoWindow()
+	end
 end
 
 --/////////////////////////////////////////////////////////////////////--
 
 function renderMainWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Main menu', firstWindowX, windowY, firstWindowW, 170, windowFlags) then
+	if gui.begin('Main menu', firstWindowBounds(170), windowFlags) then
 		gui.layout_row_dynamic(30, 1)
 		-----------------------------
 		if gui.button_label('Start game') then
-			startWindowVisible = not startWindowVisible
-			settingsWindowVisible = false
-			modWindowVisible = false
-			modInfoWindowVisible = false
+			renderActiveWindow = renderStartWindow
 		end
 		-----------------------------
 		if gui.button_label('Mods') then
-			startWindowVisible = false
-			settingsWindowVisible = false
-			modWindowVisible = not modWindowVisible
-			modInfoWindowVisible = false
+			renderActiveWindow = renderModWindow
 		end
 		-----------------------------
 		if gui.button_label('Settings') then
-			startWindowVisible = false
-			settingsWindowVisible = not settingsWindowVisible
-			modWindowVisible = false
-			modInfoWindowVisible = false
+			renderActiveWindow = renderSettingsWindow
 		end
 		-----------------------------
 		if gui.button_label('Exit') then
@@ -182,17 +191,8 @@ end
 
 function render ()
 	renderMainWindow()
-	if startWindowVisible then
-		renderStartWindow()
-	end
-	if settingsWindowVisible then
-		renderSettingsWindow()
-	end
-	if modWindowVisible then
-		renderModWindow()
-	end
-	if modInfoWindowVisible then
-		renderModInfoWindow()
+	if renderActiveWindow then
+		renderActiveWindow()
 	end
 end
 

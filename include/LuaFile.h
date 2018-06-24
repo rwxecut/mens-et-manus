@@ -8,12 +8,12 @@
 
 
 class LuaFile {
-	const char *filename;
+	std::string filename;
 
 public:
 
 	sol::state state;
 
-	LuaFile (const char *filename);
+	LuaFile (std::string const &filename);
 	void call (const char *funcname);
 };
