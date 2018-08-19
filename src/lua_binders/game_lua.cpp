@@ -1,5 +1,6 @@
 #include "lua_binders/game_lua.h"
 #include <tuple>
+#include "Config.h"
 
 #define GAME_ADD_FIELD(field) {game[#field] = field;}
 

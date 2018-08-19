@@ -1,6 +1,5 @@
 *.h linguist-language=C++
-include/nuklear/* linguist-vendored
-include/glm/* linguist-vendored
-include/auxiliary/sol.hpp linguist-vendored
+include/lib/* linguist-vendored
+src/lib/* linguist-vendored
 lua_utils/serpent.lua linguist-vendored
 cmake/* linguist-vendored

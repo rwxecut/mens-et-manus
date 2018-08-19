@@ -1,4 +1,7 @@
 #include "Mod.h"
+#include "Config.h"
+#include "Logger.h"
+#include "auxiliary/filesystem.h"
 
 
 void ModList::load () {

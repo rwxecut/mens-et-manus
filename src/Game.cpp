@@ -1,4 +1,9 @@
 #include "Game.h"
+#include <GL/glu.h>
+#include "Config.h"
+#include "lib/nuklear/nuklear_common.h"
+#include "lua_binders/nk_lua.h"
+#include "lua_binders/game_lua.h"
 
 
 Game::Game ()

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "lib/glad.h"
 #include <SDL.h>
-#include <SDL_opengl.h>
 
 #define NK_INCLUDE_FIXED_TYPES
 #define NK_INCLUDE_DEFAULT_ALLOCATOR
@@ -10,5 +10,7 @@
 #define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
 #define NK_INCLUDE_FONT_BAKING
 #define NK_INCLUDE_DEFAULT_FONT
-#include "nuklear/nuklear.h"
-#include "nuklear/nuklear_sdl_gl2.h"
+#include "lib/nuklear/nuklear.h"
+#include "lib/nuklear/nuklear_sdl_gl3.h"
+#define MAX_VERTEX_MEMORY 512 * 1024
+#define MAX_ELEMENT_MEMORY 128 * 1024

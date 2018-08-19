@@ -1,4 +1,5 @@
 #include "Splash.h"
+#include "Config.h"
 
 
 Splash::Splash (RoutineHandler *rHandler) {

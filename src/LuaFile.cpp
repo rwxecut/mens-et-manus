@@ -1,4 +1,6 @@
 #include "LuaFile.h"
+#include "Logger.h"
+#include "auxiliary/errors.h"
 
 
 LuaFile::LuaFile (std::string const &filename) {

@@ -1,4 +1,13 @@
 #include "Window.h"
+#include <cstdio>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+#include "lua_binders/game_lua.h"
+#include "lua_binders/nk_lua.h"
+#include "auxiliary/geometry.h"
+#include "auxiliary/errors.h"
+#include "Logger.h"
+#include "Config.h"
 
 #define ENABLE_SPLASH true
 
@@ -12,7 +21,7 @@ Window::Window () {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
 		fatalError ("SDL could not initialize!");
 
-	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
 
@@ -39,6 +48,9 @@ Window::Window () {
 		logger.write ("WARNING: Can't enable VSync");
 	logger.write ("VSync enabled");
 
+	if (!gladLoadGLLoader (SDL_GL_GetProcAddress))
+		fatalError ("Failed to load OpenGL!");
+
 	// Init OpenGL
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
@@ -49,7 +61,8 @@ Window::Window () {
 	glEnable (GL_TEXTURE_2D);
 	if (glGetError () != GL_NO_ERROR)
 		fatalError ("Failed to initialize OpenGL!");
-	logger.write ("OpenGL initialized");
+	logger.write_inc ("OpenGL initialized");
+	logger.write_dec ("Render device: %s", glGetString (GL_RENDERER));
 
 	// Init Nuklear
 	nkContext = nk_sdl_init (sdlWindow);
@@ -121,7 +134,7 @@ int Window::mainLoop () {
 
 		// Render
 		routineHandler.render ();
-		nk_sdl_render (NK_ANTI_ALIASING_ON);
+		nk_sdl_render (NK_ANTI_ALIASING_ON, MAX_VERTEX_MEMORY, MAX_ELEMENT_MEMORY);
 		glFlush ();
 		SDL_GL_SwapWindow (sdlWindow);
 

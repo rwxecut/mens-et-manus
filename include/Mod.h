@@ -3,9 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "Config.h"
-#include "Logger.h"
-#include "auxiliary/filesystem.h"
+#include "LuaFile.h"
 
 
 namespace Mod {

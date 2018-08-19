@@ -1,4 +1,10 @@
 #include "MainMenu.h"
+#include <SDL_image.h>
+#include "Config.h"
+#include "lib/nuklear/nuklear_common.h"
+#include "lua_binders/game_lua.h"
+#include "lua_binders/nk_lua.h"
+#include "lua_binders/modlist_lua.h"
 
 
 MainMenu::MainMenu () {

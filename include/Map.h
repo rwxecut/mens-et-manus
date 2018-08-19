@@ -1,13 +1,8 @@
 #pragma once
 
-#include <GL/gl.h>
+#include "lib/glad.h"
 #include <cstdint>
-#include <cstdlib>
-#include <cmath>
-#include <new>
-
 #include "auxiliary/geometry.h"
-#include "auxiliary/util.h"
 #include "Tile.h"
 #include "Texture.h"
 

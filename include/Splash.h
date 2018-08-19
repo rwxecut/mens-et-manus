@@ -1,10 +1,7 @@
 #pragma once
 
-
 #include "Routine.h"
-#include "Config.h"
 #include "Texture.h"
-
 
 class Splash : public Routine {
 

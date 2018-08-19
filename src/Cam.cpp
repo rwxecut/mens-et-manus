@@ -1,5 +1,6 @@
-#include <Config.h>
 #include "Cam.h"
+#include "Config.h"
+#include <GL/glu.h>
 
 
 Cam::Cam () {

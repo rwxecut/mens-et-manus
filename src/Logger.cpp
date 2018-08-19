@@ -1,4 +1,5 @@
 #include "Logger.h"
+#define CALL_VWRITE {va_list args; va_start (args, fmt); vwrite (fmt, args); va_end (args);}
 
 
 Logger::Logger (const char *filename) {
@@ -33,26 +34,23 @@ void Logger::vwrite (const char *fmt, va_list args) {
 
 
 void Logger::write (const char *fmt, ...) {
-	va_list args;
-	va_start (args, fmt);
-	vwrite (fmt, args);
-	va_end (args);
+	CALL_VWRITE
 }
 
 
 void Logger::write_inc (const char *fmt, ...) {
-	va_list args;
-	va_start (args, fmt);
-	vwrite (fmt, args);
-	va_end (args);
+	CALL_VWRITE
 	incDepth ();
+}
+
+
+void Logger::write_dec (const char *fmt, ...) {
+	CALL_VWRITE
+	decDepth ();
 }
 
 
 void Logger::dec_write (const char *fmt, ...) {
 	decDepth ();
-	va_list args;
-	va_start (args, fmt);
-	vwrite (fmt, args);
-	va_end (args);
+	CALL_VWRITE
 }

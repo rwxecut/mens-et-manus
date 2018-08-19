@@ -22,6 +22,7 @@ public:
 	void vwrite (const char *fmt, va_list args);
 	void write (const char *fmt, ...);
 	void write_inc (const char *fmt, ...); // print and increase depth
+	void write_dec (const char *fmt, ...); // print and decrease depth
 	void dec_write (const char *fmt, ...); // decrease depth and print
 };
 

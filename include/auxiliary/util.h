@@ -1,7 +1,6 @@
 #pragma once
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include "lib/glad.h"
 #include "geometry.h"
 
 

@@ -1,4 +1,8 @@
 #include "Map.h"
+#include <cstdlib>
+#include <cmath>
+#include <new>
+#include "auxiliary/util.h"
 
 
 Map::Map () {

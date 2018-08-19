@@ -1,4 +1,5 @@
 #include "lua_binders/modlist_lua.h"
+#include <vector>
 
 #define MODS_ADD_FIELD(field) {mods[#field] = field;}
 

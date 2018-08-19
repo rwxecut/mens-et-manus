@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "Mod.h"
 #include "LuaFile.h"
 

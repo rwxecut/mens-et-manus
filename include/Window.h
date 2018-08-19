@@ -1,20 +1,11 @@
 #pragma once
 
-#include <cstdio>
+#include "lib/glad.h"
 #include <vector>
 #include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_image.h>
-#include "nuklear/nuklear_common.h"
-#include "lua_binders/game_lua.h"
-#include "lua_binders/nk_lua.h"
-#include "auxiliary/geometry.h"
+#include "lib/nuklear/nuklear_common.h"
 
-#include "auxiliary/errors.h"
-#include "Logger.h"
-#include "Config.h"
 #include "Routine.h"
-
 #include "Splash.h"
 #include "MainMenu.h"
 #include "Game.h"

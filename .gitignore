@@ -1,6 +1,7 @@
 .idea/
 cmake-build-debug/
-SDL2/
 bin/
-/lua/
+lib/
 cfg/settings.lua
+!src/lib
+!include/lib

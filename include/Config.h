@@ -1,11 +1,8 @@
 #pragma once
 
+#include "lib/glad.h"
 #include <string>
-#include <GL/gl.h>
-#include "LuaFile.h"
-#include "Logger.h"
 #include "auxiliary/geometry.h"
-#include "auxiliary/filesystem.h"
 
 
 #define CONFIG_PATH "../cfg/config.lua"

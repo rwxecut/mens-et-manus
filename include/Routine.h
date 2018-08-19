@@ -2,8 +2,6 @@
 
 #include <vector>
 #include <SDL.h>
-#include "nuklear/nuklear_common.h"
-#include "Logger.h"
 
 // Routines' IDs for Lua
 enum {

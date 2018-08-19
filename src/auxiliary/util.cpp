@@ -1,4 +1,5 @@
 #include "auxiliary/util.h"
+#include <GL/glu.h>
 
 namespace gl {
 	point2d<GLdouble> unproject (point2d<GLdouble> source) {

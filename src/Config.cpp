@@ -1,4 +1,7 @@
 #include "Config.h"
+#include "LuaFile.h"
+#include "Logger.h"
+#include "auxiliary/filesystem.h"
 
 
 void Config::load () {

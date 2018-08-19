@@ -3,8 +3,7 @@
 #define SOL_CHECK_ARGUMENTS 1
 
 #include <string>
-#include "auxiliary/sol.hpp"
-#include "auxiliary/errors.h"
+#include "lib/sol.hpp"
 
 
 class LuaFile {

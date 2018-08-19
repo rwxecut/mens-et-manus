@@ -1,15 +1,8 @@
 #pragma once
 
 #include <SDL.h>
-#include <SDL_opengl.h>
-#include <GL/glu.h>
-#include "lua_binders/nk_lua.h"
-#include "lua_binders/game_lua.h"
-
-#include "Config.h"
 #include "LuaFile.h"
 #include "Routine.h"
-#include "nuklear/nuklear_common.h"
 #include "Map.h"
 #include "Cam.h"
 #include "auxiliary/geometry.h"
