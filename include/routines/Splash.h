@@ -1,13 +1,18 @@
 #pragma once
 
 #include "Routine.h"
+#include "Shader.h"
 #include "Texture.h"
+#include "auxiliary/primitives.h"
 
 class Splash : public Routine {
 
-	Texture *splash;
+	Texture *splashTex;
 	RoutineHandler *rHandler;
 	GLfloat alpha = 0, d_alpha = 0.01;
+
+	gl::Rect *splashRect;
+	ShaderProgram *shaderProg;
 
 
 public:

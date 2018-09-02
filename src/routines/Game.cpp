@@ -1,20 +1,22 @@
-#include "Game.h"
-#include <GL/glu.h>
+#include "routines/Game.h"
 #include "Config.h"
 #include "lib/nuklear/nuklear_common.h"
 #include "lua_binders/nk_lua.h"
 #include "lua_binders/game_lua.h"
 
+#include "lib/glm/vec2.hpp"
+#include "lib/glm/mat4x4.hpp"
+
 
 Game::Game ()
-		: map (), cam () {
+		: cam (), map (&cam) {
 	// Create GUI
 	LGUI = new LuaFile (config.path.gameMenuGUI.c_str ());
 	lua::nk::bind (LGUI);
 	lua::game::bind (LGUI);
 	// Initially set visible tiles
-	cam.setup ();
-	map.setVisibleTiles (config.screen.size);
+	cam.setup (NULL);
+	map.setVisibleTiles (glm::ivec2 (config.screen.size.width, config.screen.size.height));
 }
 
 
@@ -25,23 +27,25 @@ void Game::update () {
 	keyHandler ();
 	SDL_GetMouseState (&mousePos.x, &mousePos.y);
 	mousePositionHandler ();
-	if (cam.moveSpeed != vector2d<GLdouble>{0, 0})
+	if (cam.moveSpeed != glm::vec3 (0))
 		cam.decelerate ();
 	// cam.moveSpeed has changed, so we have to recheck
-	if (cam.moveSpeed != vector2d<GLdouble>{0, 0}) {
+	if (cam.moveSpeed != glm::vec3 (0)) {
 		cam.move ();
-		map.setVisibleTiles (config.screen.size);
+		map.setVisibleTiles (glm::ivec2 (config.screen.size.width, config.screen.size.height));
 	}
-
-	map.setSelectedTile (mousePos);
+	map.setSelectedTile (glm::ivec2 (mousePos.x, mousePos.y));
 
 	lua::nk::run (LGUI);
 }
 
 
 void Game::render () {
-	cam.setup ();
-	map.draw ();
+	// TODO: create MapRenderer class and move cam to it
+	glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	glm::mat4 MVP;
+	cam.setup (&MVP);
+	map.draw (MVP);
 }
 
 
@@ -66,7 +70,7 @@ void Game::eventHandler (SDL_Event *event) {
 	switch (event->type) {
 		case SDL_MOUSEWHEEL:
 			cam.zoom (event->wheel.y);
-			map.setVisibleTiles (config.screen.size);
+			map.setVisibleTiles (glm::ivec2 (config.screen.size.width, config.screen.size.height));
 			break;
 		default:;
 	}

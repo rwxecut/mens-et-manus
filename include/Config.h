@@ -25,6 +25,8 @@ struct Config {
 		std::string modfile;
 		std::string assets;
 		std::string splash;
+		std::string splashVertShader;
+		std::string splashFragShader;
 		std::string mainMenuGUI;
 		std::string gameMenuGUI;
 	} path;

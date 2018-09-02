@@ -6,7 +6,10 @@ settings = utils.safeRequire('settings', 'settings_default')
 
 --/////////////////////////////////////////////////////////////////////--
 
-background = '../assets/thinking.png'
+background = '../assets/vanilla/mainMenu/thinking.png'
+vertShader = '../assets/vanilla/mainMenu/shader.vert'
+fragShader = '../assets/vanilla/mainMenu/shader.frag'
+
 modlist = nil
 renderActiveWindow = nil
 

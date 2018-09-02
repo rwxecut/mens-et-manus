@@ -12,7 +12,8 @@ set(INCLUDE_DIR include)
 set(SOURCE_FILENAMES
         main.cpp
         Window.cpp
-        Game.cpp
+        Shader.cpp
+        Texture.cpp
         LuaFile.cpp
         Mod.cpp
         Cam.cpp
@@ -20,12 +21,13 @@ set(SOURCE_FILENAMES
         Config.cpp
         Logger.cpp
         Tile.cpp
-        Splash.cpp
-        MainMenu.cpp
-        Texture.cpp
+        routines/Splash.cpp
+        routines/MainMenu.cpp
+        routines/Game.cpp
         lua_binders/nk_lua.cpp
         lua_binders/game_lua.cpp
         lua_binders/modlist_lua.cpp
+        auxiliary/primitives.cpp
         auxiliary/util.cpp
         lib/glad.c
         lib/nuklear.cpp

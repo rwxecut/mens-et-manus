@@ -1,17 +1,22 @@
 #pragma once
 
 #include <SDL.h>
+#include "Shader.h"
 #include "LuaFile.h"
 #include "Routine.h"
 #include "Texture.h"
 #include "Mod.h"
+#include "auxiliary/primitives.h"
 
 
 class MainMenu : public Routine {
 
 	LuaFile *LGUI;
-	Texture *background;
 	ModList modList;
+
+	gl::Rect *bgRect;
+	Texture *background;
+	ShaderProgram *shaderProg;
 
 public:
 	MainMenu ();

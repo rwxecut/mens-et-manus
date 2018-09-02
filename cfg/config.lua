@@ -8,7 +8,7 @@ Config.screen = {
 }
 
 Config.cam = {
-	moveSpeedMax = 10.0,
+	moveSpeedMax = 20.0,
 	moveAcceleration = 0.5,
 	zoomSpeed = 20.0
 }
@@ -24,8 +24,10 @@ Config.path = {
 	modfile = "mod.lua",
 	assets = "../assets",
 }
-Config.path["splash"] = Config.path.assets .. "/splash.png"
-Config.path["mainMenuGUI"] = Config.path.assets .. "/mainMenu.lua"
+Config.path["splash"] = Config.path.assets .. "/vanilla/splash/splash.png"
+Config.path["splashVertShader"] = Config.path.assets .. "/vanilla/splash/shader.vert"
+Config.path["splashFragShader"] = Config.path.assets .. "/vanilla/splash/shader.frag"
+Config.path["mainMenuGUI"] = Config.path.assets .. "/vanilla/mainMenu/mainMenu.lua"
 Config.path["gameMenuGUI"] = Config.path.assets .. "/gameMenu.lua"
 
 return Config

@@ -1,21 +1,28 @@
 #include "auxiliary/util.h"
-#include <GL/glu.h>
+#include <fstream>
+#include "auxiliary/errors.h"
+#include "Logger.h"
+
+#include "lib/glm/gtc/matrix_transform.hpp"
 
 namespace gl {
-	point2d<GLdouble> unproject (point2d<GLdouble> source) {
-		// Load matricies
-		GLdouble modelview[16], projection[16];
-		GLint viewport[4];
-		glGetDoublev (GL_MODELVIEW_MATRIX, modelview);
-		glGetDoublev (GL_PROJECTION_MATRIX, projection);
-		glGetIntegerv (GL_VIEWPORT, viewport);
-		// Unproject
-		GLfloat srcZ;
-		GLdouble objZ;
-		point2d<GLdouble> obj;
-		source.y = (GLfloat) (viewport[3] - source.y);
-		glReadPixels ((GLint) source.x, (GLint) source.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &srcZ);
-		gluUnProject (source.x, source.y, srcZ, modelview, projection, viewport, &obj.x, &obj.y, &objZ);
-		return obj;
+}
+
+
+std::string loadFileToString (const char *filename, bool &success) {
+	std::ifstream file (filename, std::ios::in | std::ios::binary);
+	std::string string;
+	if (file) {
+		success = true;
+		file.seekg (0, std::ios::end);
+		string.resize ((unsigned) file.tellg ());
+		file.seekg (0, std::ios::beg);
+		file.read (&string[0], string.size ());
+		file.close ();
+		logger.write ("File loaded: %s", filename);
+	} else {
+		warnError ("Error loading file: %s", filename);
+		success = false;
 	}
+	return string;
 }

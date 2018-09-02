@@ -18,6 +18,8 @@ void Config::loadConfig () {
 	path.modfile = conf["path"]["modfile"];
 	path.assets = conf["path"]["assets"];
 	path.splash = conf["path"]["splash"];
+	path.splashVertShader = conf["path"]["splashVertShader"];
+	path.splashFragShader = conf["path"]["splashFragShader"];
 	path.mainMenuGUI = conf["path"]["mainMenuGUI"];
 	path.gameMenuGUI = conf["path"]["gameMenuGUI"];
 

@@ -6,9 +6,9 @@
 #include "lib/nuklear/nuklear_common.h"
 
 #include "Routine.h"
-#include "Splash.h"
-#include "MainMenu.h"
-#include "Game.h"
+#include "routines/Splash.h"
+#include "routines/MainMenu.h"
+#include "routines/Game.h"
 
 
 class Window {
@@ -24,7 +24,11 @@ class Window {
 	RoutineHandler routineHandler;
 
 	GLdouble fpsMeasureInterval;
-	uint32_t getFPS ();
+	bool averageEnabled = false, averageSwitched = false;
+	size_t getFPS (float *average);
+	void writeFPS ();
+
+	void switchWireframeMode ();
 
 public:
 	Window ();

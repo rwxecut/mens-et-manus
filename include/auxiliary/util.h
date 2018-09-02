@@ -2,8 +2,13 @@
 
 #include "lib/glad.h"
 #include "geometry.h"
+#include <string>
 
 
 namespace gl {
-	point2d<GLdouble> unproject (point2d<GLdouble> source);
+	inline GLsizei sizef (int n) { return n * sizeof (GLfloat); }
+	inline GLvoid *psizef (int n) { return (GLvoid *) (n * sizeof (GLfloat)); }
 }
+
+
+std::string loadFileToString (const char *filename, bool &success);

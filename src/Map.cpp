@@ -2,10 +2,15 @@
 #include <cstdlib>
 #include <cmath>
 #include <new>
-#include "auxiliary/util.h"
 
 
-Map::Map () {
+Map::Map (Cam *cam) {
+	this->cam = cam;
+
+	const char *vertShaderPath = "../assets/vanilla/tiles/shaders/shader.vert";
+	const char *fragShaderPath = "../assets/vanilla/tiles/shaders/shader.frag";
+	tileShader = new ShaderProgram ("Tile", Shader::fromFile, vertShaderPath, Shader::fromFile, fragShaderPath);
+
 	grassTex = new Texture ("../assets/vanilla/tiles/grass.png");
 	size = {20, 10}; // temp
 	tiles = (Tile **) calloc (size.height, sizeof (Tile *));
@@ -15,6 +20,10 @@ Map::Map () {
 		for (uint16_t x = 0; x < size.width; x++)
 			new (&tiles[y][x]) Tile ({x, y}, grassTex);
 	}
+
+	tileHex = new gl::Hex (GL_STATIC_DRAW, Tile::hexVertex, sizeof (Tile::hexVertex));
+	tileHex->setAttributes (0, 2, 4, 0); // X, Y
+	tileHex->setAttributes (1, 2, 4, 2); // S, T
 }
 
 
@@ -22,35 +31,38 @@ Map::~Map () {
 	free (tiles);
 	free (tilesMem);
 	delete grassTex;
+	delete tileShader;
+	delete tileHex;
 }
 
 
-void Map::draw () {
+void Map::draw (glm::mat4 MVP) {
+	glEnable (GL_DEPTH_TEST);
+
 	// Draw visible tiles
+	tileShader->use ();
+	tileShader->setUniform ("MVP", MVP);
 	glLineWidth (2.0);
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-	for (int16_t y = Tile::visBottomLeft.y; y <= Tile::visTopRight.y; y++)
-		for (int16_t x = Tile::visBottomLeft.x; x <= Tile::visTopRight.x; x++)
-			tiles[y][x].draw ();
-	glDisableClientState (GL_VERTEX_ARRAY);
-	glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-	glColor3f (1, 1, 1); // reset color
+	//for (int16_t y = Tile::visBottomLeft.y; y <= Tile::visTopRight.y; y++)
+	//	for (int16_t x = Tile::visBottomLeft.x; x <= Tile::visTopRight.x; x++)
+	for (int16_t y = 0; y < size.height; y++)
+		for (int16_t x = 0; x < size.width; x++)
+			tiles[y][x].draw (tileShader, tileHex);
 }
 
 
-void Map::setSelectedTile (point2d<int> mousePos) {
-	point2d<GLdouble> unprojection = gl::unproject ({(GLdouble) mousePos.x, (GLdouble) mousePos.y});
+void Map::setSelectedTile (glm::ivec2 mousePos) {
+	glm::ivec2 unprojection = cam->unproject (mousePos);
 	Tile::selected = getHoveredTile (unprojection);
 }
 
 
-void Map::setVisibleTiles (size2d<int> winSize) {
-	Tile::visBottomLeft = getHoveredTile (gl::unproject ({0, (GLdouble) winSize.height}));
-	Tile::visTopRight = getHoveredTile (gl::unproject ({(GLdouble) winSize.width, 0}));
+void Map::setVisibleTiles (glm::ivec2 winSize) {
+	Tile::visBottomLeft = getHoveredTile (cam->unproject (glm::ivec2 (0, winSize.y)));
+	Tile::visTopRight = getHoveredTile (cam->unproject (glm::ivec2 (winSize.x, 0)));
 	// Extend range
 	const int exRange = 1;
-	vector2d<int16_t> exVector = {exRange, exRange};
+	glm::ivec2 exVector (exRange, exRange);
 	Tile::visBottomLeft -= exVector;
 	Tile::visTopRight += exVector;
 	// Crop to bounds
@@ -61,7 +73,7 @@ void Map::setVisibleTiles (size2d<int> winSize) {
 }
 
 
-point2d<int16_t> Map::getHoveredTile (point2d<GLdouble> point) {
+glm::ivec2 Map::getHoveredTile (glm::vec2 point) {
 	struct {
 		int16_t x; // Coordinates of centers
 		int16_t y; // of the two nearest tiles
@@ -90,6 +102,5 @@ point2d<int16_t> Map::getHoveredTile (point2d<GLdouble> point) {
 	// Return the nearest tile center
 	int nearest = tCntr[0].dist >= tCntr[1].dist;
 	tCntr[nearest].x >>= 1;
-	return {.x = tCntr[nearest].x,
-			.y = tCntr[nearest].y};
+	return glm::ivec2 (tCntr[nearest].x, tCntr[nearest].y);
 }

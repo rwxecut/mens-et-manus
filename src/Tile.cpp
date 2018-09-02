@@ -1,24 +1,42 @@
 #include "Tile.h"
 
 
-Tile::Tile (point2d<uint16_t> pos, Texture *tex) {
+glm::ivec2 Tile::selected;
+glm::ivec2 Tile::visBottomLeft, Tile::visTopRight;
+
+
+const GLfloat Tile::hexVertex[24] = {
+		//@formatter:off
+		// X        Y                        S                             T
+		 0.00f,   hex_l,         0.00f / (2 * hex_l) + 0.5f,  1,
+		-hex_r,   hex_l / 2,     hex_r / (2 * hex_l) + 0.5f,  hex_l / (2 * hex_l) + 0.25f,
+		-hex_r,  -hex_l / 2,     hex_r / (2 * hex_l) + 0.5f,  hex_l / (2 * hex_l) - 0.25f,
+		 0.00f,  -hex_l,         0.00f / (2 * hex_l) + 0.5f,  0,
+		 hex_r,  -hex_l / 2,    -hex_r / (2 * hex_l) + 0.5f,  hex_l / (2 * hex_l) - 0.25f,
+		 hex_r,   hex_l / 2,    -hex_r / (2 * hex_l) + 0.5f,  hex_l / (2 * hex_l) + 0.25f
+		//@formatter:on
+};
+
+
+Tile::Tile (glm::ivec2 pos, Texture *tex) {
 	this->pos = pos;
 	this->tex = tex;
 }
 
 
-point2d<int16_t> Tile::selected;
-point2d<int16_t> Tile::visBottomLeft, Tile::visTopRight;
-
-
-void Tile::draw () {
+void Tile::draw (ShaderProgram *shad, gl::Hex *hex) {
 	GLfloat dy = pos.y * hex_l * 3 / 2;
 	GLfloat dx = pos.x * 2 * hex_r + (pos.y & 1) * hex_r;
-	GLfloat vertex[18] = {0};
-	moveVertexArray3d<GLfloat> (hexVertex, vertex, 6, dx, dy, 0);
-	glColor3fv ((pos == selected) ? colorSelected : colorUnselected);
-	tex->draw (GL_POLYGON, 6, vertex, texCoords);
-	glColor3fv (colorBorder);
-	// Vertex pointer has already been set in tex->draw()
-	glDrawArrays (GL_LINE_LOOP, 0, 6);
+	shad->setUniform ("tilePos", glm::vec2 (dx, dy));
+	// Draw tile
+	shad->setUniform ("drawBorder", 0);
+	hex->drawMode = GL_TRIANGLE_FAN;
+	shad->setUniform ("tex", 0);
+	tex->bind (0);
+	shad->setUniform ("selected", (pos == selected));
+	hex->draw ();
+	// Draw border
+	shad->setUniform ("drawBorder", 1);
+	hex->drawMode = GL_LINE_LOOP;
+	hex->draw ();
 }

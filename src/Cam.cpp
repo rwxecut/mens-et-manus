@@ -1,6 +1,8 @@
 #include "Cam.h"
 #include "Config.h"
-#include <GL/glu.h>
+
+#include "lib/glm/vec4.hpp"
+#include "lib/glm/gtc/matrix_transform.hpp"
 
 
 Cam::Cam () {
@@ -10,13 +12,21 @@ Cam::Cam () {
 }
 
 
-void Cam::setup () {
-	// Setup camera for drawing
-	glClear (GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	glMatrixMode (GL_PROJECTION);
-	glLoadIdentity ();
-	gluPerspective (FOV, config.screen.aspect, 1, renderDistance);
-	gluLookAt (pos.x, pos.y, pos.z, sight.x, sight.y, sight.z, 0, 1, 0);
+void Cam::setup (glm::mat4 *MVP) {
+	projection = glm::perspective (glm::radians(FOV), config.screen.aspect, 1.0, renderDistance);
+	modelview = glm::lookAt (pos, sight, glm::vec3 (0, 1, 0));
+	if (MVP) *MVP = projection * modelview;
+}
+
+
+glm::ivec2 Cam::unproject (const glm::vec2 &source) {
+	GLfloat depth;
+	GLfloat srcY = config.screen.size.height - source.y;
+	glReadPixels ((GLint) source.x, (GLint) srcY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+	glm::vec3 src (source.x, srcY, depth);
+	glm::ivec4 viewport (0, 0, config.screen.size.width, config.screen.size.height);
+	glm::vec3 obj = glm::unProject (src, modelview, projection, viewport);
+	return glm::ivec2 (obj.x, obj.y);
 }
 
 

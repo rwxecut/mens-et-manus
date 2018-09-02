@@ -3,11 +3,19 @@
 #include "lib/glad.h"
 #include <cstdint>
 #include "auxiliary/geometry.h"
+#include "auxiliary/primitives.h"
+#include "Shader.h"
+#include "Cam.h"
 #include "Tile.h"
 #include "Texture.h"
 
+#include "lib/glm/vec2.hpp"
+#include "lib/glm/mat4x4.hpp"
+
+
 class Map {
 	friend class Game;
+	Cam *cam;
 
 	Tile *tilesMem;
 	Tile **tiles;
@@ -16,13 +24,15 @@ class Map {
 	static constexpr int mouseMoveArea = 40;
 
 	Texture *grassTex;
+	ShaderProgram *tileShader;
+	gl::Hex *tileHex;
 
-	void draw ();
-	point2d<int16_t> getHoveredTile (point2d<GLdouble> point);
-	void setSelectedTile (point2d<int> mousePos);
-	void setVisibleTiles (size2d<int> winSize);
+	void draw (glm::mat4 MVP);
+	glm::ivec2 getHoveredTile (glm::vec2 point);
+	void setSelectedTile (glm::ivec2 mousePos);
+	void setVisibleTiles (glm::ivec2 winSize);
 
 public:
-	Map ();
+	Map (Cam *cam);
 	~Map ();
 };
