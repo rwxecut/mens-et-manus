@@ -11,6 +11,7 @@ set(INCLUDE_DIR include)
 
 set(SOURCE_FILENAMES
         main.cpp
+        Engine.cpp
         Window.cpp
         Shader.cpp
         Texture.cpp

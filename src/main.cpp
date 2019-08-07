@@ -1,7 +1,7 @@
 #define VERSION "v. dev0"
 
 #include "auxiliary/logger_implenent.h"
-#include "Window.h"
+#include "Engine.h"
 
 #define CONFIG_IMPLEMENT
 #include "Config.h"
@@ -16,8 +16,8 @@ int main (int argc, char *args[]) {
 
 	config.load ();
 
-	Window window;
-	window.mainLoop ();
+	Engine engine;
+	engine.mainLoop ();
 
 	return 0;
 }
