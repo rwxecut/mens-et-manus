@@ -6,12 +6,13 @@ Splash::Splash (RoutineHandler *rHandler) {
 	this->rHandler = rHandler;
 
 	// Load splash texture
-	splashTex = new Texture (config.path.splash.c_str ());
+	splashTex = std::make_unique<Texture> (config.path.splash.c_str ());
 
 	// Create shader program
 	const char *vertShaderPath = config.path.splashVertShader.c_str ();
 	const char *fragShaderPath = config.path.splashFragShader.c_str ();
-	shaderProg = new ShaderProgram ("Splash", Shader::fromFile, vertShaderPath, Shader::fromFile, fragShaderPath);
+	shaderProg = std::make_unique<ShaderProgram> ("Splash", Shader::fromFile, vertShaderPath,
+			Shader::fromFile, fragShaderPath);
 
 	// Bind texture unit
 	shaderProg->use ();
@@ -27,16 +28,9 @@ Splash::Splash (RoutineHandler *rHandler) {
 			 1,  y, 1, 1
 	};
 	//@formatter:on
-	splashRect = new gl::Rect (GL_STATIC_DRAW, vertices, sizeof (vertices));
+	splashRect = std::make_unique<gl::Rect> (GL_STATIC_DRAW, vertices, sizeof (vertices));
 	splashRect->setAttributes (0, 2, 4, 0); // X, Y
 	splashRect->setAttributes (1, 2, 4, 2); // S, T
-}
-
-
-Splash::~Splash () {
-	delete splashTex;
-	delete shaderProg;
-	delete splashRect;
 }
 
 

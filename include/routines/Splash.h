@@ -5,20 +5,20 @@
 #include "Texture.h"
 #include "auxiliary/primitives.h"
 
+#include <memory>
+
 class Splash : public Routine {
 
-	Texture *splashTex;
+	TexturePtr splashTex;
 	RoutineHandler *rHandler;
 	GLfloat alpha = 0, d_alpha = 0.01;
 
-	gl::Rect *splashRect;
-	ShaderProgram *shaderProg;
+	gl::RectPtr splashRect;
+	ShaderProgramPtr shaderProg;
 
 
 public:
-
 	Splash (RoutineHandler *rHandler);
-	~Splash ();
 
 	void update ();
 	void render ();

@@ -24,11 +24,11 @@ class Map {
 	static constexpr int mouseMoveArea = 40;
 
 	Texture *grassTex;
-	ShaderProgram *tileShader;
-	gl::Hex *tileHex;
+	ShaderProgramPtr tileShader;
+	gl::HexPtr tileHex;
 
 	void draw (glm::mat4 MVP);
-	glm::ivec2 getHoveredTile (glm::vec2 point);
+	static glm::ivec2 getHoveredTile (glm::vec2 point);
 	void setSelectedTile (glm::ivec2 mousePos);
 	void setVisibleTiles (glm::ivec2 winSize);
 

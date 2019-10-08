@@ -26,5 +26,5 @@ public:
 	static glm::ivec2 visBottomLeft, visTopRight;
 
 	Tile (glm::ivec2 pos, Texture *tex);
-	void draw (ShaderProgram *shad, gl::Hex *hex);
+	void draw (ShaderProgram &shader, gl::Hex &hex);
 };

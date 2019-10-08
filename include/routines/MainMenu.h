@@ -8,19 +8,20 @@
 #include "Mod.h"
 #include "auxiliary/primitives.h"
 
+#include <memory>
+
 
 class MainMenu : public Routine {
 
 	LuaFile *LGUI;
 	ModList modList;
 
-	gl::Rect *bgRect;
-	Texture *background;
-	ShaderProgram *shaderProg;
+	gl::RectPtr bgRect;
+	std::unique_ptr<Texture> background;
+	ShaderProgramPtr shaderProg;
 
 public:
 	MainMenu ();
-	~MainMenu ();
 
 	void update ();
 	void render ();

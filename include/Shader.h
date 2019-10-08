@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "lib/glm/vec2.hpp"
 #include "lib/glm/mat4x4.hpp"
@@ -49,3 +50,5 @@ public:
 	               Shader::SourceType fragSourceType, const GLchar *fragSource);
 	~ShaderProgram ();
 };
+
+using ShaderProgramPtr = std::unique_ptr<ShaderProgram>;

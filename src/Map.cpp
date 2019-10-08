@@ -9,7 +9,8 @@ Map::Map (Cam *cam) {
 
 	const char *vertShaderPath = "../assets/vanilla/tiles/shaders/shader.vert";
 	const char *fragShaderPath = "../assets/vanilla/tiles/shaders/shader.frag";
-	tileShader = new ShaderProgram ("Tile", Shader::fromFile, vertShaderPath, Shader::fromFile, fragShaderPath);
+	tileShader = std::make_unique<ShaderProgram> ("Tile", Shader::fromFile, vertShaderPath,
+			Shader::fromFile, fragShaderPath);
 
 	grassTex = new Texture ("../assets/vanilla/tiles/grass.png");
 	size = {20, 10}; // temp
@@ -21,7 +22,7 @@ Map::Map (Cam *cam) {
 			new (&tiles[y][x]) Tile ({x, y}, grassTex);
 	}
 
-	tileHex = new gl::Hex (GL_STATIC_DRAW, Tile::hexVertex, sizeof (Tile::hexVertex));
+	tileHex = std::make_unique<gl::Hex> (GL_STATIC_DRAW, Tile::hexVertex, sizeof (Tile::hexVertex));
 	tileHex->setAttributes (0, 2, 4, 0); // X, Y
 	tileHex->setAttributes (1, 2, 4, 2); // S, T
 }
@@ -31,8 +32,6 @@ Map::~Map () {
 	free (tiles);
 	free (tilesMem);
 	delete grassTex;
-	delete tileShader;
-	delete tileHex;
 }
 
 
@@ -47,7 +46,7 @@ void Map::draw (glm::mat4 MVP) {
 	//	for (int16_t x = Tile::visBottomLeft.x; x <= Tile::visTopRight.x; x++)
 	for (int16_t y = 0; y < size.height; y++)
 		for (int16_t x = 0; x < size.width; x++)
-			tiles[y][x].draw (tileShader, tileHex);
+			tiles[y][x].draw (*tileShader, *tileHex);
 }
 
 

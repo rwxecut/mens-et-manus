@@ -4,9 +4,9 @@
 #include "auxiliary/util.h"
 #include "auxiliary/errors.h"
 
+#include <memory>
 
 #define PRIMITIVES_ERRCHECK
-
 #ifdef PRIMITIVES_ERRCHECK
 #define PRIM_CHECKERR(msg) { GLenum err; while ((err = glGetError ()) != GL_NO_ERROR) warnError (msg": 0x%x", err); }
 #else
@@ -68,6 +68,7 @@ namespace gl {
 			drawMode = GL_TRIANGLE_FAN;
 		}
 	};
+	using RectPtr = std::unique_ptr<Rect>;
 
 
 	class Hex : public Primitive {
@@ -78,5 +79,6 @@ namespace gl {
 			drawMode = GL_TRIANGLE_FAN;
 		}
 	};
+	using HexPtr = std::unique_ptr<Hex>;
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lib/glad.h"
+#include <memory>
 
 class Texture {
 	GLuint id;
@@ -16,3 +17,4 @@ public:
 	int h ();
 	GLdouble aspect ();
 };
+using TexturePtr = std::unique_ptr<Texture>;
