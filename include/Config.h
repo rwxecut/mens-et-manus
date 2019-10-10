@@ -24,6 +24,7 @@ struct Config {
 	struct {
 		std::string modfile;
 		std::string assets;
+		std::string font;
 		std::string splash;
 		std::string splashVertShader;
 		std::string splashFragShader;
@@ -37,6 +38,8 @@ struct Config {
 	} cam;
 
 	GLdouble fpsMeasureInterval;
+
+	GLfloat fontSize;
 };
 
 #ifndef CONFIG_IMPLEMENT

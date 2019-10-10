@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Logger.h"
+#include "Config.h"
 #include "auxiliary/errors.h"
 
 #include <SDL_image.h>
@@ -127,7 +128,9 @@ Engine::_Nuklear::_Nuklear (Window &window) {
 	ctx = nk_sdl_init (window.get ());
 	nk_font_atlas *atlas;
 	nk_sdl_font_stash_begin (&atlas);
+	nk_font *font = nk_font_atlas_add_from_file (atlas, config.path.font.c_str(), config.fontSize, 0);
 	nk_sdl_font_stash_end ();
+	nk_style_set_font (ctx, &font->handle);
 	logger.write ("Nuklear initialized");
 }
 

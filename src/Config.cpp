@@ -17,6 +17,7 @@ void Config::loadConfig () {
 
 	path.modfile = conf["path"]["modfile"];
 	path.assets = conf["path"]["assets"];
+	path.font = conf["path"]["font"];
 	path.splash = conf["path"]["splash"];
 	path.splashVertShader = conf["path"]["splashVertShader"];
 	path.splashFragShader = conf["path"]["splashFragShader"];
@@ -28,6 +29,8 @@ void Config::loadConfig () {
 	cam.zoomSpeed = conf["cam"]["zoomSpeed"];
 
 	fpsMeasureInterval = conf["fpsInterval"];
+
+	fontSize = conf["fontSize"];
 }
 
 

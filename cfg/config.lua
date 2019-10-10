@@ -24,10 +24,13 @@ Config.path = {
 	modfile = "mod.lua",
 	assets = "../assets",
 }
+Config.path["font"] = Config.path.assets .. "/Trebuchet MS.ttf"
 Config.path["splash"] = Config.path.assets .. "/vanilla/splash/splash.png"
 Config.path["splashVertShader"] = Config.path.assets .. "/vanilla/splash/shader.vert"
 Config.path["splashFragShader"] = Config.path.assets .. "/vanilla/splash/shader.frag"
 Config.path["mainMenuGUI"] = Config.path.assets .. "/vanilla/mainMenu/mainMenu.lua"
 Config.path["gameMenuGUI"] = Config.path.assets .. "/gameMenu.lua"
+
+Config.fontSize = 14
 
 return Config
