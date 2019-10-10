@@ -34,13 +34,13 @@ Engine::Engine () {
 	logger.write_dec ("Render device: %s", glGetString (GL_RENDERER));
 
 	// Create routines
-	splash = new Splash (&routineHandler);
+	splash = new Splash ();
 	mainMenu = new MainMenu ();
 	game = new Game ();
 
 	// Init routineHandler
-	rTable = {nullptr, game, mainMenu, splash};
-	routineHandler.assignRoutinesTable (rTable);
+	rList = {nullptr, game, mainMenu, splash};
+	routineHandler.assignRoutinesList (rList);
 	routineHandler.id = ENABLE_SPLASH ? splashRoutine : mainMenuRoutine;
 
 	nuklear = std::make_unique<_Nuklear> (window);
@@ -49,7 +49,7 @@ Engine::Engine () {
 
 
 Engine::~Engine () {
-	for (Routine *routine: rTable)
+	for (Routine *routine: rList)
 		delete routine;
 }
 
@@ -91,6 +91,10 @@ int Engine::mainLoop () {
 		nk_sdl_render (NK_ANTI_ALIASING_ON, MAX_VERTEX_MEMORY, MAX_ELEMENT_MEMORY);
 		glEnable (GL_DEPTH_TEST);
 		window.render ();
+
+		// Finish Splash
+		if (routineHandler.id == splashRoutine && splash->finished)
+				routineHandler.id = mainMenuRoutine;
 	}
 }
 

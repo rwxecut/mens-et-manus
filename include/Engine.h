@@ -14,7 +14,7 @@ class Engine {
 	Splash *splash;
 	MainMenu *mainMenu;
 	Game *game;
-	std::vector<Routine *> rTable;
+	std::vector<Routine *> rList;
 	RoutineHandler routineHandler;
 
 public:

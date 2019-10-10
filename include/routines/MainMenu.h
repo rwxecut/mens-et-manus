@@ -8,8 +8,6 @@
 #include "Mod.h"
 #include "auxiliary/primitives.h"
 
-#include <memory>
-
 
 class MainMenu : public Routine {
 
@@ -17,7 +15,7 @@ class MainMenu : public Routine {
 	ModList modList;
 
 	gl::RectPtr bgRect;
-	std::unique_ptr<Texture> background;
+	TexturePtr background;
 	ShaderProgramPtr shaderProg;
 
 public:

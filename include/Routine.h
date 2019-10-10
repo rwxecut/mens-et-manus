@@ -25,20 +25,20 @@ public:
 class RoutineHandler {
 
 	Routine *routine;
-	std::vector<Routine *> rTable;
+	std::vector<Routine *> rList;
 
 public:
 	uint8_t id;
 
 
-	inline void assignRoutinesTable (std::vector<Routine *> const &routineTable) {
-		rTable = routineTable;
+	inline void assignRoutinesList (std::vector<Routine *> const &routineList) {
+		rList = routineList;
 	}
 
 
 	inline bool switchID () {
-		if (rTable.at (id)) {
-			routine = rTable.at (id);
+		if (rList.at (id)) {
+			routine = rList.at (id);
 			return true;
 		}
 		return false;

@@ -2,9 +2,7 @@
 #include "Config.h"
 
 
-Splash::Splash (RoutineHandler *rHandler) {
-	this->rHandler = rHandler;
-
+Splash::Splash () {
 	// Load splash texture
 	splashTex = std::make_unique<Texture> (config.path.splash.c_str ());
 
@@ -39,7 +37,7 @@ void Splash::update () {
 	if (alpha >= 0.8)
 		d_alpha = -d_alpha;
 	if (alpha <= 0)
-		rHandler->id = mainMenuRoutine;
+		finished = true;
 }
 
 

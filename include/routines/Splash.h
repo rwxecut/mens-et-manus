@@ -5,12 +5,9 @@
 #include "Texture.h"
 #include "auxiliary/primitives.h"
 
-#include <memory>
-
 class Splash : public Routine {
 
 	TexturePtr splashTex;
-	RoutineHandler *rHandler;
 	GLfloat alpha = 0, d_alpha = 0.01;
 
 	gl::RectPtr splashRect;
@@ -18,9 +15,11 @@ class Splash : public Routine {
 
 
 public:
-	Splash (RoutineHandler *rHandler);
+	Splash ();
 
 	void update ();
 	void render ();
 	void eventHandler (SDL_Event *event);
+
+	bool finished = false;
 };
