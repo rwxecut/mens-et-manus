@@ -3,6 +3,10 @@
 #include "Config.h"
 #include "auxiliary/errors.h"
 
+#include "routines/Splash.h"
+#include "routines/MainMenu.h"
+#include "routines/Game.h"
+
 #include <SDL_image.h>
 #include "lua_binders/game_lua.h"
 #include "lua_binders/nk_lua.h"
@@ -34,13 +38,8 @@ Engine::Engine () {
 	logger.write_inc ("OpenGL initialized");
 	logger.write_dec ("Render device: %s", glGetString (GL_RENDERER));
 
-	// Create routines
-	splash = new Splash ();
-	mainMenu = new MainMenu ();
-	game = new Game ();
-
 	// Init routineHandler
-	rList = {nullptr, game, mainMenu, splash};
+	rList = {nullptr, new Game (), new MainMenu (), new Splash ()};
 	routineHandler.assignRoutinesList (rList);
 	routineHandler.id = ENABLE_SPLASH ? splashRoutine : mainMenuRoutine;
 
@@ -66,16 +65,7 @@ int Engine::mainLoop () {
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
 				case SDL_KEYDOWN:
-					switch (event.key.keysym.scancode) {
-						case AVERAGE_FPS_KEY:
-							window.switchFPSMeasure ();
-							break;
-						case WIREFRAME_MODE_KEY:
-							window.switchWireframeMode ();
-							break;
-						default:
-							break;
-					}
+					handleKeydown (event.key.keysym.scancode);
 					break;
 				case SDL_QUIT:
 					running = false;
@@ -94,8 +84,22 @@ int Engine::mainLoop () {
 		window.render ();
 
 		// Finish Splash
-		if (routineHandler.id == splashRoutine && splash->finished)
+		if (routineHandler.id == splashRoutine && routineHandler.finished())
 				routineHandler.id = mainMenuRoutine;
+	}
+}
+
+
+void Engine::handleKeydown (SDL_Scancode scancode) {
+	switch (scancode) {
+		case AVERAGE_FPS_KEY:
+			window.switchFPSMeasure ();
+			break;
+		case WIREFRAME_MODE_KEY:
+			window.switchWireframeMode ();
+			break;
+		default:
+			break;
 	}
 }
 

@@ -20,6 +20,4 @@ public:
 	void update ();
 	void render ();
 	void eventHandler (SDL_Event *event);
-
-	bool finished = false;
 };

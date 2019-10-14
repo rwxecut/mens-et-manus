@@ -3,22 +3,17 @@
 #include "lib/nuklear/nuklear_common.h"
 #include "Window.h"
 #include "Routine.h"
-#include "routines/Splash.h"
-#include "routines/MainMenu.h"
-#include "routines/Game.h"
 
 #include <memory>
 
 class Engine {
 
-	Splash *splash;
-	MainMenu *mainMenu;
-	Game *game;
 	std::vector<Routine *> rList;
 	RoutineHandler routineHandler;
 
-public:
+	void handleKeydown (SDL_Scancode scancode);
 
+public:
 	Window window;
 
 	struct _SDL {

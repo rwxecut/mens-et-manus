@@ -17,6 +17,7 @@ public:
 	virtual void update () = 0;
 	virtual void render () = 0;
 	virtual void eventHandler (SDL_Event *event) = 0;
+	bool finished = false;
 
 	virtual ~Routine () {};
 };
@@ -57,5 +58,9 @@ public:
 
 	inline void eventHandler (SDL_Event *event) {
 		routine->eventHandler (event);
+	}
+
+	inline bool finished () {
+		return routine->finished;
 	}
 };
