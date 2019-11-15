@@ -2,6 +2,7 @@
 
 #include "RoutineFactory.h"
 #include <vector>
+#include <memory>
 #include <SDL.h>
 
 
@@ -28,7 +29,7 @@ public:
 
 class RoutineHandler {
 
-	Routine *routine = nullptr;
+	std::unique_ptr<Routine> routine;
 
 public:
 	uint8_t id = 0, new_id = 0;
@@ -38,8 +39,7 @@ public:
 	inline bool switchID () {
 		if (new_id != id) {
 			id = new_id;
-			delete routine;
-			routine = newRoutine (id);
+			routine.reset (newRoutine (id));
 			return (routine != nullptr);
 		}
 	}
@@ -63,7 +63,4 @@ public:
 	inline bool finished () {
 		return routine->finished;
 	}
-
-
-	~RoutineHandler () { delete routine; }
 };
