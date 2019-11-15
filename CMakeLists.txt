@@ -22,6 +22,7 @@ set(SOURCE_FILENAMES
         Config.cpp
         Logger.cpp
         Tile.cpp
+        routines/RoutineFactory.cpp
         routines/Splash.cpp
         routines/MainMenu.cpp
         routines/Game.cpp

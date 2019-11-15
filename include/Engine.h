@@ -2,13 +2,12 @@
 
 #include "lib/nuklear/nuklear_common.h"
 #include "Window.h"
-#include "Routine.h"
+#include "routines/Routine.h"
 
 #include <memory>
 
 class Engine {
 
-	std::vector<Routine *> rList;
 	RoutineHandler routineHandler;
 
 	void handleKeydown (SDL_Scancode scancode);

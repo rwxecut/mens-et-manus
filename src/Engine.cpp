@@ -3,16 +3,11 @@
 #include "Config.h"
 #include "auxiliary/errors.h"
 
-#include "routines/Splash.h"
-#include "routines/MainMenu.h"
-#include "routines/Game.h"
-
 #include <SDL_image.h>
 #include "lua_binders/game_lua.h"
 #include "lua_binders/nk_lua.h"
 
 
-#define ENABLE_SPLASH true
 #define AVERAGE_FPS_KEY SDL_SCANCODE_F2
 #define WIREFRAME_MODE_KEY SDL_SCANCODE_F3
 
@@ -38,28 +33,20 @@ Engine::Engine () {
 	logger.write_inc ("OpenGL initialized");
 	logger.write_dec ("Render device: %s", glGetString (GL_RENDERER));
 
-	// Init routineHandler
-	rList = {nullptr, new Game (), new MainMenu (), new Splash ()};
-	routineHandler.assignRoutinesList (rList);
-	routineHandler.id = ENABLE_SPLASH ? splashRoutine : mainMenuRoutine;
+	routineHandler.new_id = splashRoutine;
 
 	nuklear = std::make_unique<_Nuklear> (window);
 	lua = std::make_unique<_Lua> (window, nuklear, routineHandler);
 }
 
 
-Engine::~Engine () {
-	for (Routine *routine: rList)
-		delete routine;
-}
+Engine::~Engine () {}
 
 
 int Engine::mainLoop () {
 	SDL_Event event;
-	bool running = true;
+	bool running = routineHandler.switchID ();
 	while (running) {
-		running = routineHandler.switchID ();
-
 		// Get events & update
 		nk_input_begin (nuklear->ctx);
 		while (SDL_PollEvent (&event))
@@ -68,7 +55,7 @@ int Engine::mainLoop () {
 					handleKeydown (event.key.keysym.scancode);
 					break;
 				case SDL_QUIT:
-					running = false;
+					routineHandler.new_id = finalization;
 					break;
 				default:
 					nk_sdl_handle_event (&event);
@@ -85,7 +72,8 @@ int Engine::mainLoop () {
 
 		// Finish Splash
 		if (routineHandler.id == splashRoutine && routineHandler.finished())
-				routineHandler.id = mainMenuRoutine;
+				routineHandler.new_id = mainMenuRoutine;
+		running = routineHandler.switchID ();
 	}
 }
 

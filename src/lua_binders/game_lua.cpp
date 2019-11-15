@@ -26,7 +26,7 @@ namespace lua::game {
 
 
 	void switchRoutine (int routineID) {
-		rHandler->id = (uint8_t) routineID;
+		rHandler->new_id = (uint8_t) routineID;
 	}
 
 

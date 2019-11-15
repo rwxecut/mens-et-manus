@@ -1,9 +1,11 @@
 #pragma once
 
+#include "RoutineFactory.h"
 #include <vector>
 #include <SDL.h>
 
-// Routines' IDs for Lua
+
+// Routines' IDs
 enum {
 	finalization,
 	gameRoutine,
@@ -19,30 +21,27 @@ public:
 	virtual void eventHandler (SDL_Event *event) = 0;
 	bool finished = false;
 
+
 	virtual ~Routine () {};
 };
 
 
 class RoutineHandler {
 
-	Routine *routine;
-	std::vector<Routine *> rList;
+	Routine *routine = nullptr;
 
 public:
-	uint8_t id;
+	uint8_t id = 0, new_id = 0;
 
 
-	inline void assignRoutinesList (std::vector<Routine *> const &routineList) {
-		rList = routineList;
-	}
-
-
+	// Return false if set on finalization or has wrong ID
 	inline bool switchID () {
-		if (rList.at (id)) {
-			routine = rList.at (id);
-			return true;
+		if (new_id != id) {
+			id = new_id;
+			delete routine;
+			routine = newRoutine (id);
+			return (routine != nullptr);
 		}
-		return false;
 	}
 
 
@@ -60,7 +59,11 @@ public:
 		routine->eventHandler (event);
 	}
 
+
 	inline bool finished () {
 		return routine->finished;
 	}
+
+
+	~RoutineHandler () { delete routine; }
 };
