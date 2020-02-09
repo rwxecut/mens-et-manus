@@ -11,7 +11,7 @@ vertShader = '../assets/vanilla/mainMenu/shader.vert'
 fragShader = '../assets/vanilla/mainMenu/shader.frag'
 
 modlist = nil
-renderActiveWindow = nil
+activeWindow = nil
 
 -- Windows positions and widths
 function firstWindowBounds(height)
@@ -41,9 +41,23 @@ end
 
 --/////////////////////////////////////////////////////////////////////--
 
-function renderStartWindow ()
+function serverWindow()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Start game', secondWindowBounds(170), windowFlags) then
+	if gui.begin('Server settings', thirdWindowBounds(200), windowFlags) then
+		------------------------------
+		gui.layout_row_dynamic(30, 1)
+		-- gui.edit_string(gui.NK_EDIT_FIELD, buffer, 16)
+		if gui.button_label('Cancel') then
+			serverWindowVisible = false
+		end
+		------------------------------
+		gui.finish()
+	end
+end
+
+function startWindow ()
+	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
+	if gui.begin('Start game', secondWindowBounds(280), windowFlags) then
 		------------------------------
 		gui.layout_row_dynamic(20, 1)
 		gui.label("Mods:", gui.NK_TEXT_LEFT)
@@ -64,8 +78,8 @@ function renderStartWindow ()
 			gui.group_end()
 		end
 		------------------------------
-		gui.layout_row_dynamic(30, 2)
-		if gui.button_label('Start') then
+		gui.layout_row_dynamic(30, 1)
+		if gui.button_label('Start local game') then
 			for _, mod in pairs(modlist) do
 				if mod["selected"] then
 					-- load mod etc
@@ -73,11 +87,21 @@ function renderStartWindow ()
 			end
 			game.switchRoutine(game.gameRoutine)
 		end
+		if gui.button_label('Start server') then
+			serverWindowVisible = true
+		end
+		if gui.button_label('Join server') then
+			serverWindowVisible = true
+		end
 		if gui.button_label('Cancel') then
-			startWindowVisible = false
+			serverWindowVisible = false
+			activeWindow = nil
 		end
 		------------------------------
 		gui.finish()
+	end
+	if serverWindowVisible then
+		serverWindow()
 	end
 end
 
@@ -97,7 +121,7 @@ function saveSettings ()
 	io.close(settingsFile)
 end
 
-function renderSettingsWindow ()
+function settingsWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
 	if gui.begin('Settings', secondWindowBounds(140), windowFlags) then
 		------------------------------
@@ -117,10 +141,10 @@ function renderSettingsWindow ()
 		if gui.button_label('Apply') then
 			saveSettings()
 			game.applySettings()
-			settingsWindowVisible = false
+			activeWindow = nil
 		end
 		if gui.button_label('Cancel') then
-			settingsWindowVisible = false
+			activeWindow = nil
 		end
 		------------------------------
 		gui.finish()
@@ -130,7 +154,7 @@ end
 --/////////////////////////////////////////////////////////////////////--
 
 currMod = nil
-function renderModInfoWindow ()
+function modInfoWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE
 	if gui.begin(currMod["name"], thirdWindowBounds(170), windowFlags) then
 		gui.layout_row_dynamic(0, 1)
@@ -141,7 +165,7 @@ function renderModInfoWindow ()
 	end
 end
 
-function renderModWindow()
+function modWindow()
 	local windowFlags = gui.NK_WINDOW_TITLE
 	local modInfoWindowVisible = false
 	if gui.begin("Mods", secondWindowBounds(170), windowFlags) then
@@ -159,27 +183,27 @@ function renderModWindow()
 		gui.finish()
 	end
 	if modInfoWindowVisible then
-		renderModInfoWindow()
+		modInfoWindow()
 	end
 end
 
 --/////////////////////////////////////////////////////////////////////--
 
-function renderMainWindow ()
+function mainWindow ()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
 	if gui.begin('Main menu', firstWindowBounds(170), windowFlags) then
 		gui.layout_row_dynamic(30, 1)
 		-----------------------------
 		if gui.button_label('Start game') then
-			renderActiveWindow = renderStartWindow
+			activeWindow = startWindow
 		end
 		-----------------------------
 		if gui.button_label('Mods') then
-			renderActiveWindow = renderModWindow
+			activeWindow = modWindow
 		end
 		-----------------------------
 		if gui.button_label('Settings') then
-			renderActiveWindow = renderSettingsWindow
+			activeWindow = settingsWindow
 		end
 		-----------------------------
 		if gui.button_label('Exit') then
@@ -193,9 +217,9 @@ end
 --/////////////////////////////////////////////////////////////////////--
 
 function render ()
-	renderMainWindow()
-	if renderActiveWindow then
-		renderActiveWindow()
+	mainWindow()
+	if activeWindow then
+		activeWindow()
 	end
 end
 

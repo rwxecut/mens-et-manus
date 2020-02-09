@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <tuple>
 
 #define GUI_ADD_FIELD(field) {gui[#field] = field;}
 typedef std::vector<std::string> vector_str;
@@ -47,7 +46,7 @@ namespace lua::nk {
 	lua_float_map window_get_bounds () {
 		struct nk_rect nk_bounds = nk_window_get_bounds (ctx);
 		return lua_float_map (rect2map (nk_bounds));
-	};
+	}
 
 
 	bool group_begin (const char *title, int flags) {
@@ -73,13 +72,13 @@ namespace lua::nk {
 	lua_float_map layout_space_bounds () {
 		struct nk_rect nk_bounds = nk_layout_space_bounds (ctx);
 		return lua_float_map (rect2map (nk_bounds));
-	};
+	}
 
 
 	lua_float_map widget_bounds () {
 		struct nk_rect nk_bounds = nk_widget_bounds (ctx);
 		return lua_float_map (rect2map (nk_bounds));
-	};
+	}
 
 
 	void label (const char *str, int flags) {
@@ -106,6 +105,12 @@ namespace lua::nk {
 
 	bool check_label (const char *str, bool active) {
 		return (bool) nk_check_label (ctx, str, active);
+	}
+
+
+	int edit_string (int flags, char* str, int max) {
+		//return nk_edit_string_zero_terminated(ctx, flags, str, max, nk_filter_default);
+		return 0;
 	}
 
 
@@ -171,6 +176,7 @@ namespace lua::nk {
 		GUI_ADD_FIELD (selectable_label);
 		GUI_ADD_FIELD (button_label);
 		GUI_ADD_FIELD (check_label);
+		GUI_ADD_FIELD (edit_string);
 		GUI_ADD_FIELD (popup_begin);
 		GUI_ADD_FIELD (popup_close);
 		GUI_ADD_FIELD (popup_end);
@@ -197,6 +203,29 @@ namespace lua::nk {
 		GUI_ADD_FIELD (NK_TEXT_LEFT);
 		GUI_ADD_FIELD (NK_TEXT_CENTERED);
 		GUI_ADD_FIELD (NK_TEXT_RIGHT);
+		/*--- Text edit -- */
+		GUI_ADD_FIELD (NK_EDIT_SIMPLE);
+		GUI_ADD_FIELD (NK_EDIT_FIELD);
+		GUI_ADD_FIELD (NK_EDIT_BOX);
+		GUI_ADD_FIELD (NK_EDIT_EDITOR);
+		GUI_ADD_FIELD (NK_EDIT_DEFAULT);
+		GUI_ADD_FIELD (NK_EDIT_READ_ONLY);
+		GUI_ADD_FIELD (NK_EDIT_AUTO_SELECT);
+		GUI_ADD_FIELD (NK_EDIT_SIG_ENTER);
+		GUI_ADD_FIELD (NK_EDIT_ALLOW_TAB);
+		GUI_ADD_FIELD (NK_EDIT_NO_CURSOR);
+		GUI_ADD_FIELD (NK_EDIT_SELECTABLE);
+		GUI_ADD_FIELD (NK_EDIT_CLIPBOARD);
+		GUI_ADD_FIELD (NK_EDIT_CTRL_ENTER_NEWLINE);
+		GUI_ADD_FIELD (NK_EDIT_NO_HORIZONTAL_SCROLL);
+		GUI_ADD_FIELD (NK_EDIT_ALWAYS_INSERT_MODE);
+		GUI_ADD_FIELD (NK_EDIT_MULTILINE);
+		GUI_ADD_FIELD (NK_EDIT_GOTO_END_ON_ACTIVATE);
+		GUI_ADD_FIELD (NK_EDIT_ACTIVE);
+		GUI_ADD_FIELD (NK_EDIT_INACTIVE);
+		GUI_ADD_FIELD (NK_EDIT_ACTIVATED);
+		GUI_ADD_FIELD (NK_EDIT_DEACTIVATED);
+		GUI_ADD_FIELD (NK_EDIT_COMMITED);
 		/*----- Popup ---- */
 		GUI_ADD_FIELD (NK_POPUP_STATIC);
 		GUI_ADD_FIELD (NK_POPUP_DYNAMIC);
