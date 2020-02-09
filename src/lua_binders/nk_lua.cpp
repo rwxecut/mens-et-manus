@@ -39,7 +39,7 @@ namespace lua::nk {
 	// Binded functions
 
 	bool begin (const char *title, lua_float_map bounds, int flags) {
-		return (bool) nk_begin (ctx, title, map2rect (bounds.source), (nk_flags) flags);
+		return (bool) nk_begin (ctx, title, map2rect (bounds), (nk_flags) flags);
 	}
 
 
@@ -115,7 +115,7 @@ namespace lua::nk {
 
 
 	bool popup_begin (int type, const char *title, int flags, lua_float_map bounds) {
-		return (bool) nk_popup_begin (ctx, (nk_popup_type) type, title, (nk_flags) flags, map2rect (bounds.source));
+		return (bool) nk_popup_begin (ctx, (nk_popup_type) type, title, (nk_flags) flags, map2rect (bounds));
 	}
 
 
@@ -130,7 +130,7 @@ namespace lua::nk {
 
 
 	int combo (sol::as_table_t<vector_str> items, int selected, int item_height, float width, float height) {
-		const vector_str &strings = items.source;
+		const vector_str &strings = items;
 		std::vector<const char *> cstrings;
 		for (auto &str : strings) cstrings.push_back (str.c_str ());
 		return nk_combo (ctx, &cstrings[0], (int) cstrings.size (), selected, item_height, nk_vec2 (width, height));
@@ -149,7 +149,7 @@ namespace lua::nk {
 
 
 	bool input_is_mouse_hovering_rect (lua_float_map bounds) {
-		struct nk_rect nk_bounds = map2rect (bounds.source);
+		struct nk_rect nk_bounds = map2rect (bounds);
 		return (bool) nk_input_is_mouse_hovering_rect (&ctx->input, nk_bounds);
 	}
 
