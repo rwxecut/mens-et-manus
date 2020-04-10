@@ -40,8 +40,8 @@ public:
 		if (new_id != id) {
 			id = new_id;
 			routine.reset (newRoutine (id));
-			return (routine != nullptr);
 		}
+		return (routine != nullptr);
 	}
 
 

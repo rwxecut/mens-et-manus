@@ -75,6 +75,7 @@ int Engine::mainLoop () {
 				routineHandler.new_id = mainMenuRoutine;
 		running = routineHandler.switchID ();
 	}
+	return 0;
 }
 
 

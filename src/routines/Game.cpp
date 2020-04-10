@@ -51,8 +51,8 @@ void Game::render () {
 
 void Game::keyHandler () {
 	const uint8_t *keystates = SDL_GetKeyboardState (NULL);
-	direction_t dir = {keystates[SDL_SCANCODE_LEFT], keystates[SDL_SCANCODE_RIGHT],
-	                   keystates[SDL_SCANCODE_UP], keystates[SDL_SCANCODE_DOWN]};
+	direction_t dir = {(bool) keystates[SDL_SCANCODE_LEFT], (bool) keystates[SDL_SCANCODE_RIGHT],
+	                   (bool) keystates[SDL_SCANCODE_UP], (bool) keystates[SDL_SCANCODE_DOWN]};
 	cam.accelerate (&dir);
 }
 
