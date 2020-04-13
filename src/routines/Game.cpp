@@ -11,9 +11,7 @@
 Game::Game ()
 		: cam (), map (&cam) {
 	// Create GUI
-	LGUI = new LuaFile (config.path.gameMenuGUI.c_str ());
-	lua::nk::bind (LGUI);
-	lua::game::bind (LGUI);
+	LGUI = new LuaFile (config.path.gameMenuGUI.c_str (), LuaFile::BIND_GUI | LuaFile::BIND_GAME);
 	// Initially set visible tiles
 	cam.setup (NULL);
 	map.setVisibleTiles (glm::ivec2 (config.screen.size.width, config.screen.size.height));

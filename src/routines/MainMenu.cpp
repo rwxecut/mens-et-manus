@@ -7,12 +7,10 @@
 
 
 MainMenu::MainMenu () {
-	// Create GUI
-	LGUI = new LuaFile (config.path.mainMenuGUI.c_str ());
-	lua::nk::bind (LGUI);
-	lua::game::bind (LGUI);
 	lua::modlist::init (&modList);
-	lua::modlist::bind (LGUI);
+	// Create GUI
+	LGUI = new LuaFile (config.path.mainMenuGUI.c_str (),
+			            LuaFile::BIND_GAME | LuaFile::BIND_GUI | LuaFile::BIND_MODLIST);
 
 	// Load background
 	std::string bgPath = LGUI->state["background"];
