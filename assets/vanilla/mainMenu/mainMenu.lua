@@ -226,5 +226,5 @@ end
 --/////////////////////////////////////////////////////////////////////--
 
 function loadModList()
-	modlist = mods.getList()
+	modlist = mods:getList()
 end

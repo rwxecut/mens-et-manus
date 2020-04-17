@@ -9,7 +9,7 @@
 namespace Mod {
 	typedef std::map<const char *, std::string> info_t;
 	typedef std::vector<info_t> info_vector;
-};
+}
 
 
 class ModList {

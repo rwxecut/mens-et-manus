@@ -1,28 +1,19 @@
 #include "lua_binders/modlist_lua.h"
-#include <vector>
-
-#define MODS_ADD_FIELD(field) {mods[#field] = field;}
-
-namespace lua::modlist {
-	ModList *mList;
 
 
-	void init (ModList *modList) {
-		mList = modList;
+namespace lua {
+	ModlistBinding::ModlistBinding (LuaFile *LF, ModList *modList) : LF(LF), mList(modList) {
+		// Usertype for mods bindings should not be directly used in scripts
+		auto mods = LF->state.new_usertype<lua::ModlistBinding> ("__ModsType");
+		/*---------- Export functions ----------*/
+		#define MODS_ADD_FIELD(field) {mods[#field] = &ModlistBinding::field;}
+		MODS_ADD_FIELD (getList);
+		#undef MODS_ADD_FIELD
 	}
 
+	/*---------- Binded functions ----------*/
 
-	// Binded functions
-
-	sol::nested<Mod::info_vector> getList () {
+	sol::nested<Mod::info_vector> ModlistBinding::getList () {
 		return sol::nested<Mod::info_vector> (mList->list);
-	};
-
-
-	// Bind functions
-	void bind (LuaFile *LF) {
-		sol::table mods = LF->state.create_named_table ("mods");
-		/*---------- Export functions ----------*/
-		MODS_ADD_FIELD (getList);
 	}
 }

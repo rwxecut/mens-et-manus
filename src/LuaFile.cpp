@@ -19,10 +19,10 @@ LuaFile::LuaFile (std::string const &filename, uint8_t flags) {
 	logger.write ("Lua file loaded: %s", filename.c_str ());
 
 	// Bind functions if needed
+	// TODO: REWORK
 	if (flags & BIND_GAME) lua::game::bind (this);
 	if (flags & BIND_GUI) lua::nk::bind (this);
-	if (flags & BIND_MODLIST) lua::modlist::bind (this);
-};
+}
 
 
 void LuaFile::call (const char *funcname) {

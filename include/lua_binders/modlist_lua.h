@@ -3,7 +3,15 @@
 #include "Mod.h"
 #include "LuaFile.h"
 
-namespace lua::modlist {
-	void init (ModList *modList);
-	void bind (LuaFile *LF);
+namespace lua {
+	class ModlistBinding {
+		LuaFile *LF;
+		ModList *mList;
+	public:
+		ModlistBinding (LuaFile *LF, ModList *modList);
+
+	/* Binded functions */
+	private:
+		sol::nested<Mod::info_vector> getList ();
+	};
 }
