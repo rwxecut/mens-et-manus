@@ -8,10 +8,10 @@
 #include "lib/glm/mat4x4.hpp"
 
 
-Game::Game ()
-		: cam (), map (&cam) {
+Game::Game () : cam (), map (&cam) {
 	// Create GUI
-	LGUI = new LuaFile (config.path.gameMenuGUI.c_str (), LuaFile::BIND_GUI | LuaFile::BIND_GAME);
+	LGUI = new LuaFile (config.path.gameMenuGUI.c_str (), LuaFile::BIND_GUI);
+	LGUI->addBind<lua::GameBinding> ("game");
 	// Initially set visible tiles
 	cam.setup (NULL);
 	map.setVisibleTiles (glm::ivec2 (config.screen.size.width, config.screen.size.height));

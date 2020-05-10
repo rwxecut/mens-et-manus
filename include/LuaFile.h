@@ -18,10 +18,9 @@ public:
 
 	template <class Bind, typename... Args>
 	void addBind (const char* name, Args&&... args) {
-		state[name] = Bind(this, std::forward<Args>(args)...);
+		state[name] = Bind (this, std::forward<Args>(args)...);
 	}
 
 	static constexpr uint8_t BIND_NOTHING  = 0;
-	static constexpr uint8_t BIND_GAME     = 1 << 0;
 	static constexpr uint8_t BIND_GUI      = 1 << 1;
 };

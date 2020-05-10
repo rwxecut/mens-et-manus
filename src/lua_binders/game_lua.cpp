@@ -2,54 +2,56 @@
 #include <tuple>
 #include "Config.h"
 
-#define GAME_ADD_FIELD(field) {game[#field] = field;}
 
-namespace lua::game {
-	RoutineHandler *rHandler;
-	SDL_Window *sdlWindow;
+namespace lua {
+	GameBinding::GameBinding (LuaFile *LF) : LF(LF)
+	{
+		// Usertype for game core functions bindings should not be directly used in scripts
+		//sol::table game = LF->state.create_named_table ("game");
+		auto game = LF->state.new_usertype<GameBinding> ("__GameBindingType");
+		/*---------- Export functions ----------*/
+		#define GAME_EXPORT_METHOD(field) {game[#field] = &GameBinding::field;}
+		GAME_EXPORT_METHOD (getScreenResolution);
+		GAME_EXPORT_METHOD (switchRoutine);
+		GAME_EXPORT_METHOD (applySettings);
+		#undef GAME_EXPORT_METHOD
 
+		/*---------- Export constants ----------*/
+		#define GAME_EXPORT_CONSTANT(field) {game[#field] = sol::var(field);}
+		GAME_EXPORT_CONSTANT (finalization);
+		GAME_EXPORT_CONSTANT (gameRoutine);
+		GAME_EXPORT_CONSTANT (mainMenuRoutine);
+		#undef GAME_EXPORT_CONSTANT
+	}
 
-	void init (SDL_Window *window, RoutineHandler *routineHandler) {
-		rHandler = routineHandler;
+	void GameBinding::init (SDL_Window *window, RoutineHandler *routineHandler) {
 		sdlWindow = window;
+		rHandler = routineHandler;
 	}
 
 	// Binded functions
 
 
-	std::tuple<int, int> getScreenResolution () {
+	std::tuple<int, int> GameBinding::getScreenResolution () {
 		SDL_DisplayMode mode;
 		int currDisplay = 0;
 		SDL_GetCurrentDisplayMode (currDisplay, &mode);
 		return std::make_tuple (mode.w, mode.h);
-	};
+	}
 
 
-	void switchRoutine (int routineID) {
+	void GameBinding::switchRoutine (int routineID) {
 		rHandler->new_id = (uint8_t) routineID;
 	}
 
 
-	void applySettings () {
+	void GameBinding::applySettings () {
 		config.loadSettings ();
 		SDL_SetWindowSize (sdlWindow, config.screen.size.width, config.screen.size.height);
 		SDL_SetWindowFullscreen (sdlWindow, (config.screen.fullscreen) ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 		SDL_SetWindowPosition (sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
 
-
-	// Bind
-	void bind (LuaFile *LF) {
-		sol::table game = LF->state.create_named_table ("game");
-		/*---------- Export functions ----------*/
-		GAME_ADD_FIELD (getScreenResolution);
-		GAME_ADD_FIELD (switchRoutine);
-		GAME_ADD_FIELD (applySettings);
-
-		/*---------- Export constants ----------*/
-		GAME_ADD_FIELD (finalization);
-		GAME_ADD_FIELD (gameRoutine);
-		GAME_ADD_FIELD (mainMenuRoutine);
-	}
-
+	RoutineHandler *GameBinding::rHandler;
+	SDL_Window *GameBinding::sdlWindow;
 }

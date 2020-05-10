@@ -85,7 +85,7 @@ function startWindow ()
 					-- load mod etc
 				end
 			end
-			game.switchRoutine(game.gameRoutine)
+			game:switchRoutine(game.gameRoutine)
 		end
 		if gui.button_label('Start server') then
 			serverWindowVisible = true
@@ -109,7 +109,7 @@ end
 
 function saveSettings ()
 	if settings.fullscreen then
-		settings.resolution.w, settings.resolution.h = game.getScreenResolution()
+		settings.resolution.w, settings.resolution.h = game:getScreenResolution()
 	else
 		local rs = settings.resolution_selected + 1
 		settings.resolution.w = config.resolutions.val[rs].w
@@ -140,7 +140,7 @@ function settingsWindow ()
 		gui.layout_row_dynamic(30, 2)
 		if gui.button_label('Apply') then
 			saveSettings()
-			game.applySettings()
+			game:applySettings()
 			activeWindow = nil
 		end
 		if gui.button_label('Cancel') then
@@ -207,7 +207,7 @@ function mainWindow ()
 		end
 		-----------------------------
 		if gui.button_label('Exit') then
-			game.switchRoutine(game.finalization)
+			game:switchRoutine(game.finalization)
 		end
 		-----------------------------
 		gui.finish()

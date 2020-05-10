@@ -20,7 +20,6 @@ LuaFile::LuaFile (std::string const &filename, uint8_t flags) {
 
 	// Bind functions if needed
 	// TODO: REWORK
-	if (flags & BIND_GAME) lua::game::bind (this);
 	if (flags & BIND_GUI) lua::nk::bind (this);
 }
 

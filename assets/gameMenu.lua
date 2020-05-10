@@ -4,7 +4,7 @@ function render ()
 			gui.NK_WINDOW_MOVABLE) then
 		gui.layout_row_dynamic(30, 1)
 		if gui.button_label('Back to menu') then
-			game.switchRoutine(game.mainMenuRoutine)
+			game:switchRoutine(game.mainMenuRoutine)
 		end
 	end
 	gui.finish()

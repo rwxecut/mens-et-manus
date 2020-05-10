@@ -8,8 +8,8 @@
 
 MainMenu::MainMenu () {
 	// Create GUI
-	LGUI = new LuaFile (config.path.mainMenuGUI.c_str (),
-			            LuaFile::BIND_GAME | LuaFile::BIND_GUI);
+	LGUI = new LuaFile (config.path.mainMenuGUI.c_str (), LuaFile::BIND_GUI);
+	LGUI->addBind<lua::GameBinding> ("game");
 	LGUI->addBind<lua::ModlistBinding> ("mods", &modList);
 
 	// Load background
