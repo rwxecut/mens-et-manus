@@ -3,12 +3,12 @@
 
 namespace lua {
 	ModlistBinding::ModlistBinding (LuaFile *LF, ModList *modList) : LF(LF), mList(modList) {
-		// Usertype for mods bindings should not be directly used in scripts
-		auto mods = LF->state.new_usertype<lua::ModlistBinding> ("__ModsType");
+		// Usertype for mods list bindings should not be directly used in scripts
+		auto mods = LF->state.new_usertype<ModlistBinding> ("__ModsBindingType");
 		/*---------- Export functions ----------*/
-		#define MODS_ADD_FIELD(field) {mods[#field] = &ModlistBinding::field;}
-		MODS_ADD_FIELD (getList);
-		#undef MODS_ADD_FIELD
+		#define MODLIST_EXPORT_METHOD(field) {mods[#field] = &ModlistBinding::field;}
+		MODLIST_EXPORT_METHOD (getList);
+		#undef MODLIST_EXPORT_METHOD
 	}
 
 	/*---------- Binded functions ----------*/
