@@ -135,5 +135,5 @@ Engine::_Nuklear::~_Nuklear () {
 
 Engine::_Lua::_Lua (Window &window, Nuklear &nuklear, RoutineHandler &rHandler) {
 	lua::GameBinding::init (window.get (), &rHandler);
-	lua::nk::init (nuklear->ctx);
+	lua::NuklearBinding::init (nuklear->ctx);
 }

@@ -6,7 +6,7 @@
 #include "auxiliary/errors.h"
 
 
-LuaFile::LuaFile (std::string const &filename, uint8_t flags) {
+LuaFile::LuaFile (std::string const &filename) {
 	// Load file and create Lua state
 	this->filename = filename;
 	state.open_libraries ();
@@ -17,10 +17,6 @@ LuaFile::LuaFile (std::string const &filename, uint8_t flags) {
 		fatalError ("Error while executing Lua file %s: %s", filename.c_str(), e.what ());
 	}
 	logger.write ("Lua file loaded: %s", filename.c_str ());
-
-	// Bind functions if needed
-	// TODO: REWORK
-	if (flags & BIND_GUI) lua::nk::bind (this);
 }
 
 

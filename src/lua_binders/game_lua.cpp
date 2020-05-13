@@ -7,7 +7,6 @@ namespace lua {
 	GameBinding::GameBinding (LuaFile *LF) : LF(LF)
 	{
 		// Usertype for game core functions bindings should not be directly used in scripts
-		//sol::table game = LF->state.create_named_table ("game");
 		auto game = LF->state.new_usertype<GameBinding> ("__GameBindingType");
 		/*---------- Export functions ----------*/
 		#define GAME_EXPORT_METHOD(field) {game[#field] = &GameBinding::field;}
@@ -29,8 +28,10 @@ namespace lua {
 		rHandler = routineHandler;
 	}
 
-	// Binded functions
+	RoutineHandler *GameBinding::rHandler;
+	SDL_Window *GameBinding::sdlWindow;
 
+	/*---------- Binded functions ----------*/
 
 	std::tuple<int, int> GameBinding::getScreenResolution () {
 		SDL_DisplayMode mode;
@@ -51,7 +52,4 @@ namespace lua {
 		SDL_SetWindowFullscreen (sdlWindow, (config.screen.fullscreen) ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 		SDL_SetWindowPosition (sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
-
-	RoutineHandler *GameBinding::rHandler;
-	SDL_Window *GameBinding::sdlWindow;
 }

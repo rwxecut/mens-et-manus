@@ -10,8 +10,9 @@
 
 Game::Game () : cam (), map (&cam) {
 	// Create GUI
-	LGUI = new LuaFile (config.path.gameMenuGUI.c_str (), LuaFile::BIND_GUI);
+	LGUI = new LuaFile (config.path.gameMenuGUI.c_str ());
 	LGUI->addBind<lua::GameBinding> ("game");
+	LGUI->addBind<lua::NuklearBinding> ("gui");
 	// Initially set visible tiles
 	cam.setup (NULL);
 	map.setVisibleTiles (glm::ivec2 (config.screen.size.width, config.screen.size.height));
@@ -34,7 +35,7 @@ void Game::update () {
 	}
 	map.setSelectedTile (glm::ivec2 (mousePos.x, mousePos.y));
 
-	lua::nk::run (LGUI);
+	LGUI->call ("render");
 }
 
 
