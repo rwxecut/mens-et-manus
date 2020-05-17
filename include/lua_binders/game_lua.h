@@ -17,8 +17,8 @@ namespace lua {
 
 	/* Binded functions */
 	private:
-		std::tuple<int, int> getScreenResolution ();
-		void switchRoutine (int routineID);
-		void applySettings ();
+		static std::tuple<int, int> getScreenResolution ();
+		static void switchRoutine (int routineID);
+		static void applySettings ();
 	};
 }

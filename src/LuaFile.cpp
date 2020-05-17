@@ -1,8 +1,5 @@
 #include "LuaFile.h"
 #include "Logger.h"
-#include "lua_binders/game_lua.h"
-#include "lua_binders/nk_lua.h"
-#include "lua_binders/modlist_lua.h"
 #include "auxiliary/errors.h"
 
 
