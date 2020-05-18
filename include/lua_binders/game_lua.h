@@ -6,19 +6,23 @@
 
 
 namespace lua {
-	class GameBinding {
-		LuaFile *LF;
-		static RoutineHandler *rHandler;
-		static SDL_Window *sdlWindow;
+	namespace bind {
 
-	public:
-		GameBinding (LuaFile *LF);
-		static void init (SDL_Window *window, RoutineHandler *routineHandler);
+		class Game {
+			LuaFile *LF;
+			static RoutineHandler *rHandler;
+			static SDL_Window *sdlWindow;
 
-	/* Binded functions */
-	private:
-		static std::tuple<int, int> getScreenResolution ();
-		static void switchRoutine (int routineID);
-		static void applySettings ();
-	};
+		public:
+			Game (LuaFile *LF);
+			static void init (SDL_Window *window, RoutineHandler *routineHandler);
+
+			/* Binded functions */
+		private:
+			static std::tuple<int, int> getScreenResolution ();
+			static void switchRoutine (int routineID);
+			static void applySettings ();
+		};
+
+	}
 }

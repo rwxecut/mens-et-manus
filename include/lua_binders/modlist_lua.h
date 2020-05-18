@@ -4,14 +4,19 @@
 #include "LuaFile.h"
 
 namespace lua {
-	class ModlistBinding {
-		LuaFile *LF;
-		ModList *mList;
-	public:
-		ModlistBinding (LuaFile *LF, ModList *modList);
+	namespace bind {
 
-	/* Binded functions */
-	private:
-		sol::nested<Mod::info_vector> getList ();
-	};
+		// TODO: name differs only case of 1 letter from ModList umu
+		class Modlist {
+			LuaFile *LF;
+			ModList *mList;
+		public:
+			Modlist (LuaFile *LF, ModList *modList);
+
+			/* Binded functions */
+		private:
+			sol::nested<Mod::info_vector> getList ();
+		};
+
+	}
 }
