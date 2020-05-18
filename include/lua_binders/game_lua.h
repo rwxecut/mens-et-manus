@@ -5,24 +5,20 @@
 #include "routines/Routine.h"
 
 
-namespace lua {
-	namespace bind {
+namespace lua::bind {
+	class Game {
+		File *LF;
+		static RoutineHandler *rHandler;
+		static SDL_Window *sdlWindow;
 
-		class Game {
-			File *LF;
-			static RoutineHandler *rHandler;
-			static SDL_Window *sdlWindow;
+	public:
+		Game (File *LF);
+		static void init (SDL_Window *window, RoutineHandler *routineHandler);
 
-		public:
-			Game (File *LF);
-			static void init (SDL_Window *window, RoutineHandler *routineHandler);
-
-			/* Binded functions */
-		private:
-			static std::tuple<int, int> getScreenResolution ();
-			static void switchRoutine (int routineID);
-			static void applySettings ();
-		};
-
-	}
+		/* Binded functions */
+	private:
+		static std::tuple<int, int> getScreenResolution ();
+		static void switchRoutine (int routineID);
+		static void applySettings ();
+	};
 }

@@ -22,7 +22,6 @@ public:
 	virtual void eventHandler (SDL_Event *event) = 0;
 	bool finished = false;
 
-
 	virtual ~Routine () {};
 };
 
