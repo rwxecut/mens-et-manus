@@ -12,7 +12,7 @@ class Game : public Routine {
 
 	Map map;
 	Cam cam;
-	LuaFile *LGUI;
+	lua::File *LGUI;
 
 	point2d<int> mousePos;
 

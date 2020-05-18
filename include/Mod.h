@@ -13,7 +13,7 @@ namespace Mod {
 
 
 class ModList {
-	Mod::info_t loadModInfo (LuaFile &file);
+	static Mod::info_t loadModInfo (lua::File &file);
 
 public:
 	Mod::info_vector list;

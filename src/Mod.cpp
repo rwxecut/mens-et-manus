@@ -10,7 +10,7 @@ void ModList::load () {
 		if (fs::is_directory (dir)) {
 			fs::path modFilePath = dir.path () / config.path.modfile;
 			if (fs::exists (modFilePath)) {
-				LuaFile modFile (modFilePath.string ());
+				lua::File modFile (modFilePath.string ());
 				Mod::info_t info = loadModInfo (modFile);
 				logger.write ("Mod found: %s %s", info["name"].c_str (), info["version"].c_str ());
 				list.emplace_back (info);
@@ -20,7 +20,7 @@ void ModList::load () {
 }
 
 
-Mod::info_t ModList::loadModInfo (LuaFile &file) {
+Mod::info_t ModList::loadModInfo (lua::File &file) {
 	#define GET_INFO(val) {#val, file.state[#val]}
 	Mod::info_t info = {GET_INFO (name),
 	                    GET_INFO (version),

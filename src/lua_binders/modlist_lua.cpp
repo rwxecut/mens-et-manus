@@ -4,7 +4,7 @@
 namespace lua {
 	namespace bind {
 
-		Modlist::Modlist (LuaFile *LF, ModList *modList) : LF (LF), mList (modList) {
+		Modlist::Modlist (File *LF, ModList *modList) : LF (LF), mList (modList) {
 			// Usertype for mods list bindings should not be directly used in scripts
 			auto mods = LF->state.new_usertype<Modlist> ("__ModsBindingType");
 			/*---------- Export functions ----------*/

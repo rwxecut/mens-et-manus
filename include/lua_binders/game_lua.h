@@ -9,12 +9,12 @@ namespace lua {
 	namespace bind {
 
 		class Game {
-			LuaFile *LF;
+			File *LF;
 			static RoutineHandler *rHandler;
 			static SDL_Window *sdlWindow;
 
 		public:
-			Game (LuaFile *LF);
+			Game (File *LF);
 			static void init (SDL_Window *window, RoutineHandler *routineHandler);
 
 			/* Binded functions */

@@ -8,7 +8,7 @@
 
 MainMenu::MainMenu () {
 	// Create GUI
-	LGUI = new LuaFile (config.path.mainMenuGUI.c_str ());
+	LGUI = new lua::File (config.path.mainMenuGUI.c_str ());
 	LGUI->addBind<lua::bind::Game> ("game");
 	LGUI->addBind<lua::bind::Modlist> ("mods", &modList);
 	LGUI->addBind<lua::bind::Nuklear> ("gui");

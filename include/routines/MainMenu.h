@@ -11,7 +11,7 @@
 
 class MainMenu : public Routine {
 
-	LuaFile *LGUI;
+	lua::File *LGUI;
 	ModList modList;
 
 	gl::RectPtr bgRect;

@@ -10,7 +10,7 @@
 
 Game::Game () : cam (), map (&cam) {
 	// Create GUI
-	LGUI = new LuaFile (config.path.gameMenuGUI.c_str ());
+	LGUI = new lua::File (config.path.gameMenuGUI.c_str ());
 	LGUI->addBind<lua::bind::Game> ("game");
 	LGUI->addBind<lua::bind::Nuklear> ("gui");
 	// Initially set visible tiles

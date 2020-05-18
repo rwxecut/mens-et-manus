@@ -10,11 +10,11 @@ namespace lua {
 	namespace bind {
 
 		class Nuklear {
-			LuaFile *LF;
+			File *LF;
 			static nk_context *ctx;
 
 		public:
-			Nuklear (LuaFile *LF);
+			Nuklear (File *LF);
 			static void init (nk_context *nkContext);
 
 			/* Binded functions */

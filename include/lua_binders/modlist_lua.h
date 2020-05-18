@@ -8,10 +8,10 @@ namespace lua {
 
 		// TODO: name differs only case of 1 letter from ModList umu
 		class Modlist {
-			LuaFile *LF;
+			File *LF;
 			ModList *mList;
 		public:
-			Modlist (LuaFile *LF, ModList *modList);
+			Modlist (File *LF, ModList *modList);
 
 			/* Binded functions */
 		private:

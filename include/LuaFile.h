@@ -6,18 +6,19 @@
 #include "lib/sol.hpp"
 
 
-class LuaFile {
-	std::string filename;
+namespace lua {
+	class File {
+		std::string filename;
 
-public:
+	public:
+		sol::state state;
 
-	sol::state state;
+		File (std::string const &filename);
+		void call (const char *funcname);
 
-	LuaFile (std::string const &filename);
-	void call (const char *funcname);
-
-	template <class Bind, typename... Args>
-	void addBind (const char* name, Args&&... args) {
-		state[name] = Bind (this, std::forward<Args>(args)...);
-	}
-};
+		template<class Bind, typename... Args>
+		void addBind (const char *name, Args &&... args) {
+			state[name] = Bind (this, std::forward<Args> (args)...);
+		}
+	};
+}

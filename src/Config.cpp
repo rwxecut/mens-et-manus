@@ -12,7 +12,7 @@ void Config::load () {
 
 void Config::loadConfig () {
 	logger.write ("Loading config");
-	LuaFile confFile (CONFIG_PATH);
+	lua::File confFile (CONFIG_PATH);
 	sol::table conf = confFile.state["Config"];
 
 	path.modfile = conf["path"]["modfile"];
@@ -36,17 +36,19 @@ void Config::loadConfig () {
 
 void Config::loadSettings () {
 	logger.write ("Loading settings");
-	LuaFile *settingsFile = nullptr;
+	lua::File *settingsFile = nullptr;
 	if (!fs::exists (SETTINGS_PATH)) {
 		logger.write ("User settings not found, loading default settings");
-		settingsFile = new LuaFile (SETTINGS_DEFAULT_PATH);
+		settingsFile = new lua::File (SETTINGS_DEFAULT_PATH);
 	}
 	else
-		settingsFile = new LuaFile (SETTINGS_PATH);
+		settingsFile = new lua::File (SETTINGS_PATH);
 	sol::table settings = settingsFile->state["Settings"];
 
 	screen.size.width = settings["resolution"]["w"];
 	screen.size.height = settings["resolution"]["h"];
 	screen.aspect = (GLdouble) screen.size.width / (GLdouble) screen.size.height;
 	screen.fullscreen = settings["fullscreen"];
+
+	delete settingsFile;
 }
