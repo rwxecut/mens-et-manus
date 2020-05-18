@@ -12,7 +12,7 @@
 class MainMenu : public Routine {
 
 	lua::File *LGUI;
-	ModList modList;
+	Mod::List modList;
 
 	gl::RectPtr bgRect;
 	TexturePtr background;

@@ -6,12 +6,11 @@
 namespace lua {
 	namespace bind {
 
-		// TODO: name differs only case of 1 letter from ModList umu
 		class Modlist {
 			File *LF;
-			ModList *mList;
+			Mod::List *mList;
 		public:
-			Modlist (File *LF, ModList *modList);
+			Modlist (File *LF, Mod::List *modList);
 
 			/* Binded functions */
 		private:
