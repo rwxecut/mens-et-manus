@@ -3,6 +3,8 @@
 #define SOL_CHECK_ARGUMENTS 1
 
 #include <string>
+
+#include "Buffer.h"
 #include "lib/sol.hpp"
 
 
@@ -12,6 +14,7 @@ namespace lua {
 
 	public:
 		sol::state state;
+		Buffer buffer;
 
 		File (std::string const &filename);
 		void call (const char *funcname);

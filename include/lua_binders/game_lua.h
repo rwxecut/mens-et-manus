@@ -15,7 +15,7 @@ namespace lua::bind {
 		Game (File *LF);
 		static void init (SDL_Window *window, RoutineHandler *routineHandler);
 
-		/* Binded functions */
+	/* Binded functions */
 	private:
 		static std::tuple<int, int> getScreenResolution ();
 		static void switchRoutine (int routineID);

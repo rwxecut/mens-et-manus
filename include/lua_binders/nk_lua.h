@@ -15,7 +15,7 @@ namespace lua::bind {
 		Nuklear (File *LF);
 		static void init (nk_context *nkContext);
 
-		/* Binded functions */
+	/* Binded functions */
 	private:
 		typedef std::vector<std::string> vector_str;
 		typedef std::map<std::string, float> float_map;
