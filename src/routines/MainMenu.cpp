@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "lib/nuklear/nuklear_common.h"
 #include "lua_binders/game_lua.h"
+#include "lua_binders/buffer_lua.h"
 #include "lua_binders/nk_lua.h"
 #include "lua_binders/modlist_lua.h"
 
@@ -11,6 +12,7 @@ MainMenu::MainMenu () {
 	LGUI = new lua::File (config.path.mainMenuGUI.c_str ());
 	LGUI->addBind<lua::bind::Game> ("game");
 	LGUI->addBind<lua::bind::Modlist> ("mods", &modList);
+	LGUI->addBind<lua::bind::DataBuffer> ("buffer");
 	LGUI->addBind<lua::bind::Nuklear> ("gui");
 
 	// Load background

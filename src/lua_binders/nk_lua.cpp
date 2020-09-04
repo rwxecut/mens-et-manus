@@ -1,4 +1,5 @@
 #include "lua_binders/nk_lua.h"
+#include "lua_binders/buffer_lua.h"
 
 namespace lua::bind {
 
@@ -173,9 +174,9 @@ namespace lua::bind {
 	}
 
 
-	int Nuklear::edit_string (int flags, char *str, int max) {
-		//return nk_edit_string_zero_terminated(ctx, flags, str, max, nk_filter_default);
-		return 0;
+	int Nuklear::edit_string (int flags, const char *buffer) {
+		return nk_edit_string_zero_terminated (ctx, flags, LF->buffer.get (buffer), LF->buffer.size (buffer),
+		                                       nk_filter_default);
 	}
 
 

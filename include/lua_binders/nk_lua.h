@@ -36,7 +36,7 @@ namespace lua::bind {
 		static bool selectable_label (const char *str, int flags, bool selected);
 		static bool button_label (const char *str);
 		static bool check_label (const char *str, bool active);
-		static int edit_string (int flags, char *str, int max);
+		int edit_string (int flags, const char *buffer);
 		static bool popup_begin (int type, const char *title, int flags, lua_float_map bounds);
 		static void popup_close ();
 		static void popup_end ();

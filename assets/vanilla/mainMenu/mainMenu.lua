@@ -46,7 +46,8 @@ function serverWindow()
 	if gui.begin('Server settings', thirdWindowBounds(200), windowFlags) then
 		------------------------------
 		gui.layout_row_dynamic(30, 1)
-		-- gui.edit_string(gui.NK_EDIT_FIELD, buffer, 16)
+		buffer:create("ip_buf", 16)
+		gui:edit_string(gui.NK_EDIT_FIELD, "ip_buf")
 		if gui.button_label('Cancel') then
 			serverWindowVisible = false
 		end

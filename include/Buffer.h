@@ -16,6 +16,7 @@ public:
 	inline const char* safe_get () { return (const char*) data; }
 	inline void set (const char* src) { if (data) std::memcpy (data, src, data_size); }
 	inline bool ok () { return data != nullptr; }
+	inline size_t size () { return data_size; }
 };
 
 class Buffer {
@@ -30,6 +31,7 @@ public:
 		if (!exists (key)) data[key] = BufferItem (size);
 		return data[key].ok();
 	}
+	inline size_t size (key_t key) { return data.at(key).size(); }
 	inline void write (key_t key, const char* src) { data.at(key).set (src); }
 	inline const char* read (key_t key) { return data.at(key).safe_get(); }
 	inline char* get (key_t key) { return data.at(key).get(); }
