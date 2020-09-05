@@ -51,12 +51,12 @@ int Engine::mainLoop () {
 		nk_input_begin (nuklear->ctx);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
-				case SDL_KEYDOWN:
-					handleKeydown (event.key.keysym.scancode);
-					break;
 				case SDL_QUIT:
 					routineHandler.new_id = finalization;
 					break;
+				case SDL_KEYDOWN:
+					handleKeydown (event.key.keysym.scancode);
+					[[fallthrough]];
 				default:
 					nk_sdl_handle_event (&event);
 					routineHandler.eventHandler (&event);

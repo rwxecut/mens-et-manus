@@ -43,11 +43,17 @@ end
 
 function serverWindow()
 	local windowFlags = gui.NK_WINDOW_TITLE | gui.NK_WINDOW_NO_SCROLLBAR
-	if gui.begin('Server settings', thirdWindowBounds(200), windowFlags) then
+	if gui.begin('Server settings', thirdWindowBounds(250), windowFlags) then
 		------------------------------
 		gui.layout_row_dynamic(30, 1)
+		-- TODO: bind error reporting functions, check buffer:create return
+		gui.label("Server IP:", gui.NK_TEXT_LEFT)
 		buffer:create("ip_buf", 16)
 		gui:edit_string(gui.NK_EDIT_FIELD, "ip_buf")
+		gui.label("Server port:", gui.NK_TEXT_LEFT)
+		buffer:create("port_buf", 16)
+		gui:edit_string(gui.NK_EDIT_FIELD, "port_buf")
+		if gui.button_label('Connect') then end
 		if gui.button_label('Cancel') then
 			serverWindowVisible = false
 		end
