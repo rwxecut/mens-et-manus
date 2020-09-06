@@ -27,6 +27,7 @@ set(SOURCE_FILENAMES
         routines/MainMenu.cpp
         routines/Game.cpp
         lua_binders/buffer_lua.cpp
+        lua_binders/log_lua.cpp
         lua_binders/nk_lua.cpp
         lua_binders/game_lua.cpp
         lua_binders/modlist_lua.cpp
