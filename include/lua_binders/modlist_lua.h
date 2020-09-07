@@ -1,12 +1,12 @@
 #pragma once
 
+#include "lua_binders/bind_lua.h"
 #include "Mod.h"
-#include "LuaFile.h"
 
 namespace lua::bind {
-	class Modlist {
-		File *LF;
+	class Modlist : public Bind {
 		Mod::List *mList;
+
 	public:
 		Modlist (File *LF, Mod::List *modList);
 

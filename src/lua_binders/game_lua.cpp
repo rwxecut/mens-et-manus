@@ -5,7 +5,7 @@
 
 namespace lua::bind {
 
-	Game::Game (File *LF) : LF (LF) {
+	Game::Game (File *LF) : Bind (LF) {
 		// Usertype for game core functions bindings should not be directly used in scripts
 		auto game = LF->state.new_usertype<Game> ("__GameBindingType");
 		/*---------- Export functions ----------*/

@@ -5,7 +5,7 @@
 
 namespace lua::bind {
 
-	Log::Log (lua::File *LF) : LF(LF) {
+	Log::Log (File *LF) : Bind (LF) {
 		// Usertype for game core functions bindings should not be directly used in scripts
 		auto log = LF->state.new_usertype<Log> ("__LogBindingType");
 		/*---------- Export functions ----------*/

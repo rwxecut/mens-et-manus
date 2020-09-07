@@ -3,7 +3,7 @@
 
 namespace lua::bind {
 
-	Nuklear::Nuklear (File *LF) : LF (LF) {
+	Nuklear::Nuklear (File *LF) : Bind (LF) {
 		// Usertype for Nuklear GUI functions bindings should not be directly used in scripts
 		auto nk = LF->state.new_usertype<Nuklear> ("__NuklearBindingType");
 		/*---------- Export functions ----------*/

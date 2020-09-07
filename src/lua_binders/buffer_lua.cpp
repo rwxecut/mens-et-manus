@@ -2,7 +2,7 @@
 
 namespace lua::bind {
 
-	DataBuffer::DataBuffer (File *LF) : LF (LF) {
+	DataBuffer::DataBuffer (File *LF) : Bind (LF) {
 		// Usertype for buffer functions bindings should not be directly used in scripts
 		auto db = LF->state.new_usertype<DataBuffer> ("__DataBufferBindingType");
 		/*---------- Export functions ----------*/

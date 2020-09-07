@@ -1,13 +1,12 @@
 #pragma once
 
 #include <SDL.h>
-#include "LuaFile.h"
+#include "lua_binders/bind_lua.h"
 #include "routines/Routine.h"
 
 
 namespace lua::bind {
-	class Game {
-		File *LF;
+	class Game : public Bind {
 		static RoutineHandler *rHandler;
 		static SDL_Window *sdlWindow;
 

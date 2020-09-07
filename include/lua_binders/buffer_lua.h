@@ -1,12 +1,10 @@
 #pragma once
 
-#include "LuaFile.h"
+#include "lua_binders/bind_lua.h"
 #include "Buffer.h"
 
 namespace lua::bind {
-	class DataBuffer {
-		File *LF;
-
+	class DataBuffer : public Bind {
 	public:
 		DataBuffer (File *LF);
 

@@ -3,12 +3,11 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "LuaFile.h"
+#include "lua_binders/bind_lua.h"
 #include "lib/nuklear/nuklear_common.h"
 
 namespace lua::bind {
-	class Nuklear {
-		File *LF;
+	class Nuklear : public Bind {
 		static nk_context *ctx;
 
 	public:

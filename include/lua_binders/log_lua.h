@@ -1,11 +1,9 @@
 #pragma once
 
-#include "LuaFile.h"
+#include "lua_binders/bind_lua.h"
 
 namespace lua::bind {
-	class Log {
-		File *LF;
-
+	class Log : public Bind {
 	public:
 		Log (File *LF);
 
