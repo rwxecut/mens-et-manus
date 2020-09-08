@@ -9,14 +9,14 @@ namespace lua::bind {
 		// Usertype for game core functions bindings should not be directly used in scripts
 		auto game = LF->state.new_usertype<Game> ("__GameBindingType");
 		/*---------- Export functions ----------*/
-		#define GAME_EXPORT_METHOD(field) {game[#field] = &Game::field;}
+		#define GAME_EXPORT_METHOD(field) BIND_EXPORT_METHOD(game, Game, field)
 		GAME_EXPORT_METHOD (getScreenResolution);
 		GAME_EXPORT_METHOD (switchRoutine);
 		GAME_EXPORT_METHOD (applySettings);
 		#undef GAME_EXPORT_METHOD
 
 		/*---------- Export constants ----------*/
-		#define GAME_EXPORT_CONSTANT(field) {game[#field] = sol::var(field);}
+		#define GAME_EXPORT_CONSTANT(field) BIND_EXPORT_CONSTANT(game, field)
 		GAME_EXPORT_CONSTANT (finalization);
 		GAME_EXPORT_CONSTANT (gameRoutine);
 		GAME_EXPORT_CONSTANT (mainMenuRoutine);

@@ -9,10 +9,11 @@ namespace lua::bind {
 		// Usertype for game core functions bindings should not be directly used in scripts
 		auto log = LF->state.new_usertype<Log> ("__LogBindingType");
 		/*---------- Export functions ----------*/
-		#define LOG_EXPORT_METHOD(field) {log[#field] = &Log::field;}
+		#define LOG_EXPORT_METHOD(field) BIND_EXPORT_METHOD(log, Log, field)
 		LOG_EXPORT_METHOD(write);
 		LOG_EXPORT_METHOD(warn);
 		LOG_EXPORT_METHOD(fatal);
+		#undef LOG_EXPORT_METHOD
 	}
 
 	/*---------- Binded functions ----------*/

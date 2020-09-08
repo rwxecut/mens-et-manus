@@ -7,7 +7,7 @@ namespace lua::bind {
 		// Usertype for Nuklear GUI functions bindings should not be directly used in scripts
 		auto nk = LF->state.new_usertype<Nuklear> ("__NuklearBindingType");
 		/*---------- Export functions ----------*/
-		#define NK_EXPORT_METHOD(field) {nk[#field] = &Nuklear::field;}
+		#define NK_EXPORT_METHOD(field) BIND_EXPORT_METHOD(nk, Nuklear, field)
 		NK_EXPORT_METHOD (begin);
 		NK_EXPORT_METHOD (window_get_bounds)
 		NK_EXPORT_METHOD (group_begin);
@@ -31,8 +31,9 @@ namespace lua::bind {
 		NK_EXPORT_METHOD (input_is_mouse_hovering_rect);
 		NK_EXPORT_METHOD (finish);
 		#undef NK_EXPORT_METHOD
+
 		/*---------- Export constants ----------*/
-		#define NK_EXPORT_CONSTANT(field) {nk[#field] = sol::var(field);}
+		#define NK_EXPORT_CONSTANT(field) BIND_EXPORT_CONSTANT(nk, field)
 		/*----- Window -----*/
 		NK_EXPORT_CONSTANT (NK_WINDOW_BORDER);
 		NK_EXPORT_CONSTANT (NK_WINDOW_MOVABLE);

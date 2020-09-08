@@ -7,7 +7,7 @@ namespace lua::bind {
 		// Usertype for mods list bindings should not be directly used in scripts
 		auto mods = LF->state.new_usertype<Modlist> ("__ModsBindingType");
 		/*---------- Export functions ----------*/
-		#define MODLIST_EXPORT_METHOD(field) {mods[#field] = &Modlist::field;}
+		#define MODLIST_EXPORT_METHOD(field) BIND_EXPORT_METHOD(mods, Modlist, field)
 		MODLIST_EXPORT_METHOD (getList);
 		#undef MODLIST_EXPORT_METHOD
 	}

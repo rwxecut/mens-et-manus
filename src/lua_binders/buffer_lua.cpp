@@ -6,11 +6,12 @@ namespace lua::bind {
 		// Usertype for buffer functions bindings should not be directly used in scripts
 		auto db = LF->state.new_usertype<DataBuffer> ("__DataBufferBindingType");
 		/*---------- Export functions ----------*/
-		#define DB_EXPORT_METHOD(field) {db[#field] = &DataBuffer::field;}
+		#define DB_EXPORT_METHOD(field) BIND_EXPORT_METHOD(db, DataBuffer, field)
 		DB_EXPORT_METHOD (exists);
 		DB_EXPORT_METHOD (create);
 		DB_EXPORT_METHOD (write);
 		DB_EXPORT_METHOD (read);
+		#undef DB_EXPORT_METHOD
 	}
 
 	/*---------- Binded functions ----------*/
