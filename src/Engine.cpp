@@ -51,6 +51,7 @@ int Engine::mainLoop () {
 		nk_input_begin (nuklear->ctx);
 		while (SDL_PollEvent (&event))
 			switch (event.type) {
+				[[unlikely]]
 				case SDL_QUIT:
 					routineHandler.new_id = finalization;
 					break;
@@ -71,6 +72,7 @@ int Engine::mainLoop () {
 		window.render ();
 
 		// Finish Splash
+		[[unlikely]]
 		if (routineHandler.id == splashRoutine && routineHandler.finished())
 				routineHandler.new_id = mainMenuRoutine;
 		running = routineHandler.switchID ();

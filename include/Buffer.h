@@ -27,9 +27,9 @@ private:
 	std::unordered_map<key_t, BufferItem> data;
 
 public:
-	inline bool exists (key_t key) { return data.find (key) != data.end(); }
+	inline bool exists (key_t key) { return data.contains (key); }
 	inline bool create (key_t key, size_t size) {
-		// Should not use data.try_emplace() here
+		// Should not use data.try_emplace() here to avoid unnecessary memory allocations
 		if (!exists (key)) data.emplace(key, std::move (BufferItem (size)));
 		return data[key].ok();
 	}
