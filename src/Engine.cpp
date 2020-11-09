@@ -4,6 +4,7 @@
 #include "auxiliary/errors.h"
 
 #include <SDL_image.h>
+#include <SDL_net.h>
 #include "lua_binders/game_lua.h"
 #include "lua_binders/nk_lua.h"
 
@@ -37,6 +38,18 @@ Engine::Engine () {
 
 	nuklear = std::make_unique<_Nuklear> (window);
 	lua = std::make_unique<_Lua> (window, nuklear, routineHandler);
+
+	//TEMP: check if sdl_net linked
+	if (SDLNet_Init() == -1)
+		fatalError("SDLNet_Init: %s", SDLNet_GetError());
+	IPaddress ip;
+	SDLNet_ResolveHost(&ip, "xecut.net", 1234);
+	unsigned char ipbytes[4];
+	ipbytes[0] = ip.host & 0xFF;
+	ipbytes[1] = (ip.host >> 8) & 0xFF;
+	ipbytes[2] = (ip.host >> 16) & 0xFF;
+	ipbytes[3] = (ip.host >> 24) & 0xFF;
+	printf ("xecut ip %d.%d.%d.%d\n", ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);
 }
 
 
@@ -114,6 +127,7 @@ Engine::_SDL::_SDL () {
 
 
 Engine::_SDL::~_SDL () {
+	SDLNet_Quit();
 	IMG_Quit ();
 	SDL_Quit ();
 }

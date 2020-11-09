@@ -49,10 +49,12 @@ endif(WIN32)
 set(ENV{LUA_DIR} lib/lua)
 set(SDL2_PATH lib/SDL2)
 set(SDL2_IMAGE_PATH lib/SDL2_image)
+set(SDL2_NET_PATH lib/SDL2_net)
 
 find_package(Lua REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_net REQUIRED)
 find_package(OpenGL REQUIRED)
 
 target_include_directories(mens_et_manus PUBLIC
@@ -60,6 +62,7 @@ target_include_directories(mens_et_manus PUBLIC
         ${LUA_INCLUDE_DIR}
         ${SDL2_INCLUDE_DIR}
         ${SDL2_IMAGE_INCLUDE_DIR}
+        ${SDL2_NET_INCLUDE_DIR}
         ${OPENGL_INCLUDE_DIR}
         )
 
@@ -69,6 +72,7 @@ target_link_libraries(mens_et_manus
         ${LUA_LIBRARIES}
         ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARY}
+        ${SDL2_NET_LIBRARY}
         ${OPENGL_LIBRARIES}
         )
 
