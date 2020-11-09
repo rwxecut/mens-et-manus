@@ -9,12 +9,10 @@ const std::map<GLenum, const char *> Shader::typeStr = {
 };
 
 
-Shader::Shader (const std::string name, GLenum type, Shader::SourceType sourceType, const GLchar *source) {
+Shader::Shader (const std::string& name, GLenum type, Shader::SourceType sourceType,
+                const GLchar *source) : name(name), type(type) {
 	GLint success = 0;
 	std::string log;
-
-	this->name = name;
-	this->type = type;
 
 	// Load shader
 	id = glCreateShader (type);
@@ -51,11 +49,9 @@ Shader::~Shader () {
 }
 
 
-void ShaderProgram::init (const std::string name, const ShaderList &shaderList) {
+void ShaderProgram::init (const ShaderList &shaderList) {
 	GLint success = 0;
 	std::string log;
-
-	this->name = name;
 
 	// Link program
 	id = glCreateProgram ();
@@ -76,16 +72,16 @@ void ShaderProgram::init (const std::string name, const ShaderList &shaderList) 
 }
 
 
-ShaderProgram::ShaderProgram (const std::string name, const ShaderList &shaderList) {
-	init (name, shaderList);
+ShaderProgram::ShaderProgram (const std::string& name, const ShaderList &shaderList) : name(name) {
+	init (shaderList);
 }
 
 
-ShaderProgram::ShaderProgram (const std::string name, Shader::SourceType vertSourceType, const GLchar *vertSource,
-                              Shader::SourceType fragSourceType, const GLchar *fragSource) {
+ShaderProgram::ShaderProgram (const std::string& name, Shader::SourceType vertSourceType, const GLchar *vertSource,
+                              Shader::SourceType fragSourceType, const GLchar *fragSource) : name(name) {
 	Shader vertShader (name, GL_VERTEX_SHADER, vertSourceType, vertSource);
 	Shader fragShader (name, GL_FRAGMENT_SHADER, fragSourceType, fragSource);
-	init (name, {&vertShader, &fragShader});
+	init ({&vertShader, &fragShader});
 }
 
 

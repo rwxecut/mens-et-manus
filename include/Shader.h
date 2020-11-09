@@ -22,7 +22,7 @@ public:
 		fromString, fromFile
 	};
 
-	Shader (const std::string name, GLenum type, Shader::SourceType sourceType, const GLchar *source);
+	Shader (const std::string& name, GLenum type, Shader::SourceType sourceType, const GLchar *source);
 	~Shader ();
 };
 
@@ -33,7 +33,7 @@ typedef std::vector<Shader *> ShaderList;
 class ShaderProgram {
 	std::string name;
 
-	void init (const std::string name, const ShaderList &shaderList);
+	void init (const ShaderList &shaderList);
 
 public:
 	GLuint id;
@@ -45,8 +45,8 @@ public:
 	void setUniform (const GLchar *name, const glm::vec2 &value);
 	void setUniform (const GLchar *name, const glm::mat4 &value);
 
-	ShaderProgram (const std::string name, const ShaderList &shaderList);
-	ShaderProgram (const std::string name, Shader::SourceType vertSourceType, const GLchar *vertSource,
+	ShaderProgram (const std::string& name, const ShaderList &shaderList);
+	ShaderProgram (const std::string& name, Shader::SourceType vertSourceType, const GLchar *vertSource,
 	               Shader::SourceType fragSourceType, const GLchar *fragSource);
 	~ShaderProgram ();
 };

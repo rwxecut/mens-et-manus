@@ -10,7 +10,7 @@ class Logger {
 	FILE *logfile;
 	uint8_t depth = 0;
 
-	void getDateTime (char *buf, size_t bufsize);
+	static void getDateTime (char *buf, size_t bufsize);
 
 public:
 	Logger (const char *filename);

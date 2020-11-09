@@ -8,7 +8,7 @@
 Texture::Texture (const char *filename) {
 	SDL_Surface *image = IMG_Load (filename);
 	if (!image) {
-		fatalError ("Can't load texture: %s", filename);
+		fatalError ("Can't load texture %s: %s", filename, IMG_GetError());
 	} else {
 		glGenTextures (1, &id);
 		glBindTexture (GL_TEXTURE_2D, id);

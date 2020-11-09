@@ -6,7 +6,6 @@
 #include "lib/nuklear/nuklear_common.h"
 
 
-
 class Window {
 
 	SDL_Window *sdlWindow;

@@ -1,12 +1,8 @@
 #include "auxiliary/util.h"
+
 #include <fstream>
 #include "auxiliary/errors.h"
 #include "Logger.h"
-
-#include "lib/glm/gtc/matrix_transform.hpp"
-
-namespace gl {
-}
 
 
 std::string loadFileToString (const char *filename, bool &success) {

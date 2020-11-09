@@ -27,10 +27,10 @@ MainMenu::MainMenu () {
 	LGUI->call ("loadModList");
 
 	// Create shader program
-	const char *vertShaderPath = ((std::string) LGUI->state["vertShader"]).c_str ();
-	const char *fragShaderPath = ((std::string) LGUI->state["fragShader"]).c_str ();
-	shaderProg = std::make_unique<ShaderProgram> ("MainMenu", Shader::fromFile, vertShaderPath,
-			Shader::fromFile, fragShaderPath);
+	std::string vertShaderPath = LGUI->state["vertShader"];
+	std::string fragShaderPath = LGUI->state["fragShader"];
+	shaderProg = std::make_unique<ShaderProgram> ("MainMenu", Shader::fromFile, vertShaderPath.c_str(),
+			Shader::fromFile, fragShaderPath.c_str());
 
 	// Bind texture unit
 	shaderProg->use ();
