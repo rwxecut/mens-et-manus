@@ -2,19 +2,20 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 #include <unordered_map>
+#include <utility>
 
 class BufferItem {
-	char* data = nullptr;
+	std::unique_ptr<char, decltype(&std::free)> data = {nullptr, &std::free};
 	size_t data_size = 0;
 
 public:
 	BufferItem () = default;
-	BufferItem (size_t size) : data_size(size) { data = (char*) std::calloc (size, 1); }
-	~BufferItem () { std::free (data); }
-	inline char* get () { return data; }
-	inline const char* safe_get () { return (const char*) data; }
-	inline void set (const char* src) { if (data) std::memcpy (data, src, data_size); }
+	BufferItem (size_t size) : data_size(size), data((char *) std::calloc (size, 1), &std::free) {}
+	inline char* get () { return data.get(); }
+	inline const char* safe_get () { return (const char*) data.get(); }
+	inline void set (const char* src) { if (data) std::memcpy (data.get(), src, data_size); }
 	inline bool ok () { return data != nullptr; }
 	inline size_t size () { return data_size; }
 };
@@ -28,7 +29,8 @@ private:
 public:
 	inline bool exists (key_t key) { return data.find (key) != data.end(); }
 	inline bool create (key_t key, size_t size) {
-		if (!exists (key)) data[key] = BufferItem (size);
+		// Should not use data.try_emplace() here
+		if (!exists (key)) data.emplace(key, std::move (BufferItem (size)));
 		return data[key].ok();
 	}
 	inline size_t size (key_t key) { return data.at(key).size(); }
