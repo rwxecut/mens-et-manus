@@ -38,18 +38,6 @@ Engine::Engine () {
 
 	nuklear = std::make_unique<_Nuklear> (window);
 	lua = std::make_unique<_Lua> (window, nuklear, routineHandler);
-
-	//TEMP: check if sdl_net linked
-	if (SDLNet_Init() == -1)
-		fatalError("SDLNet_Init: %s", SDLNet_GetError());
-	IPaddress ip;
-	SDLNet_ResolveHost(&ip, "xecut.net", 1234);
-	unsigned char ipbytes[4];
-	ipbytes[0] = ip.host & 0xFF;
-	ipbytes[1] = (ip.host >> 8) & 0xFF;
-	ipbytes[2] = (ip.host >> 16) & 0xFF;
-	ipbytes[3] = (ip.host >> 24) & 0xFF;
-	printf ("xecut ip %d.%d.%d.%d\n", ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);
 }
 
 
@@ -111,7 +99,7 @@ void Engine::handleKeydown (SDL_Scancode scancode) {
 Engine::_SDL::_SDL () {
 	// Init SDL
 	if (SDL_Init (SDL_INIT_VIDEO) < 0)
-		fatalError ("SDL could not initialize!");
+		fatalError ("SDL init error: %s", SDL_GetError());
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
@@ -121,7 +109,12 @@ Engine::_SDL::_SDL () {
 	// Init SDL_image
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init (imgFlags) & imgFlags))
-		fatalError ("SDL_image could not initialize!");
+		fatalError ("SDL_image init error: %s", IMG_GetError());
+	logger.write ("SDL_image initialized");
+
+	// Init SDL_net
+	if (SDLNet_Init() == -1)
+		fatalError("SDL_net init error: %s", SDLNet_GetError());
 	logger.write ("SDL_image initialized");
 }
 
