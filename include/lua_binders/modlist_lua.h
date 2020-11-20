@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lua_binders/bind_lua.h"
-#include "Mod.h"
+#include "engine/Mod.h"
 
 namespace lua::bind {
 	class Modlist : public Bind {

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "engine/Buffer.h"
 #include "lua_binders/bind_lua.h"
-#include "Buffer.h"
 
 namespace lua::bind {
 	class DataBuffer : public Bind {

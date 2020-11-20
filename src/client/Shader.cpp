@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "client/Shader.h"
 #include "lib/glm/gtc/type_ptr.hpp"
 #include "auxiliary/errors.h"
 #include "auxiliary/util.h"

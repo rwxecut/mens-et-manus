@@ -1,10 +1,10 @@
 #define VERSION "v. dev0"
 
 #include "auxiliary/logger_implenent.h"
-#include "Engine.h"
+#include "engine/Engine.h"
 
 #define CONFIG_IMPLEMENT
-#include "Config.h"
+#include "engine/Config.h"
 #undef CONFIG_IMPLEMENT
 
 

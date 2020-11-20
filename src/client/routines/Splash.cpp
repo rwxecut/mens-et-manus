@@ -1,5 +1,5 @@
-#include "routines/Splash.h"
-#include "Config.h"
+#include "client/routines/Splash.h"
+#include "engine/Config.h"
 
 
 Splash::Splash () {

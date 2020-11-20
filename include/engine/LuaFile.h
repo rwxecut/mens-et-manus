@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include "Buffer.h"
 #include "lib/sol.hpp"
+#include "engine/Buffer.h"
 
 
 namespace lua {

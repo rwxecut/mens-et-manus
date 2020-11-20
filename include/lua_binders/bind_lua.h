@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LuaFile.h"
+#include "engine/LuaFile.h"
 
 #define BIND_EXPORT_METHOD(table, binder, field) {table[#field] = &binder::field;}
 #define BIND_EXPORT_CONSTANT(table, field) {table[#field] = sol::var(field);}

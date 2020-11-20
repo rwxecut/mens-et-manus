@@ -2,8 +2,8 @@
 
 #include "lib/glad.h"
 #include <cstdint>
-#include "Shader.h"
-#include "Texture.h"
+#include "client/Shader.h"
+#include "client/Texture.h"
 #include "auxiliary/geometry.h"
 #include "auxiliary/primitives.h"
 

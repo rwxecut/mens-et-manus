@@ -3,8 +3,8 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "lua_binders/bind_lua.h"
 #include "lib/nuklear/nuklear_common.h"
+#include "lua_binders/bind_lua.h"
 
 namespace lua::bind {
 	class Nuklear : public Bind {

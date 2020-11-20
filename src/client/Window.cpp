@@ -1,10 +1,9 @@
-#include "Window.h"
+#include "client/Window.h"
 #include <cstdio>
 #include <SDL_image.h>
-#include "auxiliary/geometry.h"
+#include "engine/Logger.h"
+#include "engine/Config.h"
 #include "auxiliary/errors.h"
-#include "Logger.h"
-#include "Config.h"
 
 
 Window::Window () {

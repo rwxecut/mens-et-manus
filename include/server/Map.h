@@ -2,12 +2,12 @@
 
 #include "lib/glad.h"
 #include <cstdint>
+#include "server/Tile.h"
+#include "client/Shader.h"
+#include "client/Cam.h"
+#include "client/Texture.h"
 #include "auxiliary/geometry.h"
 #include "auxiliary/primitives.h"
-#include "Shader.h"
-#include "Cam.h"
-#include "Tile.h"
-#include "Texture.h"
 
 #include "lib/glm/vec2.hpp"
 #include "lib/glm/mat4x4.hpp"

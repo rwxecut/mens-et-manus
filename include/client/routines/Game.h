@@ -1,10 +1,10 @@
 #pragma once
 
 #include <SDL.h>
-#include "LuaFile.h"
-#include "Routine.h"
-#include "Map.h"
-#include "Cam.h"
+#include "engine/LuaFile.h"
+#include "client/routines/Routine.h"
+#include "client/Cam.h"
+#include "server/Map.h"
 #include "auxiliary/geometry.h"
 
 

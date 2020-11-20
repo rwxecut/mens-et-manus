@@ -1,5 +1,5 @@
-#include "Cam.h"
-#include "Config.h"
+#include "client/Cam.h"
+#include "engine/Config.h"
 
 #include "lib/glm/vec4.hpp"
 #include "lib/glm/gtc/matrix_transform.hpp"

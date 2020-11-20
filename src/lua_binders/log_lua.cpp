@@ -1,7 +1,6 @@
 #include "lua_binders/log_lua.h"
-
-#include <stdio.h>
-#include "Logger.h"
+#include <cstdio>
+#include "engine/Logger.h"
 
 namespace lua::bind {
 

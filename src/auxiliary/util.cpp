@@ -1,8 +1,8 @@
 #include "auxiliary/util.h"
 
 #include <fstream>
+#include "engine/Logger.h"
 #include "auxiliary/errors.h"
-#include "Logger.h"
 
 
 std::string loadFileToString (const char *filename, bool &success) {

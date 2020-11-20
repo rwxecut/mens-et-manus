@@ -1,6 +1,6 @@
 #include "lua_binders/game_lua.h"
 #include <tuple>
-#include "Config.h"
+#include "engine/Config.h"
 
 
 namespace lua::bind {

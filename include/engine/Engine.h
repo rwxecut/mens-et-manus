@@ -1,8 +1,8 @@
 #pragma once
 
 #include "lib/nuklear/nuklear_common.h"
-#include "Window.h"
-#include "routines/Routine.h"
+#include "client/Window.h"
+#include "client/routines/Routine.h"
 
 #include <memory>
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Routine.h"
-#include "Shader.h"
-#include "Texture.h"
+#include "client/routines/Routine.h"
+#include "client/Shader.h"
+#include "client/Texture.h"
 #include "auxiliary/primitives.h"
 
 class Splash : public Routine {

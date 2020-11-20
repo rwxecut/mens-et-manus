@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lib/glad.h"
-#include "geometry.h"
+#include "auxiliary/geometry.h"
 #include <string>
 
 

@@ -1,6 +1,6 @@
-#include "routines/MainMenu.h"
-#include "Config.h"
+#include "client/routines/MainMenu.h"
 #include "lib/nuklear/nuklear_common.h"
+#include "engine/Config.h"
 
 #include "lua_binders/buffer_lua.h"
 #include "lua_binders/log_lua.h"

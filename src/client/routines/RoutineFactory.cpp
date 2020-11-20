@@ -1,7 +1,7 @@
-#include "routines/RoutineFactory.h"
-#include "routines/Splash.h"
-#include "routines/MainMenu.h"
-#include "routines/Game.h"
+#include "client/routines/RoutineFactory.h"
+#include "client/routines/Splash.h"
+#include "client/routines/MainMenu.h"
+#include "client/routines/Game.h"
 
 
 Routine* newRoutine (int id) {

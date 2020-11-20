@@ -1,8 +1,8 @@
-#include "Texture.h"
+#include "client/Texture.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include "engine/Logger.h"
 #include "auxiliary/errors.h"
-#include "Logger.h"
 
 
 Texture::Texture (const char *filename) {

@@ -1,12 +1,13 @@
-#include "Engine.h"
-#include "Logger.h"
-#include "Config.h"
-#include "auxiliary/errors.h"
+#include "engine/Engine.h"
 
 #include <SDL_image.h>
 #include <SDL_net.h>
+
+#include "engine/Logger.h"
+#include "engine/Config.h"
 #include "lua_binders/game_lua.h"
 #include "lua_binders/nk_lua.h"
+#include "auxiliary/errors.h"
 
 
 #define AVERAGE_FPS_KEY SDL_SCANCODE_F2

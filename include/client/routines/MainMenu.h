@@ -1,11 +1,11 @@
 #pragma once
 
 #include <SDL.h>
-#include "Shader.h"
-#include "LuaFile.h"
-#include "Routine.h"
-#include "Texture.h"
-#include "Mod.h"
+#include "engine/LuaFile.h"
+#include "engine/Mod.h"
+#include "client/routines/Routine.h"
+#include "client/Texture.h"
+#include "client/Shader.h"
 #include "auxiliary/primitives.h"
 
 

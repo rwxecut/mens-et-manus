@@ -1,6 +1,6 @@
-#include "Config.h"
-#include "LuaFile.h"
-#include "Logger.h"
+#include "engine/Config.h"
+#include "engine/LuaFile.h"
+#include "engine/Logger.h"
 #include "auxiliary/filesystem.h"
 
 

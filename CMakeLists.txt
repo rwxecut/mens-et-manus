@@ -11,21 +11,21 @@ set(INCLUDE_DIR include)
 
 set(SOURCE_FILENAMES
         main.cpp
-        Engine.cpp
-        Window.cpp
-        Shader.cpp
-        Texture.cpp
-        LuaFile.cpp
-        Mod.cpp
-        Cam.cpp
-        Map.cpp
-        Config.cpp
-        Logger.cpp
-        Tile.cpp
-        routines/RoutineFactory.cpp
-        routines/Splash.cpp
-        routines/MainMenu.cpp
-        routines/Game.cpp
+        engine/Engine.cpp
+        engine/Logger.cpp
+        engine/LuaFile.cpp
+        engine/Config.cpp
+        engine/Mod.cpp
+        client/Window.cpp
+        client/Shader.cpp
+        client/Texture.cpp
+        client/Cam.cpp
+        client/routines/RoutineFactory.cpp
+        client/routines/Splash.cpp
+        client/routines/MainMenu.cpp
+        client/routines/Game.cpp
+        server/Map.cpp
+        server/Tile.cpp
         lua_binders/buffer_lua.cpp
         lua_binders/log_lua.cpp
         lua_binders/nk_lua.cpp
